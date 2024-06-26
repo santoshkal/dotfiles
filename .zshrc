@@ -6,7 +6,6 @@ alias k=kubectl
 alias e=eksctl
 export GOROOT=/usr/local/go
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
-export OPENAI_API_KEY=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
 export GOPATH=$HOME/go
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 GPG_TTY=$(tty)
