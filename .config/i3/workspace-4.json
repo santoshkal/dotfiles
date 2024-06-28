@@ -1,0 +1,25 @@
+{
+    "border": "pixel",
+    "current_border_width": 2,
+    "floating": "auto_off",
+    "geometry": {
+       "height": 806,
+       "width": 956,
+       "x": 482,
+       "y": 125
+    },
+    "marks": [],
+    "name": "tfrelease.yaml - ci-test - Visual Studio Code",
+    "percent": 1,
+    "swallows": [
+       {
+       "class": "^Code$",
+       "instance": "^code$",
+       "machine": "^ACLPTHYD0557$",
+       "title": "^tfrelease\\.yaml\\ \\-\\ ci\\-test\\ \\-\\ Visual\\ Studio\\ Code$",
+       "window_role": "^browser\\-window$"
+       }
+    ],
+    "type": "con"
+}
+
