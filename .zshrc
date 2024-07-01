@@ -13,12 +13,15 @@ export GPG_TTY
 export PATH=$PATH:$GOPATH/bin
 # Git alias
 # aliasglog='git log --oneline --decorate --graph --all'
-
+export PATH=$HOME/local/bin:$PATH
+export LD_LIBRARY_PATH=$HOME/local/lib:$LD_LIBRARY_PATH
+export MANPATH=$HOME/local/share/man:$MANPATH
 source <(kubectl completion zsh)
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 export PATH="$PATH:/opt/nvim-linux64/bin"
 export GIT_EDITOR=nvim
+export LC_ALL="en_US.utf8"
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
