@@ -35,7 +35,7 @@ return {
 					return
 				end
 				-- ...additional logic...
-				return { timeout_ms = 500, async = true, lsp_fallback = true }
+				return { timeout_ms = 500, lsp_format = "fallback" }
 			end,
 		})
 
