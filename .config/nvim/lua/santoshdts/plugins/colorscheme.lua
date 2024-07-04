@@ -21,7 +21,10 @@ return {
 			styles = {
 				sidebars = transparent and "transparent" or "dark",
 				floats = transparent and "transparent" or "dark",
+				comments = { italic = true },
+				keywords = { italic = true },
 			},
+			lualine_bold = true,
 			on_colors = function(colors)
 				colors.bg = bg
 				colors.bg_dark = transparent and colors.none or bg_dark

@@ -56,7 +56,7 @@ return {
 				component_separators = { left = "", right = "" },
 				section_separators = { left = "", right = "" },
 				always_divide_middle = true,
-				theme = "palenight",
+				theme = "tokyonight",
 				sections = {
 					lualine_a = { "" },
 					lualine_b = { "branch", "diff", "diagnostics" },
