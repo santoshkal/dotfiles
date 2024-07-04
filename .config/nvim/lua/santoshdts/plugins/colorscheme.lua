@@ -1,7 +1,7 @@
 return {
 	{
 		"scottmckendry/cyberdream.nvim",
-		dev = false,
+		dev = true,
 		lazy = false,
 		priority = 1000,
 		config = function()
@@ -28,7 +28,7 @@ return {
 						-- See `:h highlight-groups` for a list of highlight groups or run `:hi` to see all groups and their current values
 
 						-- Example:
-						Comment = { fg = "#696969", bg = "NONE", italic = true },
+						Comment = { fg = "#8a8787", bg = "NONE", italic = true },
 
 						-- Complete list can be found in `lua/cyberdream/theme.lua`
 					},
@@ -37,7 +37,7 @@ return {
 					overrides = function(colors) -- NOTE: This function nullifies the `highlights` option
 						-- Example:
 						return {
-							Comment = { fg = colors.lightgreen, bg = "NONE", italic = true },
+							Comment = { fg = "#929494", bg = "NONE", italic = true },
 							["@property"] = { fg = colors.magenta, bold = true },
 						}
 					end,
@@ -47,7 +47,7 @@ return {
 						-- For a list of colors see `lua/cyberdream/colours.lua`
 						-- Example:
 						bg = "#042416",
-						green = "#034961",
+						green = "#4cadcf",
 						magenta = "#ff00ff",
 					},
 				},
@@ -57,6 +57,8 @@ return {
 					telescope = true,
 					notify = true,
 					mini = true,
+					noice = true,
+					whichkey = true,
 				},
 			})
 
