@@ -27,3 +27,5 @@ vim.keymap.set("v", "<leader>co", ":CommentOut<CR>") -- visual mode keymap
 vim.keymap.set("n", "<leader>co", ":CommentOut<CR>") -- normal mode keymap
 -- New Tmux session from nvim editor
 keymap.set("n", "<C-f>", "<cmd>silent !tmux  neww tmux-sessionizer<CR>")
+keymap.set("n", "<C-d>", "<C-d>zz")
+keymap.set("n", "<C-u>", "<C-u>zz")
