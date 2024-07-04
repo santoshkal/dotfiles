@@ -1,49 +1,38 @@
 return {
-	"folke/tokyonight.nvim",
-	priority = 1000,
-	config = function()
-		local transparent = false -- set to true if you would like to enable transparency
+	{
+		"scottmckendry/cyberdream.nvim",
+		dev = true,
+		lazy = false,
+		priority = 1000,
+		config = function()
+			require("cyberdream").setup({
+				transparent = false,
+				italic_comments = true,
+				hide_fillchars = true,
+				terminal_colors = false,
+				borderless_telescope = { border = false, style = "flat" },
+				theme = {
+					variant = "auto",
+					overrides = function(colours)
+						return {
+							TelescopePromptPrefix = { fg = colours.blue },
+							TelescopeMatching = { fg = colours.cyan },
+							TelescopeResultsTitle = { fg = colours.blue },
+							TelescopePromptCounter = { fg = colours.cyan },
+							TelescopePromptTitle = { fg = colours.bg, bg = colours.blue, bold = true },
+						}
+					end,
+				},
+			})
 
-		local bg = "#0C2614"
-		local bg_dark = "#0C2614"
-		local bg_highlight = "#143652"
-		local bg_search = "#0A64AC"
-		local bg_visual = "#275378"
-		local fg = "#CBE0F0"
-		local fg_dark = "#B4D0E9"
-		local fg_gutter = "#627E97"
-		local border = "#547998"
-
-		require("tokyonight").setup({
-			-- style = "night",
-			style = "storm",
-			transparent = transparent,
-			styles = {
-				sidebars = transparent and "transparent" or "dark",
-				floats = transparent and "transparent" or "dark",
-				comments = { italic = true },
-				keywords = { italic = true },
-			},
-			lualine_bold = true,
-			on_colors = function(colors)
-				colors.bg = bg
-				colors.bg_dark = transparent and colors.none or bg_dark
-				colors.bg_float = transparent and colors.none or bg_dark
-				colors.bg_highlight = bg_highlight
-				colors.bg_popup = bg_dark
-				colors.bg_search = bg_search
-				colors.bg_sidebar = transparent and colors.none or bg_dark
-				colors.bg_statusline = transparent and colors.none or bg_dark
-				colors.bg_visual = bg_visual
-				colors.border = border
-				colors.fg = fg
-				colors.fg_dark = fg_dark
-				colors.fg_float = fg
-				colors.fg_gutter = fg_gutter
-				colors.fg_sidebar = fg_dark
-			end,
-		})
-
-		vim.cmd("colorscheme tokyonight")
-	end,
+			vim.cmd("colorscheme cyberdream")
+			vim.api.nvim_set_keymap("n", "<leader>tt", ":CyberdreamToggleMode<CR>", { noremap = true, silent = true })
+			vim.api.nvim_create_autocmd("User", {
+				pattern = "CyberdreamToggleMode",
+				callback = function(ev)
+					print("Switched to " .. ev.data .. " mode!")
+				end,
+			})
+		end,
+	},
 }

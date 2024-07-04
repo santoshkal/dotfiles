@@ -1,83 +1,103 @@
 return {
 	"nvim-lualine/lualine.nvim",
-	dependencies = { "nvim-tree/nvim-web-devicons" },
-	config = function()
-		local lualine = require("lualine")
-		local lazy_status = require("lazy.status") -- to configure lazy pending updates count
-
-		local colors = {
-			blue = "#65D1FF",
-			green = "#3EFFDC",
-			violet = "#FF61EF",
-			yellow = "#FFDA7B",
-			red = "#FF4A4A",
-			fg = "#c3ccdc",
-			bg = "#112638",
-			inactive_bg = "#2c3043",
+	event = "VeryLazy",
+	opts = function()
+		local copilot_colors = {
+			[""] = { fg = "#6c6f93" }, -- Default color
+			["Normal"] = { fg = "#6c6f93" }, -- Normal color
+			["Warning"] = { fg = "#ff6c6b" }, -- Warning color
+			["InProgress"] = { fg = "#ecbe7b" }, -- InProgress color
 		}
 
-		local my_lualine_theme = {
-			normal = {
-				a = { bg = colors.blue, fg = colors.bg, gui = "bold" },
-				b = { bg = colors.bg, fg = colors.fg },
-				c = { bg = colors.bg, fg = colors.fg },
-			},
-			insert = {
-				a = { bg = colors.green, fg = colors.bg, gui = "bold" },
-				b = { bg = colors.bg, fg = colors.fg },
-				c = { bg = colors.bg, fg = colors.fg },
-			},
-			visual = {
-				a = { bg = colors.violet, fg = colors.bg, gui = "bold" },
-				b = { bg = colors.bg, fg = colors.fg },
-				c = { bg = colors.bg, fg = colors.fg },
-			},
-			command = {
-				a = { bg = colors.yellow, fg = colors.bg, gui = "bold" },
-				b = { bg = colors.bg, fg = colors.fg },
-				c = { bg = colors.bg, fg = colors.fg },
-			},
-			replace = {
-				a = { bg = colors.red, fg = colors.bg, gui = "bold" },
-				b = { bg = colors.bg, fg = colors.fg },
-				c = { bg = colors.bg, fg = colors.fg },
-			},
-			inactive = {
-				a = { bg = colors.inactive_bg, fg = colors.semilightgray, gui = "bold" },
-				b = { bg = colors.inactive_bg, fg = colors.semilightgray },
-				c = { bg = colors.inactive_bg, fg = colors.semilightgray },
-			},
-		}
-
-		-- configure lualine with modified theme
-		lualine.setup({
+		return {
 			options = {
-				theme = my_lualine_theme,
-				component_separators = { left = "", right = "" },
-				section_separators = { left = "", right = "" },
-				always_divide_middle = true,
-				theme = "tokyonight",
-				sections = {
-					lualine_a = { "" },
-					lualine_b = { "branch", "diff", "diagnostics" },
-					lualine_c = { "filename" },
-					lualine_x = { "encoding", "fileformat", "filetype" },
-					lualine_y = { "progress" },
-					lualine_z = { "location" },
-				},
+				component_separators = { left = " ", right = " " },
+				section_separators = { left = " ", right = " " },
+				theme = "auto",
+				globalstatus = true,
+				disabled_filetypes = { statusline = { "dashboard", "alpha" } },
 			},
 			sections = {
+				lualine_a = { { "mode", icon = "" } },
+				lualine_b = { { "branch", icon = "" } },
+				lualine_c = {
+					{
+						"diagnostics",
+						symbols = {
+							error = " ",
+							warn = " ",
+							info = " ",
+							hint = "󰝶 ",
+						},
+					},
+					{ "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
+					{ "filename", padding = { left = 1, right = 0 } },
+					{
+						function()
+							local buffer_count = #vim.fn.getbufinfo({ buflisted = true })
+
+							return "+" .. buffer_count - 1 .. " "
+						end,
+						cond = function()
+							return #vim.fn.getbufinfo({ buflisted = true }) > 1
+						end,
+						color = { fg = "#a9a1e1" }, -- Replace with appropriate color
+						padding = { left = 0, right = 1 },
+					},
+					{
+						function()
+							return require("nvim-navic").get_location()
+						end,
+						cond = function()
+							return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
+						end,
+						color = { fg = "#6c6f93" }, -- Replace with appropriate color
+					},
+				},
 				lualine_x = {
 					{
-						lazy_status.updates,
-						cond = lazy_status.has_updates,
-						color = { fg = "#ff9e64" },
+						require("lazy.status").updates,
+						cond = require("lazy.status").has_updates,
+						color = { fg = "#98be65" }, -- Replace with appropriate color
 					},
-					{ "encoding" },
-					{ "fileformat" },
-					{ "filetype" },
+					{
+						function()
+							local icon = " "
+							local status = require("copilot.api").status.data
+							return icon .. (status.message or "")
+						end,
+						cond = function()
+							local ok, clients = pcall(vim.lsp.get_clients, { name = "copilot", bufnr = 0 })
+							return ok and #clients > 0
+						end,
+						color = function()
+							if not package.loaded["copilot"] then
+								return
+							end
+							local status = require("copilot.api").status.data
+							return copilot_colors[status.status] or copilot_colors[""]
+						end,
+					},
+					{ "diff" },
+				},
+				lualine_y = {
+					{
+						"progress",
+					},
+					{
+						"location",
+						color = { fg = "#f7768e" }, -- Replace with appropriate color
+					},
+				},
+				lualine_z = {
+					{
+						"datetime",
+						style = "  %X",
+					},
 				},
 			},
-		})
+
+			extensions = { "lazy", "toggleterm", "mason", "neo-tree", "trouble" },
+		}
 	end,
 }
