@@ -34,10 +34,10 @@ return {
 					},
 
 					-- Override a highlight group entirely using the color palette
-					overrides = function(colors) -- NOTE: This function nullifies the `highlights` option
+					overrides = function(colors)
 						-- Example:
 						return {
-							Comment = { fg = "#929494", bg = "NONE", italic = true },
+							Comment = { fg = "#495252", bg = "NONE", italic = true },
 							["@property"] = { fg = colors.magenta, bold = true },
 						}
 					end,
@@ -49,6 +49,8 @@ return {
 						bg = "#042416",
 						green = "#4cadcf",
 						magenta = "#ff00ff",
+						purple = "#d0a6ed",
+						orange = "#0ccf51",
 					},
 				},
 
