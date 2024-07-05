@@ -3,7 +3,11 @@
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 alias vi=nvim
 alias k=kubectl
+alias z=zoxide 
 alias e=eksctl
+alias tn="tmux new -s $(basename $(pwd))"
+alias ta=$HOME/scripts/session.sh 
+# shortcut to creanet a new session from the proj directory with tn sortcut:
 export GOROOT=/usr/local/go
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 export GOPATH=$HOME/go
@@ -124,5 +128,10 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-
+# ~/.tmux/plugins
+export PATH=$HOME/.tmux/plugins/tmux-session-wizard/bin:$PATH
+# ~/.config/tmux/plugins
+export PATH=$HOME/.config/tmux/plugins/tmux-session-wizard/bin:$PATH
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+source <(fzf --zsh)
+eval "$(zoxide init zsh)"
