@@ -1,5 +1,6 @@
 return {
 	"nvim-lualine/lualine.nvim",
+	dependencies = { "scottmckendry/cyberdream.nvim" },
 	event = "VeryLazy",
 	opts = function()
 		local copilot_colors = {
@@ -13,7 +14,7 @@ return {
 			options = {
 				component_separators = { left = " ", right = " " },
 				section_separators = { left = " ", right = " " },
-				theme = "auto",
+				theme = "cyberdream",
 				globalstatus = true,
 				disabled_filetypes = { statusline = { "dashboard", "alpha" } },
 			},
