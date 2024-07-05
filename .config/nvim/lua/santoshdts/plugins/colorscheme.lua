@@ -1,77 +1,47 @@
 return {
-	{
-		"scottmckendry/cyberdream.nvim",
-		dev = true,
-		lazy = false,
-		priority = 1000,
-		config = function()
-			require("cyberdream").setup({
-				-- Enable transparent background
-				transparent = false,
+	"folke/tokyonight.nvim",
+	priority = 1000,
+	config = function()
+		local transparent = false -- set to true if you would like to enable transparency
 
-				-- Enable italics comments
-				italic_comments = true,
+		local bg = "#0C2614"
+		local bg_dark = "#0C2614"
+		local bg_highlight = "#143652"
+		local bg_search = "#0A64AC"
+		local bg_visual = "#275378"
+		local fg = "#CBE0F0"
+		local fg_dark = "#B4D0E9"
+		local fg_gutter = "#627E97"
+		local border = "#547998"
 
-				-- Replace all fillchars with ' ' for the ultimate clean look
-				hide_fillchars = false,
+		require("tokyonight").setup({
+			-- style = "night",
+			style = "moon",
+			transparent = transparent,
+			styles = {
+				sidebars = transparent and "transparent" or "dark",
+				floats = transparent and "transparent" or "dark",
+				functions = { fg = "#71e665" },
+			},
+			on_colors = function(colors)
+				colors.bg = bg
+				colors.bg_dark = transparent and colors.none or bg_dark
+				colors.bg_float = transparent and colors.none or bg_dark
+				colors.bg_highlight = bg_highlight
+				colors.bg_popup = bg_dark
+				colors.bg_search = bg_search
+				colors.bg_sidebar = transparent and colors.none or bg_dark
+				colors.bg_statusline = transparent and colors.none or bg_dark
+				colors.bg_visual = bg_visual
+				colors.border = border
+				colors.fg = fg
+				colors.fg_dark = fg_dark
+				colors.fg_float = fg
+				colors.fg_gutter = fg_gutter
+				colors.fg_sidebar = fg_dark
+			end,
+		})
 
-				-- Modern borderless telescope theme
-				borderless_telescope = true,
-
-				-- Set terminal colors used in `:terminal`
-				terminal_colors = true,
-
-				theme = {
-					variant = "default", -- use "light" for the light variant. Also accepts "auto" to set dark or light colors based on the current value of `vim.o.background`
-					highlights = {
-						-- Highlight groups to override, adding new groups is also possible
-						-- See `:h highlight-groups` for a list of highlight groups or run `:hi` to see all groups and their current values
-
-						-- Example:
-						Comment = { fg = "#8a8787", bg = "NONE", italic = true },
-
-						-- Complete list can be found in `lua/cyberdream/theme.lua`
-					},
-
-					-- Override a highlight group entirely using the color palette
-					overrides = function(colors)
-						-- Example:
-						return {
-							Comment = { fg = "#495252", bg = "NONE", italic = true },
-							["@property"] = { fg = colors.magenta, bold = true },
-						}
-					end,
-
-					-- Override a color entirely
-					colors = {
-						-- For a list of colors see `lua/cyberdream/colours.lua`
-						-- Example:
-						bg = "#042416",
-						green = "#4cadcf",
-						magenta = "#ff00ff",
-						purple = "#d0a6ed",
-						orange = "#0ccf51",
-					},
-				},
-
-				-- Disable or enable colorscheme extensions
-				extensions = {
-					telescope = true,
-					notify = true,
-					mini = true,
-					noice = true,
-					whichkey = true,
-				},
-			})
-
-			vim.cmd("colorscheme cyberdream")
-			vim.api.nvim_set_keymap("n", "<leader>tt", ":CyberdreamToggleMode<CR>", { noremap = true, silent = true })
-			vim.api.nvim_create_autocmd("User", {
-				pattern = "CyberdreamToggleMode",
-				callback = function(ev)
-					print("Switched to " .. ev.data .. " mode!")
-				end,
-			})
-		end,
-	},
+		vim.cmd("colorscheme tokyonight")
+	end,
 }
