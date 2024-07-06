@@ -4,7 +4,7 @@ return {
 	config = function()
 		local transparent = false -- set to true if you would like to enable transparency
 
-		local bg = "#0C2614"
+		local bg = "#1e332c"
 		local bg_dark = "#154524"
 		local bg_highlight = "#143652"
 		local bg_search = "#0A64AC"
@@ -21,9 +21,10 @@ return {
 			styles = {
 				sidebars = transparent and "transparent" or "dark",
 				floats = transparent and "transparent" or "dark",
-				functions = { fg = "#71e665" },
-				comments = { italic = true, fg = "#3b754d" },
+				keywords = { italic = true, fg = "#fca7ea" },
+				comments = { italic = true, fg = "#4f7059" },
 			},
+			cache = true,
 			on_colors = function(colors)
 				colors.bg = bg
 				colors.bg_dark = transparent and colors.none or bg_dark
