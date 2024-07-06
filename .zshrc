@@ -3,7 +3,6 @@
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 alias vi=nvim
 alias k=kubectl
-alias z=zoxide 
 alias e=eksctl
 alias tn="tmux new -s $(basename $(pwd))"
 alias ta=$HOME/scripts/session.sh 
@@ -49,6 +48,7 @@ export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git
 # Use fd (https://github.com/sharkdp/fd) for listing path candidates.
 # - The first argument to the function ($1) is the base path to start traversal
 # - See the source code (completion.{bash,zsh}) for the details.
+source ~/fzf-git.sh/fzf-git.sh
 _fzf_compgen_path() {
   fd --hidden --exclude .git . "$1"
 }
@@ -82,7 +82,6 @@ _fzf_comprun() {
 
 # ----- Bat (better cat) -----
 
-export BAT_THEME=tokyonight_night
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
@@ -190,5 +189,4 @@ export PATH=$HOME/.tmux/plugins/tmux-session-wizard/bin:$PATH
 # ~/.config/tmux/plugins
 export PATH=$HOME/.config/tmux/plugins/tmux-session-wizard/bin:$PATH
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-source <(fzf --zsh)
 eval "$(zoxide init zsh)"
