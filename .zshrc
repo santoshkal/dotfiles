@@ -4,8 +4,6 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 alias vi=nvim
 alias k=kubectl
 alias e=eksctl
-alias tn="tmux new -s $(basename $(pwd))"
-alias ta=$HOME/scripts/session.sh 
 # shortcut to creanet a new session from the proj directory with tn sortcut:
 export GOROOT=/usr/local/go
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
@@ -49,7 +47,6 @@ export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git
 # Use fd (https://github.com/sharkdp/fd) for listing path candidates.
 # - The first argument to the function ($1) is the base path to start traversal
 # - See the source code (completion.{bash,zsh}) for the details.
-source ~/fzf-git.sh/fzf-git.sh
 _fzf_compgen_path() {
   fd --hidden --exclude .git . "$1"
 }
@@ -153,6 +150,22 @@ plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-vi-mode command-not
 
 source $ZSH/oh-my-zsh.sh
 
+
+function sesh-sessions() {
+  {
+    exec </dev/tty
+    exec <&1
+    local session
+    session=$(sesh list -t -c | fzf --height 40% --reverse --border-label ' sesh ' --border --prompt '⚡  ')
+    [[ -z "$session" ]] && return
+    sesh connect $session
+  }
+}
+
+zle     -N             sesh-sessions
+bindkey -M emacs '\es' sesh-sessions
+bindkey -M vicmd '\es' sesh-sessions
+bindkey -M viins '\es' sesh-sessions
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -188,6 +201,6 @@ export NVM_DIR="$HOME/.nvm"
 # ~/.tmux/plugins
 export PATH=$HOME/.tmux/plugins/tmux-session-wizard/bin:$PATH
 # ~/.config/tmux/plugins
-export PATH=$HOME/.config/tmux/plugins/tmux-session-wizard/bin:$PATH
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 eval "$(zoxide init zsh)"
+alias tm="$HOME/tmux-session.sh && tm"
