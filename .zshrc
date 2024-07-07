@@ -24,6 +24,7 @@ source <(kubectl completion zsh)
 export ZSH="$HOME/.oh-my-zsh"
 export PATH="$PATH:/opt/nvim-linux64/bin"
 export GIT_EDITOR=nvim
+export EDITOR='nvim' 
 export LC_ALL="en_US.utf8"
 
 # FZF config
