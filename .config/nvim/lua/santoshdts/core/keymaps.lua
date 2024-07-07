@@ -21,11 +21,10 @@ keymap.set("n", "<leader>tx", "<cmd>tabclose<CR>", { desc = "Close current tab" 
 keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" }) --  go to next tab
 keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" }) --  go to previous tab
 keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" }) --  move current buffer to new tab
-keymap.set("v", "J", ":m '>+1<CR>gv=gv")
-keymap.set("v", "K", ":m '>-2<CR>gv=gv")
-vim.keymap.set("v", "<leader>co", ":CommentOut<CR>") -- visual mode keymap
-vim.keymap.set("n", "<leader>co", ":CommentOut<CR>") -- normal mode keymap
+keymap.set("v", "J", ":m '>+1<CR>gv=gv") -- Move a single ine above in visual mode
+keymap.set("v", "K", ":m '>-2<CR>gv=gv") -- Move a single line below in visual mode
 -- New Tmux session from nvim editor
-keymap.set("n", "<C-f>", "<cmd>silent !tmux  neww tmux-sessionizer<CR>")
+keymap.set("n", "<C-p>", "<cmd>silent !tmux split-window -v<CR>")
+keymap.set("n", "<C-n>", "<cmd>silent !tmux new-window<CR>")
 keymap.set("n", "<C-d>", "<C-d>zz")
 keymap.set("n", "<C-u>", "<C-u>zz")
