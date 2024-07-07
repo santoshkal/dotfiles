@@ -4,6 +4,7 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 alias vi=nvim
 alias k=kubectl
 alias e=eksctl
+alias v='fd --type f --hidden --exclude .git | fzf-tmux -p --reverse | xargs nvim' 
 # shortcut to creanet a new session from the proj directory with tn sortcut:
 export GOROOT=/usr/local/go
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
@@ -27,6 +28,8 @@ export LC_ALL="en_US.utf8"
 
 # FZF config
 # # Set up fzf key bindings and fuzzy completion
+# FZF config
+# # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
 # --- setup fzf theme ---
 fg="#CBE0F0"
@@ -47,6 +50,7 @@ export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git
 # Use fd (https://github.com/sharkdp/fd) for listing path candidates.
 # - The first argument to the function ($1) is the base path to start traversal
 # - See the source code (completion.{bash,zsh}) for the details.
+source ~/fzf-git.sh/fzf-git.sh
 _fzf_compgen_path() {
   fd --hidden --exclude .git . "$1"
 }
@@ -77,7 +81,6 @@ _fzf_comprun() {
     *)            fzf --preview "$show_file_or_dir_preview" "$@" ;;
   esac
 }
-
 # ----- Bat (better cat) -----
 
 # Set name of the theme to load --- if set to "random", it will
