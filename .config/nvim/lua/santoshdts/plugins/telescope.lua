@@ -55,5 +55,8 @@ return {
 		keymap.set("n", "<leader>ft", builtin.treesitter, { desc = "Lists Function names, variables, from Treesitter" })
 		keymap.set("n", "<leader>fp", builtin.git_files, { desc = "Find Git files" })
 		keymap.set("n", "<leader>fk", builtin.keymaps, { desc = "Search Keymaps" })
+
+		-- Enable line numbers in the telescope preview window
+		vim.cmd("autocmd User TelescopePreviewerLoaded setlocal number")
 	end,
 }

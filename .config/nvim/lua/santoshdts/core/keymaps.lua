@@ -24,7 +24,7 @@ keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer
 keymap.set("v", "J", ":m '>+1<CR>gv=gv") -- Move a single ine above in visual mode
 keymap.set("v", "K", ":m '>-2<CR>gv=gv") -- Move a single line below in visual mode
 -- New Tmux session from nvim editor
-keymap.set("n", "<C-p>", "<cmd>silent !tmux split-window -v<CR>")
+keymap.set("n", "<C-p>", "<cmd>silent !tmux split-window -v -l 15<CR>")
 keymap.set("n", "<C-n>", "<cmd>silent !tmux new-window<CR>")
 keymap.set("n", "<C-d>", "<C-d>zz")
 keymap.set("n", "<C-u>", "<C-u>zz")
