@@ -1,11 +1,7 @@
 # If you come from bash you might have to change your $PATH.
 # Custom PATH and alises
 export PATH=$HOME/bin:/usr/local/bin:$PATH
-alias vi=nvim
-alias k=kubectl
-alias e=eksctl
-alias v='fd --type f --hidden --exclude .git | fzf-tmux -p --reverse | xargs nvim' 
-# shortcut to creanet a new session from the proj directory with tn sortcut:
+source <(fzf --zsh)
 export GOROOT=/usr/local/go
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 export GOPATH=$HOME/go
@@ -13,24 +9,41 @@ export GOPATH=$HOME/go
 GPG_TTY=$(tty)
 export GPG_TTY
 export PATH=$PATH:$GOPATH/bin
-# Git alias
-# aliasglog='git log --oneline --decorate --graph --all'
-export PATH=$HOME/local/bin:$PATH
-export LD_LIBRARY_PATH=$HOME/local/lib:$LD_LIBRARY_PATH
-export MANPATH=$HOME/local/share/man:$MANPATH
-source <(kubectl completion zsh)
-# Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 export PATH="$PATH:/opt/nvim-linux64/bin"
 export GIT_EDITOR=nvim
 export EDITOR='nvim' 
 export LC_ALL="en_US.utf8"
 
-# FZF config
+ #FZF config
+ export PATH="home/linuxbrew/.linuxbrew/bin:$PATH"
+# Git alias
+# aliasglog='git log --oneline --decorate --graph --all'
+export PATH=$HOME/local/bin:$PATH
+export LD_LIBRARY_PATH=$HOME/local/lib:$LD_LIBRARY_PATH
+export MANPATH=$HOME/local/share/man:$MANPATH
+export FZF_DEFAULT_OPTS="--color=fg:${fg},bg:${bg},hl:${purple},fg+:${fg},bg+:${bg_highlight},hl+:${purple},info:${blue},prompt:${cyan},pointer:${cyan},marker:${cyan},spinner:${cyan},header:${cyan}"
+
+# -- Use fd instead of fzf --
+
+export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
+export FZF_CTRL_T_OPTS="--preview '$show_file_or_dir_preview'"
+export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
+
+
+alias mux=tmuxinator 
+alias vi=nvim
+alias k=kubectl
+alias e=eksctl
+alias v='fd --type f --hidden --exclude .git | fzf-tmux -p --reverse | xargs nvim' 
+# shortcut to creanet a new session from the proj directory with tn sortcut:
+source <(kubectl completion zsh)
+# Path to your oh-my-zsh installation.
 # # Set up fzf key bindings and fuzzy completion
 # FZF config
 # # Set up fzf key bindings and fuzzy completion
-source <(fzf --zsh)
 # --- setup fzf theme ---
 fg="#CBE0F0"
 bg="#011628"
@@ -39,13 +52,6 @@ purple="#B388FF"
 blue="#06BCE4"
 cyan="#2CF9ED"
 
-export FZF_DEFAULT_OPTS="--color=fg:${fg},bg:${bg},hl:${purple},fg+:${fg},bg+:${bg_highlight},hl+:${purple},info:${blue},prompt:${cyan},pointer:${cyan},marker:${cyan},spinner:${cyan},header:${cyan}"
-
-# -- Use fd instead of fzf --
-
-export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
 
 # Use fd (https://github.com/sharkdp/fd) for listing path candidates.
 # - The first argument to the function ($1) is the base path to start traversal
@@ -64,8 +70,6 @@ source ~/fzf-git.sh/fzf-git.sh
 
 show_file_or_dir_preview="if [ -d {} ]; then eza --tree --color=always {} | head -200; else bat -n --color=always --line-range :500 {}; fi"
 
-export FZF_CTRL_T_OPTS="--preview '$show_file_or_dir_preview'"
-export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
 
 # Advanced customization of fzf options via _fzf_comprun function
 # - The first argument to the function is the name of the command.
@@ -207,3 +211,6 @@ export PATH=$HOME/.tmux/plugins/tmux-session-wizard/bin:$PATH
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 eval "$(zoxide init zsh)"
 alias tm="$HOME/tmux-session.sh && tm"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

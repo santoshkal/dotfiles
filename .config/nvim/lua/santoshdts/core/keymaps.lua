@@ -28,3 +28,17 @@ keymap.set("n", "<C-p>", "<cmd>silent !tmux split-window -v -l 15<CR>")
 keymap.set("n", "<C-n>", "<cmd>silent !tmux new-window<CR>")
 keymap.set("n", "<C-d>", "<C-d>zz")
 keymap.set("n", "<C-u>", "<C-u>zz")
+
+-- save all, just like VSCode Ctrl+s // Conflicting with Tmux Prefix key
+-- keymap.set("n", "<C-s>", "<cmd>w<cr><cmd>wa<cr>", { desc = "Save all" })
+
+-- Highlight when yanking (copying) text
+--  Try it with `yap` in normal mode
+--  See `:help vim.highlight.on_yank()`
+vim.api.nvim_create_autocmd("TextYankPost", {
+	desc = "Highlight when yanking (copying) text",
+	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
+	callback = function()
+		vim.highlight.on_yank()
+	end,
+})
