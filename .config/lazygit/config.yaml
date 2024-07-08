@@ -1,0 +1,10 @@
+# Config relating to committing
+commit:
+  # If true, pass '--signoff' flag when committing
+  signOff: true
+
+  # Automatic WYSIWYG wrapping of the commit message as you type
+  autoWrapCommitMessage: true
+
+  # If autoWrapCommitMessage is true, the width to wrap to
+  autoWrapWidth: 72
