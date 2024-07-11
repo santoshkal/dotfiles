@@ -25,7 +25,7 @@ return {
 				hl["@keyword"].fg = "#ba72d0"
 				hl["@lsp.type.variable"].fg = "#d19a65"
 				hl["@variable"].fg = "#edd5ed"
-				-- hl["@lsp.type.interface"].fg = "#e5bf7a"
+				-- hl["@lsp.type.function.go"].fg = "#e5bf7a"
 				-- hl.Type.fg = "#00c99e"
 			end,
 			on_colors = function(colors)

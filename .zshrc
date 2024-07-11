@@ -16,7 +16,6 @@ export EDITOR='nvim'
 export LC_ALL="en_US.utf8"
 
  #FZF config
- export PATH="home/linuxbrew/.linuxbrew/bin:$PATH"
 # Git alias
 # aliasglog='git log --oneline --decorate --graph --all'
 export PATH=$HOME/local/bin:$PATH
@@ -208,9 +207,7 @@ export NVM_DIR="$HOME/.nvm"
 # ~/.tmux/plugins
 export PATH=$HOME/.tmux/plugins/tmux-session-wizard/bin:$PATH
 # ~/.config/tmux/plugins
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 eval "$(zoxide init zsh)"
 alias tm="$HOME/tmux-session.sh && tm"
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
