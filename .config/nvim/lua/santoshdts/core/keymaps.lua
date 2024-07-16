@@ -42,3 +42,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 		vim.highlight.on_yank()
 	end,
 })
+
+vim.keymap.set("n", "<Esc>", function()
+	require("notify").dismiss()
+end, { desc = "dismiss notify popup and clear hlsearch" })
