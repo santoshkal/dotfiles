@@ -32,6 +32,7 @@ export FZF_CTRL_T_OPTS="--preview '$show_file_or_dir_preview'"
 export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
 
 
+alias cat='bat --paging bever --theme DarkNeon' 
 alias mux=tmuxinator 
 alias vi=nvim
 alias k=kubectl
@@ -211,3 +212,4 @@ eval "$(zoxide init zsh)"
 alias tm="$HOME/tmux-session.sh && tm"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export PATH=/HOME/A0557/.TMUX/plugins/tmux-session-wizard/bin:/home/a0557/.nvm/versions/node/v20.12.2/bin:/home/a0557/ig-linux-x86_64-0.12.0-dev.3533+e5d900268:/usr/local/bin:/home/a0557/.nix-profile/bin:/nix/var/nix/profiles/default/bin:/home/a0557/.tmux/plugins/tmux-session-wizard/bin:/home/a0557/.nvm/versions/node/v20.12.2/bin:/home/a0557/ig-linux-x86_64-0.12.0-dev.3533+e5d900268:/home/a0557/bin:/usr/local/bin:/home/a0557/.nix-profile/bin:/nix/var/nix/profiles/default/bin:/home/a0557/.local/kitty.app/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/usr/local/go/bin:/bin:/home/a0557/go/bin:/opt/nvim-linux64/bin:/home/a0557/.fzf/bin:/usr/local/go/bin:/bin:/home/a0557/go/bin:/opt/nvim-linux64/bin
