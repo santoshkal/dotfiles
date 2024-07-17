@@ -17,7 +17,7 @@ return {
 				markdown = { "prettier" },
 				lua = { "stylua" },
 				python = { "isort", "black" },
-				go = { "gofumpt", "golines", "goimports-reviser" },
+				go = { "gofumpt", "goimports-reviser" },
 			},
 			format_on_save = function(bufnr)
 				-- Disable autoformat on certain filetypes
