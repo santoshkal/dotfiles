@@ -32,7 +32,7 @@ return {
 						},
 					},
 					{ "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
-					{ "filename", padding = { left = 1, right = 0 } },
+					{ "filename", padding = { left = 1, right = 0 }, path = 1 },
 					{
 						function()
 							local buffer_count = #vim.fn.getbufinfo({ buflisted = true })
