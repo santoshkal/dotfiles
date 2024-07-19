@@ -2,9 +2,9 @@ return {
 	"folke/tokyonight.nvim",
 	priority = 1000,
 	config = function()
-		local transparent = true -- set to true if you would like to enable transparency
+		local transparent = false -- set to true if you would like to enable transparency
 
-		local bg = "#1c3d1e"
+		local bg = "#011628"
 		local bg_dark = "#011423"
 		local bg_highlight = "#143652"
 		local bg_search = "#0A64AC"
@@ -15,19 +15,16 @@ return {
 		local border = "#547998"
 
 		require("tokyonight").setup({
-			style = "moon",
+			style = "night",
 			transparent = transparent,
 			styles = {
 				sidebars = transparent and "transparent" or "dark",
 				floats = transparent and "transparent" or "dark",
+				functions = { fg = "#909ff5" },
 			},
-			on_highlights = function(hl)
-				hl["@keyword"].fg = "#ba72d0"
-				hl["@lsp.type.variable"].fg = "#d19a65"
-				hl["@variable"].fg = "#edd5ed"
-				-- hl["@lsp.type.function.go"].fg = "#e5bf7a"
-				-- hl.Type.fg = "#00c99e"
-			end,
+			-- on_highlights = function(highlights)
+			-- 	highlights["@identifier"].fg = "#364abf"
+			-- end,
 			on_colors = function(colors)
 				colors.bg = bg
 				colors.bg_dark = transparent and colors.none or bg_dark
@@ -47,6 +44,6 @@ return {
 			end,
 		})
 
-		vim.cmd("colorscheme tokyonight-moon")
+		vim.cmd("colorscheme tokyonight")
 	end,
 }
