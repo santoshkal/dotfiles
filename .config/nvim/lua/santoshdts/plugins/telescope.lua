@@ -54,6 +54,7 @@ return {
 		keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Grep strings" })
 		keymap.set("n", "<leader>ft", builtin.treesitter, { desc = "Lists Function names, variables, from Treesitter" })
 		keymap.set("n", "<leader>fp", builtin.git_files, { desc = "Find Git files" })
+		keymap.set("n", "<leader>fb", builtin.builtin, { desc = "[F]ind Telescope [B]uiltins" })
 		keymap.set("n", "<leader>fk", builtin.keymaps, { desc = "Search Keymaps" })
 
 		-- Enable line numbers in the telescope preview window

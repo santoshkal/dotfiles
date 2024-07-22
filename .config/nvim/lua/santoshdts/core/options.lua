@@ -13,7 +13,7 @@ opt.autoindent = true -- copy indent from current line when starting new one
 
 opt.wrap = true
 opt.textwidth = 80
-opt.scrolloff = 8
+-- opt.scrolloff = 8
 opt.signcolumn = "yes"
 opt.colorcolumn = "100"
 -- search settings
@@ -21,10 +21,11 @@ opt.ignorecase = true -- ignore case when searching
 opt.smartcase = true -- if you include mixed case in your search, assumes you want case-sensitive
 
 opt.cursorline = true
-opt.hlsearch = false
+opt.hlsearch = true
 opt.incsearch = true
 
--- turn on termguicolors for tokyonight colorscheme to work
+-- Preview substitutions live, as you type!
+opt.inccommand = "split" -- turn on termguicolors for tokyonight colorscheme to work
 -- (have to use iterm2 or any other true color terminal)
 opt.termguicolors = true
 opt.background = "dark" -- colorschemes that can be light or dark will be made dark
@@ -69,3 +70,9 @@ vim.keymap.set("n", ",st", function()
 	vim.wo.winfixheight = true
 	vim.cmd("term")
 end, { desc = "Open terminal at bottom" })
+
+--  See `:help wincmd` for a list of all window commands
+vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
+vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
+vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
+vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })

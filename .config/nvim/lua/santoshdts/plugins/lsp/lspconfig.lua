@@ -36,7 +36,7 @@ return {
 			keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
 
 			opts.desc = "Show LSP type definitions"
-			keymap.set("n", "gt", "<cmd>vim.lsp.buf.implementation<CR>", opts) -- show lsp type definitions
+			keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
 
 			opts.desc = "See available code actions"
 			keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts) -- see available code actions, in visual mode will apply to selection
@@ -61,6 +61,20 @@ return {
 
 			opts.desc = "Restart LSP"
 			keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
+
+			if client.server_capabilities.documentHighlightProvider then
+				local highlight_augroup = vim.api.nvim_create_augroup("lsp_document_highlight", { clear = true })
+				vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+					group = highlight_augroup,
+					buffer = bufnr,
+					callback = vim.lsp.buf.document_highlight,
+				})
+				vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+					group = highlight_augroup,
+					buffer = bufnr,
+					callback = vim.lsp.buf.clear_references,
+				})
+			end
 		end
 
 		-- use to enable autocompletion (assign to every lsp server config)
@@ -90,6 +104,7 @@ return {
 				"dagger",
 			},
 		})
+
 		-- Setup gopls server
 		lspconfig.gopls.setup({
 			on_attach = on_attach,
