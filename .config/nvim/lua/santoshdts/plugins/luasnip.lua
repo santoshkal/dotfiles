@@ -62,12 +62,12 @@ return {
 
 				["<c-Space>"] = cmp.mapping.complete({}),
 
-				["<c-l>"] = cmp.mapping(function()
+				["<C-l>"] = cmp.mapping(function()
 					if luasnip.expand_or_locally_jumpable() then
 						luasnip.expand_or_jump()
 					end
 				end, { "i", "s" }),
-				["<c-h>"] = cmp.mapping(function()
+				["<C-h>"] = cmp.mapping(function()
 					if luasnip.locally_jumpable(-1) then
 						luasnip.jump(-1)
 					end
