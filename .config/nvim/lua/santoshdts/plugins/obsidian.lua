@@ -5,14 +5,20 @@ return {
 		"nvim-telescope/telescope.nvim",
 	},
 	version = "*", -- recommended, use latest release instead of latest commit
+	keys = {
+		{ "<leader>on", "<cmd>ObsidianNew<cr>", desc = "[O]bsidian [n]ew note" },
+		{ "<leader>oo", "<cmd>ObsidianOpen<cr>", desc = "[O]bsidian [O]pen" },
+		{ "<leader>os", "<cmd>ObsidianSearch<cr>", desc = "[O]bsidian [S]earch" },
+		{ "<leader>otd", "<cmd>ObsidianToday<cr>", desc = "[O]bsidian [t]o[d]ay" },
+	},
 	lazy = true,
 	ft = "markdown",
 	-- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
 	event = {
 		-- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
 		-- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md"
-		"BufReadPre /home/a0557/devops-vault/devops/**.md",
-		"BufNewFile /home/a0557/devops-vault/devops/**.md",
+		-- "BufReadPre ~/devops-vault/devops/**.md",
+		-- "BufNewFile ~/devops-vault/devops/**.md",
 	},
 	dependencies = {
 		-- Required.
@@ -24,7 +30,7 @@ return {
 		workspaces = {
 			{
 				name = "my-valut",
-				path = "/home/a0557/devops-vault/devops",
+				path = "~/devops-vault/devops",
 			},
 		},
 		-- Optional, configure key mappings. These are the defaults. If you don't want to set any keymappings this
@@ -100,7 +106,6 @@ return {
 			-- vim.fn.jobstart({"xdg-open", url})  -- linux
 			-- vim.cmd(':silent exec "!start ' .. url .. '"') -- Windows
 		end,
-
 		open_notes_in = "vsplit",
 	},
 }
