@@ -32,6 +32,7 @@ export FZF_CTRL_T_OPTS="--preview '$show_file_or_dir_preview'"
 export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
 
 
+alias y=yazi 
 alias cat='bat --paging bever --theme DarkNeon' 
 alias mux=tmuxinator 
 alias vi=nvim

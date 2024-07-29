@@ -1,93 +1,114 @@
 return {
 	"folke/noice.nvim",
 	event = "VeryLazy",
-
 	dependencies = {
-		-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-		"MunifTanjim/nui.nvim",
-		-- OPTIONAL:
-		--   `nvim-notify` is only needed, if you want to use the notification view.
-		--   If not available, we use `mini` as the fallback
-		"rcarriga/nvim-notify",
+		{ "MunifTanjim/nui.nvim", lazy = true },
+		{ "rcarriga/nvim-notify", lazy = true, opts = { background_colour = "#000000" } },
 	},
 	opts = {
-		timeout = 3000,
-		on_open = function(win)
-			vim.api.nvim_win_set_config(win, { focusable = false })
-		end,
+		lsp = {
+			override = {
+				["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+				["vim.lsp.util.stylize_markdown"] = true,
+				["cmp.entry.get_documentation"] = true,
+			},
+		},
+		presets = {
+			bottom_search = true,
+			command_palette = true,
+			long_message_to_split = true,
+			inc_rename = true,
+			lsp_doc_border = true,
+		},
+		views = {
+			mini = {
+				win_options = { winblend = 0 },
+			},
+		},
 		routes = {
 			{
 				filter = {
-					event = "msg_show",
+					event = "notify",
 					any = {
-						{ find = "%d+L, %d+B" },
-						{ find = "; after #%d+" },
-						{ find = "; before #%d+" },
-						{ find = "fewer lines" },
+						-- Neo-tree
+						{ find = "Toggling hidden files: true" },
+						{ find = "Toggling hidden files: false" },
+						{ find = "Operation canceled" },
+
+						-- Telescope
+						{ find = "Nothing currently selected" },
 					},
 				},
-				view = "mini",
+				opts = { skip = true },
+			},
+			{
+				filter = {
+					event = "msg_show",
+					kind = { "echo" },
+				},
+				opts = { skip = true },
+			},
+			{
+				filter = {
+					event = "msg_show",
+					kind = "",
+					any = {
+						-- Save
+						{ find = " bytes written" },
+
+						-- Redo/Undo
+						{ find = " changes; before #" },
+						{ find = " changes; after #" },
+						{ find = "1 change; before #" },
+						{ find = "1 change; after #" },
+
+						-- Yank
+						{ find = " lines yanked" },
+
+						-- Move lines
+						{ find = " lines moved" },
+						{ find = " lines indented" },
+
+						-- Bulk edit
+						{ find = " fewer lines" },
+						{ find = " more lines" },
+						{ find = "1 more line" },
+						{ find = "1 line less" },
+
+						-- General messages
+						{ find = "Already at newest change" },
+						{ find = "Already at oldest change" },
+						{ find = "E21: Cannot make changes, 'modifiable' is off" },
+					},
+				},
+				opts = { skip = true },
+			},
+			{
+				filter = {
+					event = "msg_show",
+					kind = "emsg",
+					any = {
+						-- TODO: A bug workaround of Lspsaga's finder
+						-- { find = "E134: Cannot move a range of lines into itself" },
+					},
+				},
+				opts = { skip = true },
+			},
+			{
+				filter = {
+					event = "lsp",
+					any = {
+						{ find = "formatting" },
+						{ find = "Diagnosing" },
+						{ find = "Diagnostics" },
+						{ find = "diagnostics" },
+						{ find = "code_action" },
+						{ find = "cargo check" },
+						{ find = "Processing full semantic tokens" },
+					},
+				},
+				opts = { skip = true },
 			},
 		},
 	},
-	config = function()
-		require("noice").setup({
-			lsp = {
-				-- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-				override = {
-					["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-					["vim.lsp.util.stylize_markdown"] = true,
-					["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
-				},
-				-- Disable signature help while writing code
-				signature = {
-					enabled = false,
-				},
-			},
-			-- you can enable a preset for easier configuration
-			presets = {
-				bottom_search = true, -- use a classic bottom cmdline for search
-				command_palette = true, -- position the cmdline and popupmenu together
-				long_message_to_split = true, -- long messages will be sent to a split
-				inc_rename = false, -- enables an input dialog for inc-rename.nvim
-				lsp_doc_border = true, -- add a border to hover docs and signature help
-			},
-		}, {
-			views = {
-				cmdline_popup = {
-					position = {
-						row = 15,
-						col = "50%",
-					},
-					size = {
-						width = 60,
-						height = "auto",
-					},
-					views = {
-						split = {
-							enter = true,
-						},
-					},
-				},
-				popupmenu = {
-					relative = "editor",
-					position = {
-						row = 8,
-						col = "50%",
-					},
-					size = {
-						width = 60,
-						height = 10,
-					},
-					border = {
-						style = "rounded",
-						padding = { 0, 1 },
-					},
-					win_options = {
-						winhighlight = { Normal = "Normal", FloatBorder = "DiagnosticInfo" },
-					},
-				},
-			},
-		})
-	end,
 }

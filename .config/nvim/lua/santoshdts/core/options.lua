@@ -21,7 +21,7 @@ opt.ignorecase = true -- ignore case when searching
 opt.smartcase = true -- if you include mixed case in your search, assumes you want case-sensitive
 
 opt.cursorline = true
-opt.hlsearch = true
+opt.hlsearch = false
 opt.incsearch = true
 
 -- Preview substitutions live, as you type!
@@ -43,6 +43,7 @@ opt.splitbelow = true -- split horizontal window to the bottom
 
 -- turn off swapfile
 opt.swapfile = false
+opt.conceallevel = 1
 
 -- terminal-settings.lua
 local set = vim.opt_local
