@@ -75,7 +75,7 @@ return {
 					suffix = suffix .. string.char(math.random(65, 90))
 				end
 			end
-			return tostring(os.time()) .. "-" .. suffix
+			return tostring(os.date("%d-%m-%Y")) .. "-" .. suffix
 		end, -- Optional, completion of wiki links, local markdown links, and tags using nvim-cmp.
 		completion = {
 			-- Set to false to disable completion.
@@ -83,7 +83,7 @@ return {
 			-- Trigger completion at 2 chars.
 			min_chars = 2,
 		},
-		new_notes_location = "00-Inbox",
+		new_notes_location = "notes_subdir",
 		wiki_link_func = function(opts)
 			return require("obsidian.util").wiki_link_id_prefix(opts)
 		end,
