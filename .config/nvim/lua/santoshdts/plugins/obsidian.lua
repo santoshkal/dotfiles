@@ -38,6 +38,18 @@ return {
 		},
 		-- Optional, configure key mappings. These are the defaults. If you don't want to set any keymappings this
 		-- way then set 'mappings = {}'.
+		daily_notes = {
+			-- Optional, if you keep daily notes in a separate directory.
+			folder = "Daily/",
+			-- Optional, if you want to change the date format for the ID of daily notes.
+			date_format = "%d-%m-%Y",
+			-- Optional, if you want to change the date format of the default alias of daily notes.
+			-- alias_format = "%B %-d, %Y",
+			-- Optional, default tags to add to each new daily note created.
+			default_tags = { "daily" },
+			-- Optional, if you want to automatically insert a template from your template directory like 'daily.md'
+			template = nil,
+		},
 		mappings = {
 			-- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
 			["gf"] = {
