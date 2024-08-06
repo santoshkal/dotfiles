@@ -12,10 +12,10 @@ opt.expandtab = true -- expand tab to spaces
 opt.autoindent = true -- copy indent from current line when starting new one
 
 opt.wrap = true
-opt.textwidth = 80
+opt.textwidth = 100
 -- opt.scrolloff = 8
 opt.signcolumn = "yes"
-opt.colorcolumn = "100"
+-- opt.colorcolumn = "100"
 -- search settings
 opt.ignorecase = true -- ignore case when searching
 opt.smartcase = true -- if you include mixed case in your search, assumes you want case-sensitive

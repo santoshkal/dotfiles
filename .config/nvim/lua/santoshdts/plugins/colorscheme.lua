@@ -1,6 +1,7 @@
 return {
 	"folke/tokyonight.nvim",
 	priority = 1000,
+	enabled = true,
 	config = function()
 		local transparent = false -- set to true if you would like to enable transparency
 
@@ -20,6 +21,7 @@ return {
 			styles = {
 				sidebars = transparent and "transparent" or "dark",
 				floats = transparent and "transparent" or "dark",
+				comments = { italic = true, fg = "#237a91" },
 				functions = { fg = "#909ff5" },
 			},
 			-- on_highlights = function(highlights)

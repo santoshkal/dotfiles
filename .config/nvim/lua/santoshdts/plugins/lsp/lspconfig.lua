@@ -137,6 +137,10 @@ return {
 				"dagger",
 			},
 		})
+		lspconfig.dagger.setup({
+			cmd = { "cuelsp" },
+			filetypes = { "cue" },
+		})
 
 		-- Setup gopls server
 		lspconfig.gopls.setup({
