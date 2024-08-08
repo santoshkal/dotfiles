@@ -43,19 +43,25 @@ return {
 		local keymap = vim.keymap -- for conciseness
 		keymap.set("n", "<leader>fn", function()
 			builtin.find_files({ cwd = vim.fn.stdpath("config") })
-		end, { desc = "Search neovim files" })
-		keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Search Help" })
-		keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "Search Diagnostics" })
-		keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Fuzzy find files in cwd" })
-		keymap.set("n", "<leader>fr", "<cmd>Telescope oldfiles<cr>", { desc = "Fuzzy find recent files" })
-		keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<cr>", { desc = "Find string in cwd" })
-		keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>", { desc = "Find string under cursor in cwd" })
+		end, { desc = "[F]ind [N]eovim files" })
+		keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "[F]ind [H]elp" })
+		keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "[F]ind [D]iagnostics" })
+		keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "[F]uzzy [F]ind files in cwd" })
+		keymap.set("n", "<leader>fr", "<cmd>Telescope oldfiles<cr>", { desc = "[F]uzzy find [R]ecent files" })
+		keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<cr>", { desc = "[F]ind [S]tring in cwd" })
+		keymap.set(
+			"n",
+			"<leader>fc",
+			"<cmd>Telescope grep_string<cr>",
+			{ desc = "[F]ind string under [C]ursor in cwd" }
+		)
 		--keymap.set("n", "<leader>ft", "<cmd>TodoTelescope<cr>", { desc = "Find todos" })
-		keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Grep strings" })
-		keymap.set("n", "<leader>ft", builtin.treesitter, { desc = "Lists Function names, variables, from Treesitter" })
-		keymap.set("n", "<leader>fp", builtin.git_files, { desc = "Find Git files" })
+		keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "[F]ind strings using [G]rep" })
+		keymap.set("n", "<leader>ft", builtin.treesitter, { desc = "[F]ind [T]elescope function, variables names" })
+		keymap.set("n", "<leader>fp", builtin.git_files, { desc = "[F]ind Git [P]roject files" })
 		keymap.set("n", "<leader>fb", builtin.builtin, { desc = "[F]ind Telescope [B]uiltins" })
-		keymap.set("n", "<leader>fk", builtin.keymaps, { desc = "Search Keymaps" })
+		keymap.set("n", "<leader>fk", builtin.keymaps, { desc = "[F]ind [K]eymaps" })
+		keymap.set("n", "<leader>fo", builtin.buffers, { desc = "[F]ind [O]pen buffers" })
 
 		-- Enable line numbers in the telescope preview window
 		vim.cmd("autocmd User TelescopePreviewerLoaded setlocal number")
