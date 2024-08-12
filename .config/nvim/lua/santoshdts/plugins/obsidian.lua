@@ -10,7 +10,6 @@ return {
 		{ "<leader>oo", "<cmd>ObsidianOpen<cr>", desc = "[O]bsidian [O]pen" },
 		{ "<leader>os", "<cmd>ObsidianSearch<cr>", desc = "[O]bsidian [S]earch" },
 		{ "<leader>otd", "<cmd>ObsidianToday<cr>", desc = "[O]bsidian [t]o[d]ay" },
-		{ "<leader>om", "<cmd>ObsidianNewFromTemplate<cr>", desc = "[O]bsidian [T]emplate" },
 	},
 	lazy = true,
 	ft = "markdown",
@@ -94,7 +93,7 @@ return {
 			-- Set to false to disable completion.
 			nvim_cmp = true,
 			-- Trigger completion at 2 chars.
-			min_chars = 3,
+			min_chars = 2,
 		},
 		new_notes_location = "notes_subdir",
 		wiki_link_func = function(opts)
@@ -108,7 +107,7 @@ return {
 		-- see below for full list of options 👇
 		--
 		-- Either 'wiki' or 'markdown'.
-		preferred_link_style = "markdown",
+		preferred_link_style = "wiki",
 
 		-- Optional, for templates (see below).
 		templates = {
