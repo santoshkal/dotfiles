@@ -10,6 +10,14 @@ return {
 		{ "<leader>oo", "<cmd>ObsidianOpen<cr>", desc = "[O]bsidian [O]pen" },
 		{ "<leader>os", "<cmd>ObsidianSearch<cr>", desc = "[O]bsidian [S]earch" },
 		{ "<leader>otd", "<cmd>ObsidianToday<cr>", desc = "[O]bsidian [t]o[d]ay" },
+		{ "<leader>otg", "<cmd>ObsidianTags<cr>", desc = "[O]bsidian [t]ag" },
+		vim.keymap.set("n", "gf", function()
+			if require("obsidian").util.cursor_on_markdown_link() then
+				return "<cmd>ObsidianFollowLink<CR>"
+			else
+				return "gf"
+			end
+		end, { noremap = false, expr = true }),
 	},
 	lazy = true,
 	ft = "markdown",
@@ -52,12 +60,12 @@ return {
 		},
 		mappings = {
 			-- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
-			["gf"] = {
-				action = function()
-					return require("obsidian").util.gf_passthrough()
-				end,
-				opts = { noremap = false, expr = true, buffer = true },
-			},
+			-- ["gf"] = {
+			-- 	action = function()
+			-- 		return require("obsidian").util.gf_passthrough()
+			-- 	end,
+			-- 	opts = { noremap = false, expr = true, buffer = true },
+			-- },
 			-- Toggle check-boxes.
 			["<leader>ch"] = {
 				action = function()
@@ -71,6 +79,30 @@ return {
 					return require("obsidian").util.smart_action()
 				end,
 				opts = { buffer = true, expr = true },
+			},
+			["<leader>mb"] = {
+				action = function()
+					vim.cmd("ObsidianBacklinks")
+				end,
+				opts = { desc = "Backlinks" },
+			},
+			["<leader>ml"] = {
+				action = function()
+					vim.cmd("ObsidianLinks")
+				end,
+				opts = { desc = "Links" },
+			},
+			["<leader>mo"] = {
+				action = function()
+					vim.cmd("ObsidianOpen")
+				end,
+				opts = { desc = "Open in Obsidian" },
+			},
+			["<leader>mr"] = {
+				action = function()
+					vim.cmd("ObsidianRename")
+				end,
+				opts = { desc = "Rename" },
 			},
 		},
 		note_id_func = function(title)
