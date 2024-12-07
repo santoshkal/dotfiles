@@ -219,3 +219,67 @@ alias tm="$HOME/tmux-session.sh && tm"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export PATH=/HOME/A0557/.TMUX/plugins/tmux-session-wizard/bin:/home/a0557/.nvm/versions/node/v20.12.2/bin:/home/a0557/ig-linux-x86_64-0.12.0-dev.3533+e5d900268:/usr/local/bin:/home/a0557/.nix-profile/bin:/nix/var/nix/profiles/default/bin:/home/a0557/.tmux/plugins/tmux-session-wizard/bin:/home/a0557/.nvm/versions/node/v20.12.2/bin:/home/a0557/ig-linux-x86_64-0.12.0-dev.3533+e5d900268:/home/a0557/bin:/usr/local/bin:/home/a0557/.nix-profile/bin:/nix/var/nix/profiles/default/bin:/home/a0557/.local/kitty.app/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/usr/local/go/bin:/bin:/home/a0557/go/bin:/opt/nvim-linux64/bin:/home/a0557/.fzf/bin:/usr/local/go/bin:/bin:/home/a0557/go/bin:/opt/nvim-linux64/bin
+
+
+
+###################################################################*******************************#############################################################
+#
+#
+###################################################################***ALIAS For#Fabric#####################################
+#
+###################################################################*******************************##############################################################
+
+# Loop through all files in the ~/.config/fabric/patterns directory
+for pattern_file in $HOME/.config/fabric/patterns/*; do
+    # Get the base name of the file (i.e., remove the directory path)
+    pattern_name=$(basename "$pattern_file")
+    
+    # Create an alias in the form: alias pattern_name="fabric --pattern pattern_name"
+    alias_command="alias $pattern_name='fabric --pattern $pattern_name'"
+    
+    # Evaluate the alias command to add it to the current shell
+    eval "$alias_command"
+done
+
+yt() {
+    local video_link="$1"
+    fabric -y "$video_link" --transcript
+}
+
+
+## Alias for Obsidian for Fabric
+
+# Define the base directory for Obsidian notes
+obsidian_base="/home/a0557/devops-vault/devops"
+
+# Loop through all files in the ~/.config/fabric/patterns directory
+for pattern_file in ~/.config/fabric/patterns/*; do
+    # Get the base name of the file (i.e., remove the directory path)
+    pattern_name=$(basename "$pattern_file")
+
+    # Unalias any existing alias with the same name
+    unalias "$pattern_name" 2>/dev/null
+
+    # Define a function dynamically for each pattern
+    eval "
+    $pattern_name() {
+        local title=\$1
+        local date_stamp=\$(date +'%Y-%m-%d')
+        local output_path=\"\$obsidian_base/\${date_stamp}-\${title}.md\"
+
+        # Check if a title was provided
+        if [ -n \"\$title\" ]; then
+            # If a title is provided, use the output path
+            fabric --pattern \"$pattern_name\" -o \"\$output_path\"
+        else
+            # If no title is provided, use --stream
+            fabric --pattern \"$pattern_name\" --stream
+        fi
+    }
+    "
+done
+
+yt() {
+    local video_link="$1"
+    fabric -y "$video_link" --transcript
+}
