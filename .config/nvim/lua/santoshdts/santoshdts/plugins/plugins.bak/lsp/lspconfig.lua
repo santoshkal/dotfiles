@@ -129,17 +129,17 @@ return {
 				"jsonls",
 				"jqls",
 				"gopls",
-				"spectral",
 				"regols",
 				"rust_analyzer",
 				"terraformls",
 				"yamlls",
+				"dagger",
 			},
 		})
-		-- lspconfig.dagger.setup({
-		-- 	cmd = { "cuelsp" },
-		-- 	filetypes = { "cue" },
-		-- })
+		lspconfig.dagger.setup({
+			cmd = { "cuelsp" },
+			filetypes = { "cue" },
+		})
 
 		-- Setup gopls server
 		lspconfig.gopls.setup({

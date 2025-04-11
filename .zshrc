@@ -2,19 +2,18 @@
 # Custom PATH and alises
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 source <(fzf --zsh)
-export GOROOT=/usr/local/go
-export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
-export GOPATH=$HOME/go
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 GPG_TTY=$(tty)
 export GPG_TTY
-export PATH=$PATH:$GOPATH/bin
 export ZSH="$HOME/.oh-my-zsh"
 export PATH="$PATH:/opt/nvim-linux64/bin"
 export GIT_EDITOR=nvim
 export EDITOR='nvim' 
 export LC_ALL="en_US.utf8"
 
+# Go PATH
+export PATH=$PATH:/usr/local/go/bin
+export GOPATH=$HOME/go 
  #FZF config
 # Git alias
 # aliasglog='git log --oneline --decorate --graph --all'
@@ -29,10 +28,10 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
 export FZF_CTRL_T_OPTS="--preview '$show_file_or_dir_preview'"
 export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
-
+export BAT_THEME="Catppuccin Mocha" 
 
 alias y=yazi 
-alias cat='bat --paging bever --theme DarkNeon' 
+alias cat='bat --paging never --theme="Catppuccin Mocha"'
 alias mux=tmuxinator 
 alias vi=nvim
 alias k=kubectl
@@ -218,7 +217,7 @@ eval "$(zoxide init zsh)"
 alias tm="$HOME/tmux-session.sh && tm"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export PATH=/HOME/A0557/.TMUX/plugins/tmux-session-wizard/bin:/home/a0557/.nvm/versions/node/v20.12.2/bin:/home/a0557/ig-linux-x86_64-0.12.0-dev.3533+e5d900268:/usr/local/bin:/home/a0557/.nix-profile/bin:/nix/var/nix/profiles/default/bin:/home/a0557/.tmux/plugins/tmux-session-wizard/bin:/home/a0557/.nvm/versions/node/v20.12.2/bin:/home/a0557/ig-linux-x86_64-0.12.0-dev.3533+e5d900268:/home/a0557/bin:/usr/local/bin:/home/a0557/.nix-profile/bin:/nix/var/nix/profiles/default/bin:/home/a0557/.local/kitty.app/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/usr/local/go/bin:/bin:/home/a0557/go/bin:/opt/nvim-linux64/bin:/home/a0557/.fzf/bin:/usr/local/go/bin:/bin:/home/a0557/go/bin:/opt/nvim-linux64/bin
+export PATH=/HOME/A0558/.TMUX/plugins/tmux-session-wizard/bin:/home/a0557/.nvm/versions/node/v20.12.2/bin:/home/a0557/ig-linux-x86_64-0.12.0-dev.3533+e5d900268:/usr/local/bin:/home/a0557/.nix-profile/bin:/nix/var/nix/profiles/default/bin:/home/a0557/.tmux/plugins/tmux-session-wizard/bin:/home/a0557/.nvm/versions/node/v20.12.2/bin:/home/a0557/ig-linux-x86_64-0.12.0-dev.3533+e5d900268:/home/a0557/bin:/usr/local/bin:/home/a0557/.nix-profile/bin:/nix/var/nix/profiles/default/bin:/home/a0557/.local/kitty.app/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/usr/local/go/bin:/home/a0557/go:/home/a0557/go/bin:/usr/local/go/bin/go:/opt/nvim-linux64/bin:/home/a0557/.fzf/bin:/bin:/opt/nvim-linux64/bin
 
 
 

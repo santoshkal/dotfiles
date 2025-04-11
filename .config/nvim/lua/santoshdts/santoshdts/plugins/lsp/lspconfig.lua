@@ -128,18 +128,19 @@ return {
 				"docker_compose_language_service",
 				"jsonls",
 				"jqls",
+        "clangd",
 				"gopls",
-				"spectral",
 				"regols",
 				"rust_analyzer",
 				"terraformls",
 				"yamlls",
+				"dagger",
 			},
 		})
-		-- lspconfig.dagger.setup({
-		-- 	cmd = { "cuelsp" },
-		-- 	filetypes = { "cue" },
-		-- })
+		lspconfig.dagger.setup({
+			cmd = { "cuelsp" },
+			filetypes = { "cue" },
+		})
 
 		-- Setup gopls server
 		lspconfig.gopls.setup({
