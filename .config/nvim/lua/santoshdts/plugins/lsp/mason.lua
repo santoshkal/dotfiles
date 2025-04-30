@@ -29,7 +29,12 @@ return {
 			ensure_installed = {
 				"pyright",
 				"gopls",
-				"cuepls",
+				"clangd",
+				"bash_ls",
+				"jsonls",
+				"lua_ls",
+				"rust_analyzer",
+				"yamlls",
 			},
 		})
 	end,

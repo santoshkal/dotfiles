@@ -21,6 +21,10 @@ export PATH=$HOME/local/bin:$PATH
 export LD_LIBRARY_PATH=$HOME/local/lib:$LD_LIBRARY_PATH
 export MANPATH=$HOME/local/share/man:$MANPATH
 
+
+############ Rust ############
+export PATH=$PATH:$HOME/.cargo/bin
+
 # -- Use fd instead of fzf --
 
 export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
@@ -217,7 +221,7 @@ eval "$(zoxide init zsh)"
 alias tm="$HOME/tmux-session.sh && tm"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export PATH=/HOME/A0558/.TMUX/plugins/tmux-session-wizard/bin:/home/a0557/.nvm/versions/node/v20.12.2/bin:/home/a0557/ig-linux-x86_64-0.12.0-dev.3533+e5d900268:/usr/local/bin:/home/a0557/.nix-profile/bin:/nix/var/nix/profiles/default/bin:/home/a0557/.tmux/plugins/tmux-session-wizard/bin:/home/a0557/.nvm/versions/node/v20.12.2/bin:/home/a0557/ig-linux-x86_64-0.12.0-dev.3533+e5d900268:/home/a0557/bin:/usr/local/bin:/home/a0557/.nix-profile/bin:/nix/var/nix/profiles/default/bin:/home/a0557/.local/kitty.app/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/usr/local/go/bin:/home/a0557/go:/home/a0557/go/bin:/usr/local/go/bin/go:/opt/nvim-linux64/bin:/home/a0557/.fzf/bin:/bin:/opt/nvim-linux64/bin
+export PATH=$PATH:"/home/a0557/.cargo/env:/home/a0557/.nvm/versions/node/v20.12.2/bin:/home/a0557/ig-linux-x86_64-0.12.0-dev.3533+e5d900268:/usr/local/bin:/home/a0557/.nix-profile/bin:/nix/var/nix/profiles/default/bin:/home/a0557/.tmux/plugins/tmux-session-wizard/bin:/home/a0557/.nvm/versions/node/v20.12.2/bin:/home/a0557/ig-linux-x86_64-0.12.0-dev.3533+e5d900268:/home/a0557/bin:/usr/local/bin:/home/a0557/.nix-profile/bin:/nix/var/nix/profiles/default/bin:/home/a0557/.local/kitty.app/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/usr/local/go/bin:/home/a0557/go:/home/a0557/go/bin:/usr/local/go/bin/go:/opt/nvim-linux64/bin:/home/a0557/.fzf/bin:/bin:/opt/nvim-linux64/bin"
 
 
 
