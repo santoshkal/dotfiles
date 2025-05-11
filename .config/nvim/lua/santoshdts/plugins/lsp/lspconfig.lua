@@ -129,7 +129,7 @@ return {
 				"jsonls",
 				"jqls",
 				"gopls",
-				"spectral",
+				-- "pyright"
 				"regols",
 				"rust_analyzer",
 				"terraformls",
@@ -141,6 +141,37 @@ return {
 		-- 	filetypes = { "cue" },
 		-- })
 
+		lspconfig.jqls.setup({
+			on_attach = on_attach,
+			capabilities = capabilities,
+			cmd = { "jq-lsp" },
+			filetypes = { "jq" },
+			root_markers = { ".git" },
+		})
+		lspconfig.pyright.setup({
+			on_attach = on_attach,
+			capabilities = capabilities,
+			cmd = { "pyright-langserver", "--stdio" },
+			filetypes = { "python" },
+			root_markers = {
+				"pyproject.toml",
+				"setup.py",
+				"setup.cfg",
+				"requirements.txt",
+				"Pipfile",
+				"pyrightconfig.json",
+				".git",
+			},
+			settings = {
+				python = {
+					analysis = {
+						autoSearchPaths = true,
+						useLibraryCodeForTypes = true,
+						diagnosticMode = "openFilesOnly",
+					},
+				},
+			},
+		})
 		-- Setup gopls server
 		lspconfig.gopls.setup({
 			on_attach = on_attach,

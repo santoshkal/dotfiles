@@ -30,7 +30,7 @@ return {
 				"pyright",
 				"gopls",
 				"clangd",
-				"bash_ls",
+				"bash-language-server",
 				"jsonls",
 				"lua_ls",
 				"rust_analyzer",

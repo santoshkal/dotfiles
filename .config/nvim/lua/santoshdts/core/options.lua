@@ -1,8 +1,9 @@
 vim.cmd("let g:netrw_liststyle = 3")
 
+vim.deprecate = function() end
 local opt = vim.opt
 
--- opt.relativenumber = true
+opt.relativenumber = true
 opt.number = true
 
 -- tabs & indentation
@@ -12,7 +13,7 @@ opt.expandtab = true -- expand tab to spaces
 opt.autoindent = true -- copy indent from current line when starting new one
 
 opt.wrap = true
-opt.textwidth = 120
+opt.textwidth = 100
 -- opt.scrolloff = 8
 opt.signcolumn = "yes"
 -- opt.colorcolumn = "100"
@@ -67,7 +68,7 @@ vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Exit terminal mode" }
 vim.keymap.set("n", ",st", function()
 	vim.cmd("new")
 	vim.cmd("wincmd J")
-	vim.api.nvim_win_set_height(0, 12)
+	vim.api.nvim_win_set_height(0, 6)
 	vim.wo.winfixheight = true
 	vim.cmd("term")
 end, { desc = "Open terminal at bottom" })

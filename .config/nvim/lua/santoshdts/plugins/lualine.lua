@@ -10,11 +10,17 @@ return {
 			["InProgress"] = { fg = "#ecbe7b" }, -- InProgress color
 		}
 
+		-- comment these lines for non-transparent lualine theme
+		-- local cyberdream = require("lualine.themes.cyberdream")
+		-- cyberdream.normal.c.bg = "None"
 		return {
 			options = {
 				component_separators = { left = " ", right = " " },
 				section_separators = { left = " ", right = " " },
+				-- theme = cyberdream,
+				-- Set below color theme with non-transparent bg lualine
 				theme = "cyberdream",
+
 				globalstatus = true,
 				disabled_filetypes = { statusline = { "dashboard", "alpha" } },
 			},
