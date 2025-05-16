@@ -9,10 +9,10 @@ return {
 		-- indent = { enabled = true },
 		lazygit = { enabled = true },
 		input = { enabled = true },
-		-- notifier = {
-		--     enabled = true,
-		--     timeout = 3000,
-		-- },
+		notifier = {
+			enable = true,
+			top_down = false,
+		},
 		picker = { enabled = true },
 		quickfile = { enabled = true },
 		scope = { enabled = true },
