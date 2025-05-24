@@ -38,7 +38,6 @@ return {
 		})
 
 		telescope.load_extension("fzf")
-
 		-- set keymaps
 		local keymap = vim.keymap -- for conciseness
 		keymap.set("n", "<leader>fn", function()
@@ -46,15 +45,10 @@ return {
 		end, { desc = "[F]ind [N]eovim files" })
 		keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "[F]ind [H]elp" })
 		keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "[F]ind [D]iagnostics" })
-		keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "[F]uzzy [F]ind files in cwd" })
-		keymap.set("n", "<leader>fr", "<cmd>Telescope oldfiles<cr>", { desc = "[F]uzzy find [R]ecent files" })
-		keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<cr>", { desc = "[F]ind [S]tring in cwd" })
-		keymap.set(
-			"n",
-			"<leader>fc",
-			"<cmd>Telescope grep_string<cr>",
-			{ desc = "[F]ind string under [C]ursor in cwd" }
-		)
+		keymap.set("n", "<leader>ff", builtin.find_files, { desc = "[F]uzzy [F]ind files in cwd" })
+		keymap.set("n", "<leader>fo", builtin.oldfiles, { desc = "[F]uzzy find [R]ecent files" })
+		keymap.set("n", "<leader>fs", builtin.live_grep, { desc = "[F]ind [S]tring in cwd" })
+		keymap.set("n", "<leader>fc", builtin.grep_string, { desc = "[F]ind string under [C]ursor in cwd" })
 		--keymap.set("n", "<leader>ft", "<cmd>TodoTelescope<cr>", { desc = "Find todos" })
 		keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "[F]ind strings using [G]rep" })
 		-- keymap.set("n", "<leader>ft", builtin.treesitter, { desc = "[F]ind [T]elescope function, variables names" })
@@ -62,17 +56,17 @@ return {
 		keymap.set("n", "<leader>fp", builtin.git_files, { desc = "[F]ind Git [P]roject files" })
 		keymap.set("n", "<leader>fb", builtin.builtin, { desc = "[F]ind Telescope [B]uiltins" })
 		keymap.set("n", "<leader>fk", builtin.keymaps, { desc = "[F]ind [K]eymaps" })
-		keymap.set("n", "<leader>fo", builtin.buffers, { desc = "[F]ind [O]pen buffers" })
+		-- keymap.set("n", "<leader>f", builtin.buffers, { desc = "[F]ind [O]pen buffers" })
 
 		-- Enable line numbers in the telescope preview window
 		vim.cmd("autocmd User TelescopePreviewerLoaded setlocal number")
 		-- It's also possible to pass additional configuration options.
 		--  See `:help telescope.builtin.live_grep()` for information about particular keys
-		vim.keymap.set("n", "<leader>s/", function()
-			builtin.live_grep({
-				grep_open_files = true,
-				prompt_title = "Live Grep in Open Files",
-			})
-		end, { desc = "[S]earch [/] in Open Files" })
+		-- vim.keymap.set("n", "<leader>s/", function()
+		-- 	builtin.live_grep({
+		-- 		grep_open_files = true,
+		-- 		prompt_title = "Live Grep in Open Files",
+		-- 	})
+		-- end, { desc = "[S]earch [/] in Open Files" })
 	end,
 }

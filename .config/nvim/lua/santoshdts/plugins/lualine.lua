@@ -25,6 +25,7 @@ return {
 				disabled_filetypes = { statusline = { "dashboard", "alpha" } },
 			},
 			sections = {
+				color = nil,
 				lualine_a = { { "mode", icon = "" } },
 				lualine_b = { { "branch", icon = "" } },
 				lualine_c = {

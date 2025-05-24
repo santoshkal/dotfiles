@@ -27,13 +27,13 @@ return {
 	},
 	keys = {
 		-- Top Pickers & Explorer
-		{
-			"<leader><space>",
-			function()
-				Snacks.picker.smart()
-			end,
-			desc = "Smart Find Files",
-		},
+		-- {
+		-- 	"<leader><space>",
+		-- 	function()
+		-- 		Snacks.picker.smart()
+		-- 	end,
+		-- 	desc = "Smart Find Files",
+		-- },
 		{
 			"<leader>,",
 			function()

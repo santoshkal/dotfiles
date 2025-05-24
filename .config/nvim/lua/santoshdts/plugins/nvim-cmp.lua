@@ -21,7 +21,15 @@ return {
 		local luasnip = require("luasnip")
 
 		local lspkind = require("lspkind")
+		local has_words_before = function()
+			unpack = unpack or table.unpack
+			local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+			return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+		end
 
+		local feedkey = function(key, mode)
+			vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
+		end
 		-- loads vscode style snippets from installed plugins (e.g. friendly-snippets)
 		require("luasnip.loaders.from_vscode").lazy_load()
 
@@ -34,25 +42,44 @@ return {
 					luasnip.lsp_expand(args.body)
 				end,
 			},
-			mapping = cmp.mapping.preset.insert({
-				["<C-k>"] = cmp.mapping.select_prev_item(), -- previous suggestion
-				["<C-j>"] = cmp.mapping.select_next_item(), -- next suggestion
-				["<C-b>"] = cmp.mapping.scroll_docs(-4),
-				["<C-f>"] = cmp.mapping.scroll_docs(4),
-				["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
-				["<C-e>"] = cmp.mapping.abort(), -- close completion window
+			mapping = {
+
+				-- ... Your other mappings ...
+
+				["<Tab>"] = cmp.mapping(function(fallback)
+					if cmp.visible() then
+						cmp.select_next_item()
+					elseif vim.fn["vsnip#available"](1) == 1 then
+						feedkey("<Plug>(vsnip-expand-or-jump)", "")
+					elseif has_words_before() then
+						cmp.complete()
+					else
+						fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
+					end
+				end, { "i", "s" }),
+
+				["<S-Tab>"] = cmp.mapping(function()
+					if cmp.visible() then
+						cmp.select_prev_item()
+					elseif vim.fn["vsnip#jumpable"](-1) == 1 then
+						feedkey("<Plug>(vsnip-jump-prev)", "")
+					end
+				end, { "i", "s" }),
+				-- ["<CR>"] = cmp.mapping({
+				-- 	i = function(fallback)
+				-- 		if cmp.visible() and cmp.get_active_entry() then
+				-- 			cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
+				-- 		else
+				-- 			fallback()
+				-- 		end
+				-- 	end,
+				-- 	s = cmp.mapping.confirm({ select = true }),
+				-- 	c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+				-- }),
 				["<CR>"] = cmp.mapping.confirm({ select = false }),
-				["<C-l>"] = cmp.mapping(function()
-					if luasnip.expand_or_locally_jumpable() then
-						luasnip.expand_or_jump()
-					end
-				end, { "i", "s" }),
-				["<C-h>"] = cmp.mapping(function()
-					if luasnip.locally_jumpable(-1) then
-						luasnip.jump(-1)
-					end
-				end, { "i", "s" }),
-			}),
+
+				-- ... Your other mappings ...
+			},
 			-- sources for autocompletion
 			sources = cmp.config.sources({
 				{ name = "nvim_lsp" },
@@ -61,13 +88,25 @@ return {
 				{ name = "path" }, -- file system paths
 				{ name = "codeium" },
 			}),
-
+			window = {
+				completion = cmp.config.window.bordered({
+					winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
+					col_offset = -3,
+					side_padding = 0,
+				}),
+				documentation = cmp.config.window.bordered(),
+			},
 			-- configure lspkind for vs-code like pictograms in completion menu
 			formatting = {
-				format = lspkind.cmp_format({
-					maxwidth = 50,
-					ellipsis_char = "...",
-				}),
+				fields = { "kind", "abbr", "menu" },
+				format = function(entry, vim_item)
+					local kind = require("lspkind").cmp_format({ mode = "symbol_text", maxwidth = 50 })(entry, vim_item)
+					local strings = vim.split(kind.kind, "%s", { trimempty = true })
+					kind.kind = " " .. (strings[1] or "") .. " "
+					kind.menu = "    (" .. (strings[2] or "") .. ")"
+
+					return kind
+				end,
 			},
 		})
 	end,

@@ -27,13 +27,13 @@ mouse_map right press ungrabbed copy_to_clipboard
 # bold_font Operator Mono Thick
 # bold_italic_font Operator Mono Medium
 # font_family      Input Mono
-font_family      0xProto Nerd Font Mono
-italic_font      auto
-bold_font        auto       
-bold_italic_font auto
+# font_family      0xProto Nerd Font Mono
+# italic_font      auto
+# bold_font        auto       
+# bold_italic_font auto
 modify_font cell_height 105%
 # Font size (in pts)
-font_size        08.0
+font_size        09.0
 disable_ligatures never
 # The foreground color
 # foreground       #c0b18b
@@ -145,7 +145,7 @@ draw_minimal_borders yes
 # inactive_border_color #cccccc
 
 # Tab-bar colors
-active_tab_foreground #000
+# active_tab_foreground #000
 # active_tab_background #eee
 # inactive_tab_foreground #444
 # inactive_tab_background #999
@@ -272,6 +272,14 @@ allow_remote_control yes
 autocmd bufwritepost ~/.config/kitty/kitty.conf :silent !kill -SIGUSR1 $(pgrep kitty)
 
 # BEGIN_KITTY_THEME
-# Tokyo Night Moon
+# OneDark-Pro
 include current-theme.conf
 # END_KITTY_THEME
+
+
+# BEGIN_KITTY_FONTS
+font_family      family="0xProto Nerd Font Mono"
+bold_font        auto
+italic_font      auto
+bold_italic_font auto
+# END_KITTY_FONTS

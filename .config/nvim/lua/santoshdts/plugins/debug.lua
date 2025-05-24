@@ -2,149 +2,93 @@ return {
 	{
 		"mfussenegger/nvim-dap",
 		dependencies = {
+			"leoluz/nvim-dap-go",
 			"rcarriga/nvim-dap-ui",
 			"theHamsta/nvim-dap-virtual-text",
-			"leoluz/nvim-dap-go",
+			"nvim-neotest/nvim-nio",
+			"williamboman/mason.nvim",
 		},
 		config = function()
 			local dap = require("dap")
-			dap.set_log_level("TRACE")
+			local ui = require("dapui")
 
+			require("dapui").setup()
 			require("dap-go").setup()
 
-			-- ui
-			local dapui = require("dapui")
-			dapui.setup()
-			require("nvim-dap-virtual-text").setup()
+			require("nvim-dap-virtual-text").setup({
+				-- This just tries to mitigate the chance that I leak tokens here. Probably won't stop it from happening...
+				display_callback = function(variable)
+					local name = string.lower(variable.name)
+					local value = string.lower(variable.value)
+					if name:match("secret") or name:match("api") or value:match("secret") or value:match("api") then
+						return "*****"
+					end
 
-			local dap, dapui = require("dap"), require("dapui")
+					if #variable.value > 15 then
+						return " " .. string.sub(variable.value, 1, 15) .. "... "
+					end
+
+					return " " .. variable.value
+				end,
+			})
+
+			vim.keymap.set("n", "<space>b", dap.toggle_breakpoint)
+			vim.keymap.set("n", "<space>gb", dap.run_to_cursor)
+
+			-- Eval var under cursor
+			vim.keymap.set("n", "<space>?", function()
+				require("dapui").eval(nil, { enter = true })
+			end)
+
+			vim.keymap.set("n", "<F1>", dap.continue)
+			vim.keymap.set("n", "<F2>", dap.step_into)
+			vim.keymap.set("n", "<F3>", dap.step_over)
+			vim.keymap.set("n", "<F4>", dap.step_out)
+			vim.keymap.set("n", "<F5>", dap.step_back)
+			vim.keymap.set("n", "<F13>", dap.restart)
+
 			dap.listeners.before.attach.dapui_config = function()
-				dapui.open()
+				ui.open()
 			end
 			dap.listeners.before.launch.dapui_config = function()
-				dapui.open()
+				ui.open()
 			end
 			dap.listeners.before.event_terminated.dapui_config = function()
-				dapui.close()
+				ui.close()
 			end
 			dap.listeners.before.event_exited.dapui_config = function()
-				dapui.close()
+				ui.close()
 			end
-
-			-- breakpoint style
-			vim.fn.sign_define(
-				"DapBreakpointRejected",
-				{ text = "ﰸ", texthl = "DiagnosticError", linehl = "", numhl = "" }
-			)
-			vim.fn.sign_define("DapBreakpoint", { text = "⬤", texthl = "DiagnosticError", linehl = "", numhl = "" })
-			vim.fn.sign_define("DapStopped", { text = "➔", texthl = "DiagnosticWarn", linehl = "", numhl = "" })
-			vim.fn.sign_define("DapLogPoint", { text = "", texthl = "DiagnosticInfo", linehl = "", numhl = "" })
 		end,
-		keys = {
-			-- vs/vscode style function mappings
+			-- Handled by nvim-dap-go
+			-- dap.adapters.go = {
+			--   type = "server",
+			--   port = "${port}",
+			--   executable = {
+			--     command = "dlv",
+			--     args = { "dap", "-l", "127.0.0.1:${port}" },
+			--   },
+			-- }
 
-			{
-				"<leader>dc",
-				function()
-					require("dap").continue()
-				end,
-				desc = "Continue",
-			},
-			{
-				"<leader>dl",
-				function()
-					require("dap").step_over()
-				end,
-				desc = "Step over",
-			},
-			{
-				"<leader>dj",
-				function()
-					require("dap").step_into()
-				end,
-				desc = "Step info",
-			},
-			{
-				"<leader>dk",
-				function()
-					require("dap").step_out()
-				end,
-				desc = "Step out",
-			},
+			-- local elixir_ls_debugger = vim.fn.exepath("elixir-ls-debugger")
+			-- if elixir_ls_debugger ~= "" then
+			-- 	dap.adapters.mix_task = {
+			-- 		type = "executable",
+			-- 		command = elixir_ls_debugger,
+			-- 	}
+			--
+			-- 	dap.configurations.elixir = {
+			-- 		{
+			-- 			type = "mix_task",
+			-- 			name = "phoenix server",
+			-- 			task = "phx.server",
+			-- 			request = "launch",
+			-- 			projectDir = "${workspaceFolder}",
+			-- 			exitAfterTaskReturns = false,
+			-- 			debugAutoInterpretAllModules = false,
+			-- 		},
+			-- 	}
+			-- end
 
-			{
-				"<leader>dK",
-				function()
-					require("dap").up()
-				end,
-				desc = "Move up",
-			},
-			{
-				"<leader>dJ",
-				function()
-					require("dap").down()
-				end,
-				desc = "Move down",
-			},
-
-			{
-				"<leader>db",
-				function()
-					require("dap").toggle_breakpoint()
-				end,
-				desc = "Toggle breakpoint",
-			},
-			{
-				"<leader>dB",
-				function()
-					require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
-				end,
-				desc = "Conditional breakpoint",
-			},
-			{
-				"<leader>dm",
-				function()
-					require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
-				end,
-				desc = "Log breakpoint",
-			},
-
-			{
-				"<leader>dd",
-				function()
-					require("dap").run_last()
-				end,
-				desc = "Run last",
-			},
-			{
-				"<leader>dq",
-				function()
-					require("dap").disconnect()
-				end,
-				desc = "Disconnect",
-			},
-			{
-				"<leader>dr",
-				function()
-					require("dap").disconnect({ restart = true })
-				end,
-				desc = "Restart",
-			},
-
-			{
-				"<leader>dh",
-				function()
-					require("dap.ui.widget").hover()
-				end,
-				desc = "Hover",
-			},
-			{
-				"<leader>du",
-				function()
-					require("dapui").toggle()
-				end,
-				desc = "Toggle ui",
-			},
-		},
 	},
 }

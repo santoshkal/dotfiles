@@ -12,9 +12,18 @@ return {
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 			vim.notify = require("notify")
 
+			local format_sync_grp = vim.api.nvim_create_augroup("GoFormat", {})
+			vim.api.nvim_create_autocmd("BufWritePre", {
+				pattern = "*.go",
+				callback = function()
+					require("go.format").goimports()
+				end,
+				group = format_sync_grp,
+			})
 			require("go").setup({
 				capabilities = capabilities,
 				-- lsp_on_attach = require("plugins.lsp.on_attach").on_attach,
+				group = format_sync_grp,
 				lsp_cfg = {
 					settings = {
 						gopls = {
