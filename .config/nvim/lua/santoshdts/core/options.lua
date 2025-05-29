@@ -1,3 +1,5 @@
+vim.g.lazyvim_python_lsp = "pyright"
+vim.g.lazyvim_python_ruff = "ruff"
 vim.cmd("let g:netrw_liststyle = 3")
 
 vim.deprecate = function() end

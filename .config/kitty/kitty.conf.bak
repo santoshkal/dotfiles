@@ -34,7 +34,7 @@ mouse_map right press ungrabbed copy_to_clipboard
 modify_font cell_height 105%
 # Font size (in pts)
 font_size        09.0
-disable_ligatures never
+# disable_ligatures never
 # The foreground color
 # foreground       #c0b18b
 

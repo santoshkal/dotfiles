@@ -20,9 +20,10 @@ return {
 				-- theme = cyberdream,
 				-- Set below color theme with non-transparent bg lualine
 				theme = "cyberdream",
+				-- theme = "nightfly",
 
 				globalstatus = true,
-				disabled_filetypes = { statusline = { "dashboard", "alpha" } },
+				disabled_filetypes = { statusline = { "dashboard", "alpha", "fzf" } },
 			},
 			sections = {
 				color = nil,
