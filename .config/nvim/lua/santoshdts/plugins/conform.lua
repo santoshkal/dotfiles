@@ -4,6 +4,7 @@ return {
 	config = function()
 		local conform = require("conform")
 
+		-- local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 		conform.setup({
 			formatters_by_ft = {
 				javascript = { "prettier" },
@@ -19,6 +20,21 @@ return {
 				python = { "isort", "black" },
 				go = { "gofumpt", "goimports-reviser" },
 			},
+			-- on_attach = function(client, bufnr)
+			-- 	if client.supports_method("textDocument/formatting") then
+			-- 		vim.api.nvim_clear_autoicmds({
+			-- 			group = augroup,
+			-- 			bufnr = bufnr,
+			-- 		})
+			-- 		vim.api.nvim_createautocnd("BufWritePre", {
+			-- 			group = augroup,
+			-- 			bufnr = bufnr,
+			-- 			callback = function()
+			-- 				vim.lsp.buf.format({ bufnr = bufnr })
+			-- 			end,
+			-- 		})
+			-- 	end
+			-- end,
 			format_on_save = function(bufnr)
 				-- Disable autoformat on certain filetypes
 				local ignore_filetypes = { "sql", "java" }

@@ -1,5 +1,7 @@
 return {
 	"nvim-tree/nvim-tree.lua",
+	enabled = false,
+
 	dependencies = "nvim-tree/nvim-web-devicons",
 	config = function()
 		local nvimtree = require("nvim-tree")
@@ -16,6 +18,8 @@ return {
 			},
 			-- change folder arrow icons
 			renderer = {
+				decorators = { "Git", "Open", "Hidden", "Modified", "Bookmark", "Diagnostics", "Copied", "Cut" },
+				highlight_git = "none",
 				indent_markers = {
 					enable = true,
 				},
@@ -25,7 +29,17 @@ return {
 							arrow_closed = "", -- arrow when folder is closed
 							arrow_open = "", -- arrow when folder is open
 						},
+						git = {
+							unstaged = "✗",
+							staged = "✓",
+							unmerged = "",
+							renamed = "➜",
+							untracked = "★",
+							deleted = "",
+							ignored = "◌",
+						},
 					},
+					git_placement = "before",
 				},
 			},
 			-- disable window_picker for
@@ -42,6 +56,12 @@ return {
 				custom = { ".DS_Store" },
 			},
 			git = {
+				enable = true,
+				show_on_dirs = true,
+				show_on_open_dirs = true,
+				disable_for_dirs = {},
+				timeout = 400,
+				cygwin_support = false,
 				ignore = false,
 			},
 		})

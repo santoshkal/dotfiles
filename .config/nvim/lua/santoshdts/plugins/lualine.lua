@@ -20,10 +20,10 @@ return {
 				-- theme = cyberdream,
 				-- Set below color theme with non-transparent bg lualine
 				theme = "cyberdream",
-				-- theme = "nightfly",
+				-- theme = "auto",
 
 				globalstatus = true,
-				disabled_filetypes = { statusline = { "dashboard", "alpha", "fzf" } },
+				-- disabled_filetypes = { statusline = { "dashboard", "alpha", "fzf" } },
 			},
 			sections = {
 				color = nil,
@@ -40,7 +40,7 @@ return {
 						},
 					},
 					{ "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
-					{ "filename", padding = { left = 1, right = 0 }, path = 1 },
+					{ "filename", padding = { left = 1, right = 0 }, path = 0 },
 					{
 						function()
 							local buffer_count = #vim.fn.getbufinfo({ buflisted = true })
