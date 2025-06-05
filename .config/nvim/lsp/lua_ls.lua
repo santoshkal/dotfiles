@@ -19,13 +19,18 @@ return {
 		Lua = {
 			runtime = {
 				version = "LuaJIT",
-				path = vim.split(package.path, ";"),
+				-- path = vim.split(package.path, ";"),
+			},
+			completion = {
+				callSnippet = "replace",
 			},
 			diagnostics = { globals = { "vim" } },
 			workspace = {
 				library = {
 					-- [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-					[vim.fn.stdpath("config") .. "/lua"] = true,
+					-- [vim.fn.stdpath("config") .. "/lua"] = true,
+					"${3rd}/luv/library",
+					unpack(vim.api.nvim_get_runtime_file("", true)),
 				},
 				checkThirdParty = false,
 			},

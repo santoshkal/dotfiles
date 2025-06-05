@@ -23,7 +23,6 @@ require("lazy").setup({ { import = "santoshdts.plugins" }, { import = "santoshdt
 		missing = true,
 		colorscheme = { "cyberdream" },
 	},
-	checker = { enabled = true },
 	dev = {
 		path = "~/git",
 		fallback = true,

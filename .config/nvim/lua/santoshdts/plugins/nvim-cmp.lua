@@ -11,16 +11,19 @@ return {
 			-- install jsregexp (optional!).
 			build = "make install_jsregexp",
 		},
-		"saadparwaiz1/cmp_luasnip", -- for autocompletion
-		"rafamadriz/friendly-snippets", -- useful snippets
-		"onsails/lspkind.nvim", -- vs-code like pictograms
+		"hrsh7th/cmp-nvim-lsp",
+		"hrsh7th/cmp-cmdline",
+		"hrsh7th/cmp-buffer",
+		"hrsh7th/cmp-path",
+		"saadparwaiz1/cmp_luasnip",
+		"onsails/lspkind.nvim",
 	},
 	config = function()
 		local cmp = require("cmp")
 
 		local luasnip = require("luasnip")
 
-		local lspkind = require("lspkind")
+		-- local lspkind = require("lspkind")
 		local has_words_before = function()
 			unpack = unpack or table.unpack
 			local line, col = unpack(vim.api.nvim_win_get_cursor(0))
