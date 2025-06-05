@@ -22,7 +22,7 @@ return {
 				-- path = vim.split(package.path, ";"),
 			},
 			completion = {
-				callSnippet = "replace",
+				callSnippet = "Replace",
 			},
 			diagnostics = { globals = { "vim" } },
 			workspace = {

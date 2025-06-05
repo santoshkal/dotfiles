@@ -67,6 +67,11 @@ return {
 					score_offset = 3,
 					name = "LSP",
 					module = "blink.cmp.sources.lsp",
+					transform_items = function(_, items)
+						return vim.tbl_filter(function(item)
+							return item.kind ~= require("blink.cmp.types").CompletionItemKind.Keyword
+						end, items)
+					end,
 					fallbacks = {},
 				},
 				path = {
@@ -80,33 +85,38 @@ return {
 			},
 		},
 		cmdline = {
-			enabled = true,
-			---@diagnostic disable-next-line: assign-type-mismatch
-			sources = function()
-				local type = vim.fn.getcmdtype()
-				-- Search forward and backward
-				if type == "/" or type == "?" then
-					return { "buffer" }
-				end
-				-- Commands
-				-- if type == ":" or type == "@" then
-				-- 	return { "cmdline" }
-				-- end
-				return {}
-			end,
-			keymap = {
-				["<Down>"] = { "select_next", "fallback" },
-				["<Up>"] = { "select_prev", "fallback" },
-			},
-			completion = {
-				menu = {
-					auto_show = true,
-					draw = {
-						columns = { { "kind_icon", "label", "label_description", gap = 1 } },
-					},
-				},
-			},
+			sources = {},
+			keymap = { preset = "enter" },
+			completion = { menu = { auto_show = true } },
 		},
+		-- cmdline = {
+		-- 	enabled = true,
+		-- 	---@diagnostic disable-next-line: assign-type-mismatch
+		-- 	sources = function()
+		-- 		local type = vim.fn.getcmdtype()
+		-- 		-- Search forward and backward
+		-- 		if type == "/" or type == "?" then
+		-- 			return { "buffer" }
+		-- 		end
+		-- 		-- Commands
+		-- 		if type == ":" or type == "@" then
+		-- 			return { "cmdline" }
+		-- 		end
+		-- 		return {}
+		-- 	end,
+		-- 	keymap = {
+		-- 		["<Down>"] = { "select_next", "fallback" },
+		-- 		["<Up>"] = { "select_prev", "fallback" },
+		-- 	},
+		-- 	completion = {
+		-- 		menu = {
+		-- 			auto_show = true,
+		-- 			draw = {
+		-- 				columns = { { "kind_icon", "label", "label_description", gap = 1 } },
+		-- 			},
+		-- 		},
+		-- 	},
+		-- },
 		appearance = {
 			kind_icons = {
 				Text = "󰉿",

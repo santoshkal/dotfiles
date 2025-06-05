@@ -102,6 +102,7 @@ return {
 		keymap("n", "<leader>fk", fzf.keymaps, { desc = "[F]ind [K]eymaps" })
 		keymap("n", "<leader>fb", fzf.builtin, { desc = "[F]ind [B]uiltins" })
 		keymap("n", "<leader>fg", fzf.git_branches, { desc = "[F]ind [G]it Branches" })
+		keymap("n", "<leader>fa", fzf.highlights, { desc = "[F]ind [H]ighlighgroups" })
 
 		keymap("n", "<leader>ft", function()
 			fzf.grep({ cmd = "rg --column --line-number", search = "TODO", prompt = "Todos> " })

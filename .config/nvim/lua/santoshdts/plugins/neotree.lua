@@ -10,7 +10,7 @@ return {
 	lazy = false,
 	keys = {
 		{ "-", ":Neotree toggle<CR>", desc = "NeoTree reveal", silent = true },
-		vim.keymap.set("n", "<leader>e", "<Cmd>Neotree reveal<CR>"),
+		vim.keymap.set("n", "<leader>e", "<Cmd>Neotree toggle<CR>"),
 	},
 	opts = {
 		popup_border_style = "",

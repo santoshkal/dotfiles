@@ -55,7 +55,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		map("gl", vim.diagnostic.open_float, "Open Diagnostic Float")
 		map("gi", vim.lsp.buf.implementation, "Goto Implementations")
 		map("K", vim.lsp.buf.hover, "Hover Documentation")
-		map("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
+		map("<C-s>", vim.lsp.buf.signature_help, "Signature Documentation")
 		map("gD", vim.lsp.buf.declaration, "Goto Declaration")
 		map("<leader>ca", vim.lsp.buf.code_action, "Code Action")
 		map("<leader>nr", vim.lsp.buf.rename, "Rename all references")
@@ -118,7 +118,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			vim.api.nvim_create_autocmd("BufWritePre", {
 				pattern = "*.go",
 				callback = function()
+					---@diagnostic disable-next-line: missing-parameter
 					local params = vim.lsp.util.make_range_params()
+					---@diagnostic disable-next-line: inject-field
 					params.context = { only = { "source.organizeImports" } }
 					local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 1000)
 					for _, res in pairs(result or {}) do

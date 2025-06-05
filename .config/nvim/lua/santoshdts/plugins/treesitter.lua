@@ -1,9 +1,9 @@
 return {
 	"nvim-treesitter/nvim-treesitter",
 	event = { "BufReadPre", "BufNewFile" },
+	branch = "master",
 	build = ":TSUpdate",
 	dependencies = {
-		"windwp/nvim-ts-autotag",
 		{ "nvim-treesitter/nvim-treesitter-textobjects" }, -- Syntax aware text-objects
 		{
 			"nvim-treesitter/nvim-treesitter-context", -- Show code context
@@ -15,6 +15,7 @@ return {
 		local treesitter = require("nvim-treesitter.configs")
 
 		-- configure treesitter
+		---@diagnostic disable-next-line: param-type-mismatch, missing-fields
 		treesitter.setup({ -- enable syntax highlighting
 			highlight = {
 				enable = true,
