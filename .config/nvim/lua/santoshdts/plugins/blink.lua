@@ -1,16 +1,13 @@
 return {
 	"saghen/blink.cmp",
 	dependencies = { "rafamadriz/friendly-snippets" },
-
-	-- use a release tag to download pre-built binaries
 	version = "1.*",
-	-- AND/OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
-	-- build = "cargo build --release",
-	-- If you use nix, you can build from source using latest nightly rust with:
-	-- build = 'nix run .#build-plugin',
 	opts = {
 		fuzzy = { implementation = "prefer_rust_with_warning" },
 		completion = {
+			trigger = {
+				show_in_snippet = false,
+			},
 			accept = {
 				auto_brackets = {
 					enabled = true,
@@ -45,19 +42,15 @@ return {
 			},
 		},
 		signature = { enabled = true, window = { border = "single" } },
-		-- sources = {
-		--   providers = {
-		--     ecolog = { name = "ecolog", module = "ecolog.integrations.cmp.blink_cmp" },
-		--     codecompanion = {
-		--       name = "CodeCompanion",
-		--       module = "codecompanion.providers.completion.blink",
-		--     },
-		--   },
-		--   default = { "lsp", "path", "snippets", "buffer" },
-		-- },
 		sources = {
-			default = { "lsp", "snippets", "path", "buffer" },
+			default = { "lazydev", "lsp", "snippets", "path", "buffer" },
 			providers = {
+				lazydev = {
+					name = "LazyDev",
+					module = "lazydev.integrations.blink",
+					-- make lazydev completions top priority (see `:h blink.cmp`)
+					score_offset = 100,
+				},
 				snippets = {
 					min_keyword_length = 1,
 					score_offset = 4,
@@ -89,34 +82,6 @@ return {
 			keymap = { preset = "enter" },
 			completion = { menu = { auto_show = true } },
 		},
-		-- cmdline = {
-		-- 	enabled = true,
-		-- 	---@diagnostic disable-next-line: assign-type-mismatch
-		-- 	sources = function()
-		-- 		local type = vim.fn.getcmdtype()
-		-- 		-- Search forward and backward
-		-- 		if type == "/" or type == "?" then
-		-- 			return { "buffer" }
-		-- 		end
-		-- 		-- Commands
-		-- 		if type == ":" or type == "@" then
-		-- 			return { "cmdline" }
-		-- 		end
-		-- 		return {}
-		-- 	end,
-		-- 	keymap = {
-		-- 		["<Down>"] = { "select_next", "fallback" },
-		-- 		["<Up>"] = { "select_prev", "fallback" },
-		-- 	},
-		-- 	completion = {
-		-- 		menu = {
-		-- 			auto_show = true,
-		-- 			draw = {
-		-- 				columns = { { "kind_icon", "label", "label_description", gap = 1 } },
-		-- 			},
-		-- 		},
-		-- 	},
-		-- },
 		appearance = {
 			kind_icons = {
 				Text = "󰉿",
@@ -151,10 +116,15 @@ return {
 			},
 		},
 		keymap = {
-			preset = "enter",
-			-- ["<CR>"] = { "select_and_accept" },
-			-- ["<Tab>"] = { "snippet_forward", "fallback" },
-			-- ["<S-Tab>"] = { "snippet_backward", "fallback" },
+			["<D-c>"] = { "show" },
+			["<S-CR>"] = { "hide" },
+			["<CR>"] = { "select_and_accept", "fallback" },
+			["<Tab>"] = { "select_next", "fallback" },
+			["<S-Tab>"] = { "select_prev", "fallback" },
+			["<Down>"] = { "select_next", "fallback" },
+			["<Up>"] = { "select_prev", "fallback" },
+			["<PageDown>"] = { "scroll_documentation_down" },
+			["<PageUp>"] = { "scroll_documentation_up" },
 		},
 	},
 	opts_extend = { "sources.default" },
