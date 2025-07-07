@@ -8,6 +8,7 @@ return {
 					"markdown",
 					"vimwiki",
 				},
+				preset = "obsidian",
 				completions = {
 					blink = {
 						enabled = true,

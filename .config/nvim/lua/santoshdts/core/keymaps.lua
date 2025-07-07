@@ -31,7 +31,7 @@ keymap.set("n", "<leader>ot", ":ObsidianTemplate<cr``>", { desc = "[O]bsidian [T
 keymap.set("n", "<leader>ol", ":ObsidianLink<cr>", { desc = "[O]bsidian [L]ink" })
 keymap.set("n", "<leader>onl", ":ObsidianLinkNew<cr>", { desc = "[O]bsidian [L]inkNew" })
 keymap.set("n", "<leader>ogl", ":ObsidianLinks<cr>", { desc = "[O]bsidian [G]etLinks" })
-keymap.set("n", "<leader>otc", ":ObsidianTOC<cr>", { desc = "[O]bsidian [T]oC" })
+keymap.set("n", "<leader>oc", ":ObsidianTOC<cr>", { desc = "[O]bsidian [T]oC" })
 
 -- Split windows
 keymap.set("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" })
@@ -90,11 +90,11 @@ keymap.set("n", "<C-u>", "<C-u>zz")
 
 -- Highlight text on yank (copy)
 vim.api.nvim_create_autocmd("TextYankPost", {
-  desc = "Highlight when yanking (copying) text",
-  group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
-  callback = function()
-    vim.highlight.on_yank()
-  end,
+	desc = "Highlight when yanking (copying) text",
+	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
+	callback = function()
+		vim.highlight.on_yank()
+	end,
 })
 
 -- ──────────────────────
@@ -103,5 +103,5 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 -- Dismiss notify popup and clear hlsearch
 vim.keymap.set("n", "<Esc>", function()
-  require("notify").dismiss()
+	require("notify").dismiss()
 end, { desc = "dismiss notify popup and clear hlsearch" })
