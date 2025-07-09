@@ -43,6 +43,9 @@ return {
 		},
 		signature = { enabled = true, window = { border = "single" } },
 		sources = {
+			min_keyword_length = function()
+				return vim.bo.filetype == "markdown" and 0
+			end,
 			default = { "lazydev", "lsp", "snippets", "path", "buffer" },
 			providers = {
 				lazydev = {

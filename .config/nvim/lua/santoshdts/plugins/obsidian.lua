@@ -9,11 +9,34 @@ return {
 
 		-- see above for full list of optional dependencies ☝️
 	},
+	keys = {
+		{ "<leader>oo", "<cmd>Obsidian open<CR>", desc = "Open on App" },
+		{ "<leader>og", "<cmd>Obsidian search<CR>", desc = "Grep" },
+		{ "<leader>on", "<cmd>Obsidian new<CR>", desc = "New Note" },
+		{ "<leader>oN", "<cmd>Obsidian new_from_template<CR>", desc = "New Note (Template)" },
+		{ "<leader>o<space>", "<cmd>Obsidian quick_switch<CR>", desc = "Find Files" },
+		{ "<leader>ob", "<cmd>Obsidian backlinks<CR>", desc = "Backlinks" },
+		{ "<leader>ot", "<cmd>Obsidian tags<CR>", desc = "Tags" },
+		{ "<leader>oT", "<cmd>Obsidian template<CR>", desc = "Template" },
+		{ "<leader>oL", "<cmd>Obsidian link<CR>", mode = "v", desc = "Link" },
+		{ "<leader>oi", "<cmd>Obsidian links<CR>", desc = "Links" },
+		{ "<leader>ol", "<cmd>Obsidian link_new<CR>", mode = "v", desc = "New Link" },
+		{ "<leader>oe", "<cmd>Obsidian extract_note<CR>", mode = "v", desc = "Extract Note" },
+		{ "<leader>ow", "<cmd>Obsidian workspace<CR>", desc = "Workspace" },
+		{ "<leader>or", "<cmd>Obsidian rename<CR>", desc = "Rename" },
+		-- { prefix .. "i", "<cmd>Obsidian paste_img<CR>", desc = "Paste Image" },
+		-- { prefix .. "d", "<cmd>Obsidian dailies<CR>", desc = "Daily Notes" },
+	},
 	opts = {
 		-- Creates a new Note with the title.md format
 		note_id_func = function(title)
 			return title
 		end,
+
+		statusline = {
+			enabled = true,
+			format = "{{backlinks}} backlinks | {{words}} words",
+		},
 
 		workspaces = {
 			{
@@ -26,12 +49,8 @@ return {
 		},
 		notes_subdir = "00-Inbox",
 		completion = {
-			-- Enables completion using blink.cmp
+			nvim_cmp = false,
 			blink = true,
-			-- Trigger completion at 2 chars.
-			min_chars = 0,
-			-- Set to false to disable new note creation in the picker
-			create_new = true,
 		},
 		new_notes_location = "notes_subdir",
 

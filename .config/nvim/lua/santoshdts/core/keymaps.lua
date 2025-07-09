@@ -22,17 +22,17 @@ keymap.set("n", "<leader>-", "<C-x>", { desc = "Decrement number" })
 -- ──────────────────────
 -- Obsidian
 -- ──────────────────────
-keymap.set("n", "<leader>oo", ":Obsidian<cr>", { desc = "[O]pen [O]bsidian " })
-keymap.set("n", "<leader>on", ":ObsidianNewFromTemplate<cr>", { desc = "[O]bsidian [N]ewNote from Template" })
-keymap.set("n", "<leader>os", ":ObsidianSearch<cr>", { desc = "[O]bsidian [S]earch" })
-keymap.set("n", "<leader>ow", ":ObsidianQuickSwitch<cr>", { desc = "[O]bsidian [S]witch" })
-keymap.set("n", "<leader>obl", ":ObsidianBacklinks<cr>", { desc = "[O]bsidian [B]ackLinks" })
-keymap.set("n", "<leader>ot", ":ObsidianTemplate<cr``>", { desc = "[O]bsidian [T]emplates" })
-keymap.set("n", "<leader>ol", ":ObsidianLink<cr>", { desc = "[O]bsidian [L]ink" })
-keymap.set("n", "<leader>onl", ":ObsidianLinkNew<cr>", { desc = "[O]bsidian [L]inkNew" })
-keymap.set("n", "<leader>ogl", ":ObsidianLinks<cr>", { desc = "[O]bsidian [G]etLinks" })
-keymap.set("n", "<leader>oc", ":ObsidianTOC<cr>", { desc = "[O]bsidian [T]oC" })
-
+-- keymap.set("n", "<leader>oo", ":Obsidian<cr>", { desc = "[O]pen [O]bsidian " })
+-- keymap.set("n", "<leader>on", ":ObsidianNewFromTemplate<cr>", { desc = "[O]bsidian [N]ewNote from Template" })
+-- keymap.set("n", "<leader>os", ":ObsidianSearch<cr>", { desc = "[O]bsidian [S]earch" })
+-- keymap.set("n", "<leader>ow", ":ObsidianQuickSwitch<cr>", { desc = "[O]bsidian [S]witch" })
+-- keymap.set("n", "<leader>obl", ":ObsidianBacklinks<cr>", { desc = "[O]bsidian [B]ackLinks" })
+-- keymap.set("n", "<leader>ot", ":ObsidianTemplate<cr``>", { desc = "[O]bsidian [T]emplates" })
+-- keymap.set("n", "<leader>ol", ":ObsidianLink<cr>", { desc = "[O]bsidian [L]ink" })
+-- keymap.set("n", "<leader>onl", ":ObsidianLinkNew<cr>", { desc = "[O]bsidian [L]inkNew" })
+-- keymap.set("n", "<leader>ogl", ":ObsidianLinks<cr>", { desc = "[O]bsidian [G]etLinks" })
+-- keymap.set("n", "<leader>oc", ":ObsidianTOC<cr>", { desc = "[O]bsidian [T]oC" })
+--
 -- Split windows
 keymap.set("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" })
 keymap.set("n", "<leader>sh", "<C-w>s", { desc = "Split window horizontally" })
