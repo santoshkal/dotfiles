@@ -1,7 +1,7 @@
 return {
 	"obsidian-nvim/obsidian.nvim",
 	version = "*", -- recommended, use latest release instead of latest commit
-	lazy = false,
+	lazy = true,
 	ft = "markdown",
 	dependencies = {
 		-- Required.
@@ -11,7 +11,7 @@ return {
 	},
 	keys = {
 		{ "<leader>oo", "<cmd>Obsidian open<CR>", desc = "Open on App" },
-		{ "<leader>og", "<cmd>Obsidian search<CR>", desc = "Grep" },
+		{ "<leader>os", "<cmd>Obsidian search<CR>", desc = "Obsidian Search" },
 		{ "<leader>on", "<cmd>Obsidian new<CR>", desc = "New Note" },
 		{ "<leader>oN", "<cmd>Obsidian new_from_template<CR>", desc = "New Note (Template)" },
 		{ "<leader>o<space>", "<cmd>Obsidian quick_switch<CR>", desc = "Find Files" },
