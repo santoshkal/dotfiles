@@ -1,13 +1,18 @@
 return {
 	"obsidian-nvim/obsidian.nvim",
-	version = "*", -- recommended, use latest release instead of latest commit
+	-- version = "*", -- recommended, use latest release instead of latest commit
 	lazy = true,
-	ft = "markdown",
+	-- ft = "markdown",
 	dependencies = {
-		-- Required.
+		-- required
 		"nvim-lua/plenary.nvim",
-
-		-- see above for full list of optional dependencies ☝️
+		"nvim-treesitter/nvim-treesitter",
+		{
+			"saghen/blink.cmp",
+			dependencies = {
+				{ "saghen/blink.compat", branch = "main" },
+			},
+		},
 	},
 	keys = {
 		{ "<leader>oo", "<cmd>Obsidian open<CR>", desc = "Open on App" },
@@ -28,7 +33,6 @@ return {
 		-- { prefix .. "d", "<cmd>Obsidian dailies<CR>", desc = "Daily Notes" },
 	},
 	opts = {
-		-- Creates a new Note with the title.md format
 		note_id_func = function(title)
 			return title
 		end,
@@ -41,7 +45,7 @@ return {
 		workspaces = {
 			{
 				name = "DevOps",
-				path = "~/Dropbox/devops/",
+				path = "/home/santosh/Dropbox/devops",
 				overrides = {
 					notes_subdir = "00-Inbox",
 				},
@@ -51,26 +55,20 @@ return {
 		completion = {
 			nvim_cmp = false,
 			blink = true,
+			min_chars = 2,
 		},
 		new_notes_location = "notes_subdir",
 
 		disable_frontmatter = true,
 
-		-- TODO: Fix the syntax for inseting date in 'YYYYMMMMDDHHSS' format to ID.
-		-- see below for full list of options 👇
 		templates = {
 			folder = "templates",
 			date_format = "%Y%m%d%H%M",
 		},
 		picker = {
-			-- Set your preferred picker. Can be one of 'telescope.nvim', 'fzf-lua', 'mini.pick' or 'snacks.pick'.
 			name = "fzf-lua",
-			-- Optional, configure key mappings for the picker. These are the defaults.
-			-- Not all pickers support all mappings.
 			note_mappings = {
-				-- Create a new note from your query.
 				new = "<C-x>",
-				-- Insert a link to the selected note.
 				insert_link = "<C-l>",
 			},
 		},
