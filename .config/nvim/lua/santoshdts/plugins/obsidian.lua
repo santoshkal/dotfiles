@@ -1,18 +1,21 @@
 return {
 	"obsidian-nvim/obsidian.nvim",
 	-- version = "*", -- recommended, use latest release instead of latest commit
-	lazy = true,
+	-- lazy = true,
 	-- ft = "markdown",
+	events = {
+		"BufReadPre " .. vim.fn.expand("~") .. "/Dropbox/devops/**/*.md",
+	},
 	dependencies = {
 		-- required
 		"nvim-lua/plenary.nvim",
-		"nvim-treesitter/nvim-treesitter",
-		{
-			"saghen/blink.cmp",
-			dependencies = {
-				{ "saghen/blink.compat", branch = "main" },
-			},
-		},
+		-- "nvim-treesitter/nvim-treesitter",
+		-- {
+		-- 	"saghen/blink.cmp",
+		-- 	dependencies = {
+		-- 		{ "saghen/blink.compat", branch = "main" },
+		-- 	},
+		-- },
 	},
 	keys = {
 		{ "<leader>oo", "<cmd>Obsidian open<CR>", desc = "Open on App" },
@@ -34,8 +37,14 @@ return {
 	},
 	opts = {
 		note_id_func = function(title)
-			return title
+			if title ~= nil then
+				return title
+			else
+				return os.date("%Y%m%d%H%M")
+			end
 		end,
+
+		legacy_commands = false,
 
 		statusline = {
 			enabled = true,
@@ -45,7 +54,7 @@ return {
 		workspaces = {
 			{
 				name = "DevOps",
-				path = "/home/santosh/Dropbox/devops",
+				path = "~/Dropbox/devops",
 				overrides = {
 					notes_subdir = "00-Inbox",
 				},
@@ -53,7 +62,6 @@ return {
 		},
 		notes_subdir = "00-Inbox",
 		completion = {
-			nvim_cmp = false,
 			blink = true,
 			min_chars = 2,
 		},
