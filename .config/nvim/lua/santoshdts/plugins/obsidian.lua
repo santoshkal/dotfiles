@@ -23,7 +23,9 @@ return {
     { "<leader>oL",       "<cmd>Obsidian link<CR>",               mode = "v",                  desc = "Link" },
     { "<leader>oi",       "<cmd>Obsidian links<CR>",              desc = "Links" },
     { "<leader>ol",       "<cmd>Obsidian link_new<CR>",           mode = "v",                  desc = "New Link" },
-    { "<leader>oe",       "<cmd>Obsidian extract_note<CR>",       mode = "v",                  desc = "Extract Note" },
+    { "<leader>oe",       "<cmd>Obsidian link_new<CR>",           mode = "v",                  desc = "Extract and Link New Note" },
+    -- { "<leader>oe",       "<cmd>Obsidian extract_note<CR>",       mode = "v",                  desc = "Extract Note" },
+
     { "<leader>ow",       "<cmd>Obsidian workspace<CR>",          desc = "Workspace" },
     { "<leader>or",       "<cmd>Obsidian rename<CR>",             desc = "Rename" },
     { "<CR>",             "<cmd>Obsidian follow_link vsplit<CR>", desc = "Follow link" },

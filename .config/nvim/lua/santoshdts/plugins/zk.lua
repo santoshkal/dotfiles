@@ -27,7 +27,8 @@ return {
   keys = {
     { mode = { "v" }, "<leader>zc",            ":<cmd>'<,'><cr>ZkNC<cr>",                        desc = "Create a new note with content selected" },
     { mode = { "v" }, "<leader>zT",            ":<cmd>'<,'><cr>ZkNT<cr>",                        desc = "Create a new note with title selected" },
-    { "<leader>zn",   "<cmd>ZkNotes<cr>",      desc = "Search ZK Notes" },
+    { "<leader>zn",   "<cmd>ZkNf<cr>",         desc = "Create New Note with title" },
+    { "<leader>zN",   "<cmd>ZkNotes<cr>",      desc = "Search ZK Notes" },
     { "<leader>zt",   "<cmd>ZkTags<cr>",       desc = "Search ZK Notes Tags" },
     { "<leader>zf",   "<cmd>ZkLf<cr>",         desc = "Search ZK Fleet notes" },
     { "<leader>zb",   "<cmd>ZkBacklinks<cr>",  desc = "Search ZK Backlinks in the current note", ft = "markdown" },
@@ -40,10 +41,7 @@ return {
       desc = "Insert a link for a note with selection",
       ft = "markdown",
     },
-    { "<leader>zjy", "<cmd>ZkYesterday<cr>",                desc = "Open Journal Entry Yesterday" },
-    { "<leader>zjd", "<cmd>ZkDaily<cr>",                    desc = "Open Journal Entry Daily" },
-    { "<leader>zjt", "<cmd>ZkTomorrow<cr>",                 desc = "Open Journal Entry Tomorrow" },
-    { "<leader>zN",  "<cmd>e $ZK_NOTEBOOK_DIR/temp.md<cr>", desc = "Open temp.md" },
+    { "<leader>zN", "<cmd>e $ZK_NOTEBOOK_DIR/temp.md<cr>", desc = "Open temp.md" },
   },
   opts = {
     picker = "fzf_lua",
@@ -133,28 +131,15 @@ return {
       vim.cmd("edit" .. file_path)
     end, { needs_selection = true })
     commands.add("ZkNf", function(options)
-      local file_path = create_note('zk new "$ZK_NOTEBOOK_DIR/Inbox/"', options)
-      vim.cmd("edit " .. file_path)
-    end)
-    commands.add("ZkN", function(options)
+      options = options or {}
+      options.dir = options.dir or "Inbox"
+
+      local now = os.date("%Y%m%d%H%M")
+      local title = options.title or vim.fn.input("Title: ")
+      options.id = now .. "-" .. title
       local file_path = create_note("zk new", options)
       vim.cmd("edit " .. file_path)
     end)
-    -- commands.add("ZkYesterday", function(options)
-    --   local cmd = 'zk new --no-input $ZK_NOTEBOOK_DIR/journal --date="yesterday"'
-    --   local file_path = create_note(cmd, options)
-    --   vim.cmd("edit" .. file_path)
-    -- end)
-    -- commands.add("ZkDaily", function(options)
-    --   local cmd = "zk new --no-input $ZK_NOTEBOOK_DIR/journal"
-    --   local file_path = create_note(cmd, options)
-    --   vim.cmd("edit" .. file_path)
-    -- end)
-    -- commands.add("ZkTomorrow", function(options)
-    --   local cmd = 'zk new --no-input $ZK_NOTEBOOK_DIR/journal --date="tomorrow"'
-    --   local file_path = create_note(cmd, options)
-    --   vim.cmd("edit" .. file_path)
-    -- end)
     zk.setup(opts)
   end,
 }
