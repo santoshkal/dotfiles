@@ -1,9 +1,9 @@
 return {
   "saghen/blink.cmp",
   event = { "InsertEnter", "CmdlineEnter" },
-  dependencies = {
-  },
-  -- dependencies = { "rafamadriz/friendly-snippets", "saghen/blink.cmp" },
+  -- dependencies = {
+  -- },
+  dependencies = { "rafamadriz/friendly-snippets" },
   version = "*",
   opts = {
     fuzzy = { implementation = "prefer_rust_with_warning" },

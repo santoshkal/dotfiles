@@ -8,10 +8,6 @@ return {
   dependencies = {
     "nvim-lua/plenary.nvim",
     "Saghen/blink.cmp",
-    -- bring in cmp & its snippet deps only for Obsidian
-    -- "hrsh7th/nvim-cmp",
-    -- "hrsh7th/cmp-buffer",
-    -- "hrsh7th/cmp-path",
   },
   keys = {
     { "<leader>oo",       "<cmd>Obsidian open<CR>",               desc = "Open on App" },
@@ -24,10 +20,7 @@ return {
     { "<leader>oT",       "<cmd>Obsidian template<CR>",           desc = "Template" },
     { "<leader>oL",       "<cmd>Obsidian link<CR>",               mode = "v",                  desc = "Link" },
     { "<leader>oi",       "<cmd>Obsidian links<CR>",              desc = "Links" },
-    { "<leader>ol",       "<cmd>Obsidian link_new<CR>",           mode = "v",                  desc = "New Link" },
     { "<leader>oe",       "<cmd>Obsidian link_new<CR>",           mode = "v",                  desc = "Extract and Link New Note" },
-    -- { "<leader>oe",       "<cmd>Obsidian extract_note<CR>",       mode = "v",                  desc = "Extract Note" },
-
     { "<leader>ow",       "<cmd>Obsidian workspace<CR>",          desc = "Workspace" },
     { "<leader>or",       "<cmd>Obsidian rename<CR>",             desc = "Rename" },
     { "<CR>",             "<cmd>Obsidian follow_link vsplit<CR>", desc = "Follow link" },
@@ -87,40 +80,4 @@ return {
     -- … your other obsidian.nvim settings …
   },
 
-  -- config = function(_, opts)
-  --   require("obsidian").setup(opts)
-  --
-  --   local cmp = require("cmp")
-  --
-  --   cmp.setup.filetype("markdown", {
-  --     mapping = {
-  --       ["<C-n>"]     = cmp.mapping.select_next_item(),
-  --       ["<C-p>"]     = cmp.mapping.select_prev_item(),
-  --       ["<C-Space>"] = cmp.mapping.complete(),
-  --       ["<CR>"]      = cmp.mapping.confirm({ select = true }),
-  --       ["<Tab>"]     = cmp.mapping(function(fallback)
-  --         if cmp.visible() then
-  --           cmp.select_next_item()
-  --         else
-  --           fallback()
-  --         end
-  --       end, { "i", "s" }),
-  --       ["<S-Tab>"]   = cmp.mapping(function(fallback)
-  --         if cmp.visible() then
-  --           cmp.select_prev_item()
-  --         else
-  --           fallback()
-  --         end
-  --       end, { "i", "s" }),
-  --     },
-  --     sources = cmp.config.sources({
-  --       { name = "obsidian" },
-  --       { name = "buffer" },
-  --       { name = "path" },
-  --     }),
-  --     completion = {
-  --       keyword_length = 2,
-  --     },
-  --   })
-  -- end,
 }
