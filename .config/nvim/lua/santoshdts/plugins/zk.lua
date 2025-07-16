@@ -1,5 +1,7 @@
 return {
   "zk-org/zk-nvim",
+  enbled = false,
+  version = "*",
   ft = "markdown",
   name = "zk",
   cmd = {
@@ -25,7 +27,8 @@ return {
     "ZkTomorrow",
   },
   keys = {
-    { mode = { "v" }, "<leader>zc",            ":<cmd>'<,'><cr>ZkNC<cr>",                        desc = "Create a new note with content selected" },
+    { mode = { "v" }, "<leader>zc",            ":'<,'>ZkNC<cr>",                                 desc = "New note from content selection" },
+    -- { mode = { "v" }, "<leader>zc",            ":<cmd>'<,'><cr>ZkNC<cr>",                        desc = "Create a new note with content selected" },
     { mode = { "v" }, "<leader>zT",            ":<cmd>'<,'><cr>ZkNT<cr>",                        desc = "Create a new note with title selected" },
     { "<leader>zn",   "<cmd>ZkNf<cr>",         desc = "Create New Note with title" },
     { "<leader>zN",   "<cmd>ZkNotes<cr>",      desc = "Search ZK Notes" },
@@ -45,6 +48,19 @@ return {
   },
   opts = {
     picker = "fzf_lua",
+    lsp = {
+      -- `config` is passed to `vim.lsp.start(config)`
+      config = {
+        name = "zk",
+        cmd = { "zk", "lsp" },
+        filetypes = { "markdown" },
+        -- on_attach = ...
+        -- etc, see `:h vim.lsp.start()`
+      },
+      auto_attach = {
+        enabled = true,
+      },
+    },
   },
   config = function(_, opts)
     local zk = require("zk")
@@ -101,17 +117,23 @@ return {
 
     commands.add("ZkOrphans", make_edit_fn({ orphan = true }, { title = "Zk Orphans" }))
     commands.add("ZkLf", make_edit_fn({ tags = { "fleet" } }))
+    -- Not working
     commands.add("ZkNC", function(options)
       local location = util.get_lsp_location_from_selection()
       local selected_text = util.get_selected_text()
       assert(selected_text ~= nil, "No selected text")
       local title = vim.fn.input("Title: ")
+
       options = options or {}
       options.title = title
       options.insertLinkAtLocation = location
+
       local cmd = "echo " .. vim.fn.shellescape(selected_text) .. " | zk new -i"
       local file_path = create_note(cmd, options)
-      vim.cmd("edit" .. file_path)
+
+      -- FIXED: Ensure a space before the path
+      vim.cmd("edit " .. file_path)
+
       if options.link then
         local trimmed_path = file_path:match("zk/(.*)")
         link_note(trimmed_path, location, title)
