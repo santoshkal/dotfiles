@@ -20,8 +20,7 @@ export PATH="/opt/nvim-linux64/bin:$PATH"
 export PATH="$HOME/.tmux/plugins/tmux-session-wizard/bin:$PATH"
 export PATH="$HOME/.cargo/env:$HOME/.nvm/versions/node/v20.19.2/bin:$HOME/.local/bin/env:/usr/local/go/bin:$PATH"
 
-source /home/santosh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+source $HOME/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 export LD_LIBRARY_PATH=$HOME/local/lib:$LD_LIBRARY_PATH
 export MANPATH=$HOME/local/share/man:$MANPATH
 
