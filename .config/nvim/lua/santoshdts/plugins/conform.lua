@@ -15,7 +15,6 @@ return {
 				html = { "prettier" },
 				json = { "jq" },
 				yaml = { "prettier" },
-				markdown = { "prettier" },
 				lua = { "stylua" },
 				python = { "isort", "black" },
 				go = { "gofumpt", "goimports-reviser" },
