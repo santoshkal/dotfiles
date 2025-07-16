@@ -1,7 +1,10 @@
 return {
   "saghen/blink.cmp",
-  dependencies = { "rafamadriz/friendly-snippets" },
-  version = "1.*",
+  event = { "InsertEnter", "CmdlineEnter" },
+  dependencies = {
+  },
+  -- dependencies = { "rafamadriz/friendly-snippets", "saghen/blink.cmp" },
+  version = "*",
   opts = {
     fuzzy = { implementation = "prefer_rust_with_warning" },
     completion = {
@@ -47,6 +50,9 @@ return {
       -- 	return vim.bo.filetype == "markdown" and 0
       -- end,
       default = { "lazydev", "lsp", "snippets", "path", "buffer" },
+      per_filetype = {
+        markdown = { "obsidian", "lsp", "snippets", "path", "buffer" },
+      },
       providers = {
         lazydev = {
           name = "LazyDev",

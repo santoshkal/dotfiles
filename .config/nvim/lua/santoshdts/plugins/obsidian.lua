@@ -1,15 +1,17 @@
 return {
   "obsidian-nvim/obsidian.nvim",
-  events = {
-    "BufReadPre " .. vim.fn.expand("~") .. "/Dropbox/devops/**/*.md",
-  },
-  -- ft = "markdown",
+  -- events = {
+  --   "BufReadPre " .. vim.fn.expand("~") .. "/Dropbox/devops/**/*.md",
+  -- },
+  version = "*",
+  ft = "markdown",
   dependencies = {
     "nvim-lua/plenary.nvim",
+    "Saghen/blink.cmp",
     -- bring in cmp & its snippet deps only for Obsidian
-    "hrsh7th/nvim-cmp",
-    "hrsh7th/cmp-buffer",
-    "hrsh7th/cmp-path",
+    -- "hrsh7th/nvim-cmp",
+    -- "hrsh7th/cmp-buffer",
+    -- "hrsh7th/cmp-path",
   },
   keys = {
     { "<leader>oo",       "<cmd>Obsidian open<CR>",               desc = "Open on App" },
@@ -60,8 +62,8 @@ return {
     disable_frontmatter = true,
 
     completion = {
-      nvim_cmp  = true, -- switch on the built-in CMP source
-      min_chars = 2,
+      nvim_cmp = false, -- switch on the built-in CMP source
+      blink    = true,
     },
     note_id_func = function(title)
       if title ~= nil then
@@ -85,40 +87,40 @@ return {
     -- … your other obsidian.nvim settings …
   },
 
-  config = function(_, opts)
-    require("obsidian").setup(opts)
-
-    local cmp = require("cmp")
-
-    cmp.setup.filetype("markdown", {
-      mapping = {
-        ["<C-n>"]     = cmp.mapping.select_next_item(),
-        ["<C-p>"]     = cmp.mapping.select_prev_item(),
-        ["<C-Space>"] = cmp.mapping.complete(),
-        ["<CR>"]      = cmp.mapping.confirm({ select = true }),
-        ["<Tab>"]     = cmp.mapping(function(fallback)
-          if cmp.visible() then
-            cmp.select_next_item()
-          else
-            fallback()
-          end
-        end, { "i", "s" }),
-        ["<S-Tab>"]   = cmp.mapping(function(fallback)
-          if cmp.visible() then
-            cmp.select_prev_item()
-          else
-            fallback()
-          end
-        end, { "i", "s" }),
-      },
-      sources = cmp.config.sources({
-        { name = "obsidian" },
-        { name = "buffer" },
-        { name = "path" },
-      }),
-      completion = {
-        keyword_length = 2,
-      },
-    })
-  end,
+  -- config = function(_, opts)
+  --   require("obsidian").setup(opts)
+  --
+  --   local cmp = require("cmp")
+  --
+  --   cmp.setup.filetype("markdown", {
+  --     mapping = {
+  --       ["<C-n>"]     = cmp.mapping.select_next_item(),
+  --       ["<C-p>"]     = cmp.mapping.select_prev_item(),
+  --       ["<C-Space>"] = cmp.mapping.complete(),
+  --       ["<CR>"]      = cmp.mapping.confirm({ select = true }),
+  --       ["<Tab>"]     = cmp.mapping(function(fallback)
+  --         if cmp.visible() then
+  --           cmp.select_next_item()
+  --         else
+  --           fallback()
+  --         end
+  --       end, { "i", "s" }),
+  --       ["<S-Tab>"]   = cmp.mapping(function(fallback)
+  --         if cmp.visible() then
+  --           cmp.select_prev_item()
+  --         else
+  --           fallback()
+  --         end
+  --       end, { "i", "s" }),
+  --     },
+  --     sources = cmp.config.sources({
+  --       { name = "obsidian" },
+  --       { name = "buffer" },
+  --       { name = "path" },
+  --     }),
+  --     completion = {
+  --       keyword_length = 2,
+  --     },
+  --   })
+  -- end,
 }
