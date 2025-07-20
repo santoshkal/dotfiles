@@ -15,8 +15,9 @@ return {
 	opts = {
 		popup_border_style = "",
 		window = {
-			position = "right",
-			width = 30,
+			position = "float",
+			border = "rounded",
+			width = 40,
 		},
 		event_handlers = {
 			{
