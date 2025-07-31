@@ -23,6 +23,7 @@ return {
     { "<leader>oe",       "<cmd>Obsidian link_new<CR>",           mode = "v",                  desc = "Extract and Link New Note" },
     { "<leader>ow",       "<cmd>Obsidian workspace<CR>",          desc = "Workspace" },
     { "<leader>or",       "<cmd>Obsidian rename<CR>",             desc = "Rename" },
+    { "<leader>oR",       "<cmd>ObsidianRandom<CR>",              desc = "Open Random Note" },
     { "<CR>",             "<cmd>Obsidian follow_link vsplit<CR>", desc = "Follow link" },
 
     -- { prefix .. "i", "<cmd>Obsidian paste_img<CR>", desc = "Paste Image" },
@@ -40,6 +41,14 @@ return {
       opts = { noremap = false, expr = true, buffer = true },
     },
   },
+  config = function(_, opts)
+    require("obsidian").setup(opts)
+
+    -- Register command for use from command line
+    vim.api.nvim_create_user_command("ObsidianRandom", function()
+      require("santoshdts.core.utils").open_random_note()
+    end, {})
+  end,
   opts = {
     ui = {
       enabled = false,
