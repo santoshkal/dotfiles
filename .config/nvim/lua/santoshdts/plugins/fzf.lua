@@ -6,17 +6,14 @@ return {
 	config = function()
 		local fzf = require("fzf-lua")
 		fzf.setup({
-			"hide",
-			{
-				"fzf-native",
-				winopts = {
-					winopts = {
-						relativenumber = true,
-					},
-					backdrop = 80,
-					title_pos = "center",
-					title_flags = true,
-					preview = { default = "bat_native" },
+			winopts = {
+				relativenumber = true,
+				backdrop = 80,
+				title_pos = "center",
+				preview = {
+					default = "bat_native",
+					layout = "vertical",
+					vertical = "right:60%",
 				},
 			},
 			fzf_colors = {
