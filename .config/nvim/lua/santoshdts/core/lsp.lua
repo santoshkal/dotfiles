@@ -1,4 +1,26 @@
-vim.lsp.enable({
+-- Configure capabilities for all LSP servers
+vim.lsp.config("*", {
+	capabilities = {
+		textDocument = {
+			foldingRange = {
+				dynamicRegistration = true,
+				lineFoldingOnly = true,
+			},
+			semanticTokens = {
+				multilineTokenSupport = true,
+			},
+			completion = {
+				completionItem = {
+					snippetSupport = true,
+				},
+			},
+		},
+	},
+})
+
+-- Load LSP server configurations from ./lsp directory
+local lsp_config_dir = vim.fn.stdpath("config") .. "/lsp"
+local lsp_servers = {
 	"yamlls",
 	"bash-language-server",
 	"ts_ls",
@@ -7,7 +29,21 @@ vim.lsp.enable({
 	"lua_ls",
 	"pyright",
 	"dockerls",
-})
+}
+
+-- Apply configurations from individual LSP config files
+for _, server in ipairs(lsp_servers) do
+	local config_file = lsp_config_dir .. "/" .. server .. ".lua"
+	if vim.fn.filereadable(config_file) == 1 then
+		local ok, config = pcall(dofile, config_file)
+		if ok and config then
+			vim.lsp.config[server] = config
+		end
+	end
+end
+
+-- Enable LSP servers
+vim.lsp.enable(lsp_servers)
 
 vim.diagnostic.config({
 	virtual_lines = true,
@@ -32,15 +68,6 @@ vim.diagnostic.config({
 		},
 	},
 })
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-
-capabilities.textDocument.foldingRange = {
-	dynamicRegistration = true,
-	lineFoldingOnly = true,
-}
-
-capabilities.textDocument.semanticTokens.multilineTokenSupport = true
-capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),

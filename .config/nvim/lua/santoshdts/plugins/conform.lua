@@ -14,7 +14,6 @@ return {
 				css = { "prettier" },
 				html = { "prettier" },
 				json = { "jq" },
-				yaml = { "prettier" },
 				lua = { "stylua" },
 				python = { "isort", "black" },
 				go = { "gofumpt", "goimports-reviser" },
