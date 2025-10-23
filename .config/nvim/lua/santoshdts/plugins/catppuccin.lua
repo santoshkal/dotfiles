@@ -6,19 +6,19 @@ return {
 	priority = 1000,
 	config = function()
 		require("catppuccin").setup({
-			transparent_background = false,
+			transparent_background = true,
 			custom_highlights = function(colors)
 				local u = require("catppuccin.utils.colors")
 				return {
 					CursorLine = {
 						bg = u.vary_color(
-							{ latte = u.lighten(colors.mantle, 0.70, colors.base) },
-							u.darken(colors.surface0, 0.10, colors.base)
+							{ latte = u.lighten(colors.mantle, 0.40, colors.base) },
+							u.darken(colors.surface0, 0.30, colors.base)
 						),
 					},
 				}
 			end,
-			no_italic = true,
+			-- no_italic = true,
 			flavour = "mocha", -- latte, frappe, macchiato, mocha
 			styles = {
 				comments = { "italic" },
@@ -29,6 +29,7 @@ return {
 				percentage = 0.10, -- percentage of the shade to apply to the inactive window
 			},
 			integrations = {
+        fzf = true,
 				cmp = true,
 				dap = {
 					enabled = true,
@@ -43,6 +44,9 @@ return {
 				lsp_trouble = true,
 				markdown = true,
 				mason = true,
+        blink_cmp = {
+            style = 'bordered',
+        },
 				native_lsp = {
 					enabled = true,
 					virtual_text = {
@@ -61,12 +65,13 @@ return {
 						background = true,
 					},
 				},
+        neotree = true,
 				noice = true,
 				notify = true,
 				semantic_tokens = true,
-				telescope = {
-					enabled = true,
-				},
+				-- telescope = {
+				-- 	enabled = true,
+				-- },
 				treesitter = true,
 				ts_rainbow2 = true,
 				which_key = true,
