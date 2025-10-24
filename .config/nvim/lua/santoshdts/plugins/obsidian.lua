@@ -31,22 +31,11 @@ return {
 		{ "<leader>ol", "<cmd>Obsidian workspace<CR>", desc = "[L]ist Workspaces" },
 		{ "<leader>or", "<cmd>Obsidian rename<CR>", desc = "Rename" },
 		{ "<leader>oR", "<cmd>ObsidianRandom<CR>", desc = "Open Random Note" },
-		{ "<CR>", "<cmd>Obsidian follow_link vsplit<CR>", desc = "Follow link" },
+		-- Removed global <CR> and gd mappings - now set in config function for markdown buffers only
+		-- { "<CR>", "<cmd>Obsidian follow_link vsplit<CR>", desc = "Follow link" },
 
 		-- { prefix .. "i", "<cmd>Obsidian paste_img<CR>", desc = "Paste Image" },
 		-- { prefix .. "d", "<cmd>Obsidian dailies<CR>", desc = "Daily Notes" },
-		["<cr>"] = {
-			action = function()
-				return require("obsidian").util.smart_action()
-			end,
-			opts = { buffer = true, expr = true },
-		},
-		["gd"] = {
-			action = function()
-				return require("obsidian").util.gf_passthrough()
-			end,
-			opts = { noremap = false, expr = true, buffer = true },
-		},
 	},
 	config = function(_, opts)
 		require("obsidian").setup(opts)
@@ -55,6 +44,24 @@ return {
 		vim.api.nvim_create_user_command("ObsidianRandom", function()
 			require("santoshdts.core.utils").open_random_note()
 		end, {})
+
+		-- Set <CR> and gd keybindings ONLY in markdown buffers
+		vim.api.nvim_create_autocmd("FileType", {
+			pattern = "markdown",
+			callback = function(event)
+				-- Only set these keymaps if we're in an Obsidian workspace
+				local bufpath = vim.api.nvim_buf_get_name(event.buf)
+				if bufpath:match("Dropbox/devops") or bufpath:match("Dropbox/work") then
+					vim.keymap.set("n", "<CR>", function()
+						return require("obsidian").util.smart_action()
+					end, { buffer = event.buf, expr = true, desc = "Obsidian: Follow link" })
+
+					vim.keymap.set("n", "gd", function()
+						return require("obsidian").util.gf_passthrough()
+					end, { buffer = event.buf, noremap = false, expr = true, desc = "Obsidian: Go to definition" })
+				end
+			end,
+		})
 	end,
 	opts = {
 		ui = {

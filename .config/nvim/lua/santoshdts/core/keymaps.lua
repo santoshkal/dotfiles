@@ -105,3 +105,27 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 vim.keymap.set("n", "<Esc>", function()
 	require("notify").dismiss()
 end, { desc = "dismiss notify popup and clear hlsearch" })
+
+-- ──────────────────────
+-- Quickfix & Location List
+-- ──────────────────────
+
+-- Ensure Enter works in quickfix and location list windows
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "qf" },
+	callback = function(event)
+		-- Jump to the item under cursor and close the quickfix/location list
+		vim.keymap.set("n", "<CR>", function()
+			local is_loclist = vim.fn.getloclist(0, { filewinid = 1 }).filewinid ~= 0
+			local line = vim.fn.line(".")
+
+			if is_loclist then
+				vim.cmd(string.format("ll %d", line))
+				vim.cmd("lclose")
+			else
+				vim.cmd(string.format(".cc"))
+				vim.cmd("cclose")
+			end
+		end, { buffer = event.buf, desc = "Jump to item and close list" })
+	end,
+})

@@ -15,7 +15,7 @@ local function set_python_path(path)
 end
 
 return {
-	cmd = { "pyright-langserver", "--stdio" },
+	cmd = { vim.fn.stdpath("data") .. "/mason/bin/pyright-langserver", "--stdio" },
 	filetypes = { "python" },
 	root_markers = {
 		"pyproject.toml",

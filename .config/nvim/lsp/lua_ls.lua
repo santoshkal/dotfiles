@@ -1,6 +1,6 @@
 return {
 	cmd = {
-		"lua-language-server",
+		vim.fn.stdpath("data") .. "/mason/bin/lua-language-server",
 	},
 	filetypes = {
 		"lua",

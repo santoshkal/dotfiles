@@ -1,5 +1,5 @@
 return {
-	cmd = { "vscode-json-language-server", "--stdio" },
+	cmd = { vim.fn.stdpath("data") .. "/mason/bin/vscode-json-language-server", "--stdio" },
 	filetypes = { "json", "jsonc" },
 	init_options = {
 		provideFormatter = true,
