@@ -1,6 +1,6 @@
 return {
 	"nvim-treesitter/nvim-treesitter",
-	event = { "BufReadPre", "BufNewFile" },
+	lazy = false,
 	branch = "master",
 	build = ":TSUpdate",
 	dependencies = {
@@ -16,16 +16,7 @@ return {
 
 		-- configure treesitter
 		---@diagnostic disable-next-line: param-type-mismatch, missing-fields
-		treesitter.setup({ -- enable syntax highlighting
-			highlight = {
-				enable = true,
-			},
-			-- enable indentation
-			indent = { enable = true },
-			-- enable autotagging (w/ nvim-ts-autotag plugin)
-			autotag = {
-				enable = true,
-			},
+		treesitter.setup({
 			-- ensure these language parsers are installed
 			ensure_installed = {
 				"csv",
@@ -46,6 +37,14 @@ return {
 				"sql",
 				"yaml",
 			},
+			sync_install = false, -- Install parsers asynchronously
+			auto_install = true, -- Auto-install missing parsers when entering buffer
+			-- enable syntax highlighting
+			highlight = {
+				enable = true,
+			},
+			-- enable indentation
+			indent = { enable = true },
 			incremental_selection = {
 				enable = true,
 				keymaps = {

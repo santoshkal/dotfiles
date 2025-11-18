@@ -65,6 +65,7 @@ return {
   end,
   opts = {
     checkbox = { create_new = false },
+
     ui = {
       enabled = false,
     },
