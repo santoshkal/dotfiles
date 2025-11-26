@@ -14,6 +14,9 @@ return {
 						enabled = true,
 					},
 				},
+				yaml = {
+					enabled = false,
+				},
 				-- heading = {
 				--   enabled = true,
 				--   sign = true,

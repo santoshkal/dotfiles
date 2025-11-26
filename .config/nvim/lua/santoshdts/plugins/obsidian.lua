@@ -17,7 +17,7 @@ return {
     { "<leader>o<space>", "<cmd>Obsidian quick_switch<CR>",      desc = "Find Files" },
     { "<leader>ob",       "<cmd>Obsidian backlinks<CR>",         desc = "Backlinks" },
     { "<leader>ot",       "<cmd>Obsidian tags<CR>",              desc = "Tags" },
-    { "<leader>oT",       "<cmd>Obsidian template<CR>",          desc = "Template" },
+    { "<leader>oT",       "<cmd>ObsidianInsertTemplate<CR>",     desc = "Template" },
     { "<leader>oL",       "<cmd>Obsidian link<CR>",              mode = "v",                  desc = "Link" },
     { "<leader>oi",       "<cmd>Obsidian links<CR>",             desc = "Links" },
     {
@@ -43,6 +43,37 @@ return {
     -- Register command for use from command line
     vim.api.nvim_create_user_command("ObsidianRandom", function()
       require("santoshdts.core.utils").open_random_note()
+    end, {})
+
+    -- Fixed template insert command (workaround for fzf picker callback bug)
+    vim.api.nvim_create_user_command("ObsidianInsertTemplate", function()
+      local templates = require("obsidian.templates")
+      local api = require("obsidian.api")
+
+      local templates_dir = api.templates_dir()
+      if not templates_dir then
+        vim.notify("Templates folder is not defined or does not exist", vim.log.levels.ERROR)
+        return
+      end
+
+      local insert_location = api.get_active_window_cursor_location()
+
+      Obsidian.picker.find_files {
+        prompt_title = "Templates",
+        dir = templates_dir,
+        no_default_mappings = true,
+        callback = function(entry)
+          -- Fix: fzf picker passes { filename = path } instead of just path
+          local name = type(entry) == "table" and entry.filename or entry
+          templates.insert_template {
+            type = "insert_template",
+            template_name = name,
+            template_opts = Obsidian.opts.templates,
+            templates_dir = templates_dir,
+            location = insert_location,
+          }
+        end,
+      }
     end, {})
 
     -- Set <CR> and gd keybindings ONLY in markdown buffers
@@ -82,7 +113,9 @@ return {
       },
     },
     notes_subdir = "00-Inbox",
-    disable_frontmatter = true,
+    frontmatter = {
+      enabled = false,
+    },
 
     completion = {
       nvim_cmp = false, -- switch on the built-in CMP source
