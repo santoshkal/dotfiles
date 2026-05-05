@@ -9,6 +9,8 @@ return {
 					"vimwiki",
 				},
 				preset = "obsidian",
+				max_file_size = 1.5,
+				debounce = 200,
 				completions = {
 					blink = {
 						enabled = true,

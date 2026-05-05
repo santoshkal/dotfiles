@@ -4,6 +4,7 @@ return {
 		event = { "BufReadPre", "BufNewFile" },
 		opts = {
 			numhl = false,
+			max_file_length = 40000,
 			watch_gitdir = {
 				follow_files = true,
 			},

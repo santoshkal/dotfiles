@@ -42,9 +42,21 @@ return {
 			-- enable syntax highlighting
 			highlight = {
 				enable = true,
+				disable = function(_, buf)
+					if vim.b[buf].bigfile then
+						return true
+					end
+					local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+					return ok and stats and stats.size > 500 * 1024
+				end,
 			},
 			-- enable indentation
-			indent = { enable = true },
+			indent = {
+				enable = true,
+				disable = function(_, buf)
+					return vim.b[buf].bigfile == true
+				end,
+			},
 			incremental_selection = {
 				enable = true,
 				keymaps = {
