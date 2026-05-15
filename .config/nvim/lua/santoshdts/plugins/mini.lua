@@ -4,20 +4,20 @@ return {
     version = false,
     config = function()
       -- Mini.ai: enhanced textobjects
-      require("mini.ai").setup({
-        n_lines = 500,
-        custom_textobjects = nil,
-      })
+      -- require("mini.ai").setup({
+      --   n_lines = 500,
+      --   custom_textobjects = nil,
+      -- })
 
       -- Mini.surround: powerful surrounding
-      require("mini.surround").setup(
-      -- mappings = {
-      -- 	add = "gsa", -- Add surrounding
-      -- 	delete = "gsd", -- Delete surrounding
-      -- 	replace = "gsr", -- Replace surrounding
-      -- 	find = "gsf", -- Find surrounding (to the right)
-      -- },
-      )
+      require("mini.surround").setup({
+        mappings = {
+          add = "sa",     -- Add surrounding
+          delete = "sd",  -- Delete surrounding
+          replace = "sr", -- Replace surrounding
+          find = "sf",    -- Find surrounding (to the right)
+        },
+      })
 
       -- Mini.comment: commenting utilities
       require("mini.comment").setup({
