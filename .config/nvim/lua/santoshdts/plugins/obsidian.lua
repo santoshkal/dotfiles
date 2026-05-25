@@ -86,10 +86,10 @@ return {
       enabled = false,
     },
 
-    completion = {
-      nvim_cmp = false, -- switch on the built-in CMP source
-      blink = true,
-    },
+    -- completion = {
+    --   nvim_cmp = false, -- switch on the built-in CMP source
+    --   blink = true,
+    -- },
     note_id_func = function(title)
       if title ~= nil then
         return title
