@@ -60,6 +60,7 @@ return {
 		}
 		if vim.fn.executable("tree-sitter") == 1 then
 			vim.schedule(function()
+				pcall(ts.update, nil, { force = false, summary = true })
 				pcall(ts.install, ensure_installed, { force = false })
 			end)
 		end
