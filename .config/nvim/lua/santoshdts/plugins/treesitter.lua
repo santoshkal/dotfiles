@@ -1,7 +1,6 @@
 return {
 	"nvim-treesitter/nvim-treesitter",
 	lazy = false,
-	branch = "master",
 	build = ":TSUpdate",
 	dependencies = {
 		{ "nvim-treesitter/nvim-treesitter-textobjects" }, -- Syntax aware text-objects
@@ -11,6 +10,28 @@ return {
 		},
 	},
 	config = function()
+		-- Workaround for Neovim 0.12 bug: injected language parsers can return
+		-- invalidated TSNode userdata (freed tree, nil metatable), causing
+		-- "attempt to call method 'range' (a nil value)" in get_range/get_node_text.
+		-- This affects render-markdown.nvim, nvim-treesitter-context, and the
+		-- built-in highlighter.
+		do
+			local ok, ts = pcall(require, "vim.treesitter")
+			if ok and ts.get_range then
+				local orig = ts.get_range
+				ts.get_range = function(node, source, metadata)
+					if node == nil then
+						return { 0, 0, 0, 0 }
+					end
+					local ok_range, result = pcall(orig, node, source, metadata)
+					if ok_range then
+						return result
+					end
+					return { 0, 0, 0, 0 }
+				end
+			end
+		end
+
 		-- import nvim-treesitter plugin
 		local treesitter = require("nvim-treesitter.configs")
 

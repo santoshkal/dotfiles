@@ -25,6 +25,7 @@ local lsp_servers = {
 	"bash-language-server",
 	"ts_ls",
 	"jsonls",
+  "marksman",
 	"gopls",
 	"lua_ls",
 	"pyright",
