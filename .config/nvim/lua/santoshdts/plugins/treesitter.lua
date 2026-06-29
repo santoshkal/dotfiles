@@ -1,134 +1,57 @@
 return {
-	"nvim-treesitter/nvim-treesitter",
-	lazy = false,
-	build = ":TSUpdate",
-	dependencies = {
-		{ "nvim-treesitter/nvim-treesitter-textobjects" }, -- Syntax aware text-objects
-		{
-			"nvim-treesitter/nvim-treesitter-context", -- Show code context
-			opts = { enable = true, mode = "topline", line_numbers = true },
-		},
-	},
-	config = function()
-		-- Workaround for Neovim 0.12 bug: injected language parsers can return
-		-- invalidated TSNode userdata (freed tree, nil metatable), causing
-		-- "attempt to call method 'range' (a nil value)" in get_range/get_node_text.
-		-- This affects render-markdown.nvim, nvim-treesitter-context, and the
-		-- built-in highlighter.
-		do
-			local ok, ts = pcall(require, "vim.treesitter")
-			if ok and ts.get_range then
-				local orig = ts.get_range
-				ts.get_range = function(node, source, metadata)
-					if node == nil then
-						return { 0, 0, 0, 0 }
-					end
-					local ok_range, result = pcall(orig, node, source, metadata)
-					if ok_range then
-						return result
-					end
-					return { 0, 0, 0, 0 }
-				end
-			end
-		end
+  "nvim-treesitter/nvim-treesitter",
+  lazy = false,
+  branch = "main",
+  build = ":TSUpdate",
+  dependencies = {
+    {
+      "nvim-treesitter/nvim-treesitter-context",
+      opts = { enable = true, mode = "topline", line_numbers = true },
+    },
+  },
+  config = function()
+    -- Workaround for Neovim 0.12 bug: injected language parsers can return
+    -- invalidated TSNode userdata (freed tree, nil metatable), causing
+    -- "attempt to call method 'range' (a nil value)" in get_range/get_node_text.
+    do
+      local ok, ts = pcall(require, "vim.treesitter")
+      if ok and ts.get_range then
+        local orig = ts.get_range
+        ts.get_range = function(node, source, metadata)
+          if node == nil then
+            return { 0, 0, 0, 0 }
+          end
+          local ok_range, result = pcall(orig, node, source, metadata)
+          if ok_range then
+            return result
+          end
+          return { 0, 0, 0, 0 }
+        end
+      end
+    end
 
-		-- import nvim-treesitter plugin
-		local treesitter = require("nvim-treesitter.configs")
+    -- Set up nvim-treesitter commands and auto-install
+    require("nvim-treesitter").setup()
 
-		-- configure treesitter
-		---@diagnostic disable-next-line: param-type-mismatch, missing-fields
-		treesitter.setup({
-			-- ensure these language parsers are installed
-			ensure_installed = {
-				"csv",
-				"dockerfile",
-				"gitignore",
-				"cue",
-				"go",
-				"gomod",
-				"gosum",
-				"gowork",
-				"javascript",
-				"json",
-				"lua",
-				"markdown",
-				"proto",
-				"python",
-				"rego",
-				"sql",
-				"yaml",
-			},
-			sync_install = false, -- Install parsers asynchronously
-			auto_install = true, -- Auto-install missing parsers when entering buffer
-			-- enable syntax highlighting
-			highlight = {
-				enable = true,
-				disable = function(_, buf)
-					if vim.b[buf].bigfile then
-						return true
-					end
-					local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-					return ok and stats and stats.size > 500 * 1024
-				end,
-			},
-			-- enable indentation
-			indent = {
-				enable = true,
-				disable = function(_, buf)
-					return vim.b[buf].bigfile == true
-				end,
-			},
-			incremental_selection = {
-				enable = true,
-				keymaps = {
-					init_selection = "<C-space>",
-					node_incremental = "<C-space>",
-					scope_incremental = "<leader>sc",
-					node_decremental = "<C-->",
-				},
-			},
-			textobjects = {
-				select = {
-					enable = true,
-
-					-- Automatically jump forward to textobj, similar to targets.vim
-					lookahead = true,
-
-					keymaps = {
-						-- You can use the capture groups defined in textobjects.scm
-						["af"] = "@function.outer",
-						["if"] = "@function.inner",
-						["ac"] = "@class.outer",
-						-- You can optionally set descriptions to the mappings (used in the desc parameter of
-						-- nvim_buf_set_keymap) which plugins like which-key display
-						["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
-						-- You can also use captures from other query groups like `locals.scm`
-						["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
-					},
-					-- You can choose the select mode (default is charwise 'v')
-					--
-					-- Can also be a function which gets passed a table with the keys
-					-- * query_string: eg '@function.inner'
-					-- * method: eg 'v' or 'o'
-					-- and should return the mode ('v', 'V', or '<c-v>') or a table
-					-- mapping query_strings to modes.
-					selection_modes = {
-						["@parameter.outer"] = "v", -- charwise
-						["@function.outer"] = "V", -- linewise
-						["@class.outer"] = "<c-v>", -- blockwise
-					},
-					-- If you set this to `true` (default is `false`) then any textobject is
-					-- extended to include preceding or succeeding whitespace. Succeeding
-					-- whitespace has priority in order to act similarly to eg the built-in
-					-- `ap`.
-					--
-					-- Can also be a function which gets passed a table with the keys
-					-- * query_string: eg '@function.inner'
-					-- * selection_mode: eg 'v'
-					-- and should return true or false
-					include_surrounding_whitespace = true,
-				},
-			},
-		})
-	end,
+    -- Install parsers
+    require("nvim-treesitter.install").install({
+      "csv",
+      "dockerfile",
+      "gitignore",
+      "cue",
+      "go",
+      "gomod",
+      "gosum",
+      "gowork",
+      "javascript",
+      "json",
+      "lua",
+      "markdown",
+      "proto",
+      "python",
+      "rego",
+      "sql",
+      "yaml",
+    })
+  end,
 }
