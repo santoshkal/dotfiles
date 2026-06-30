@@ -32,7 +32,8 @@ export GPG_TTY=$(tty)
 
 bindkey '^p' history-search-backward
 bindkey '^n' history-search-forward
-
+bindkey '^[[A' zsh-history-substring-search-up
+bindkey '^[[B' zsh-history-substring-search-down
 
 
 ### zsh History
@@ -132,6 +133,7 @@ bindkey -M viins '\es' sesh-sessions
 plugins=(
   git
   zsh-autosuggestions
+  zsh-history-substring-search
   zsh-syntax-highlighting
   zsh-vi-mode
   command-not-found
