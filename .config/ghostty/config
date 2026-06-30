@@ -43,6 +43,9 @@
 # resize-overlay-duration = 4s 200ms
 theme = "Catppuccin Mocha"
 gtk-titlebar = false
+font-family = "Hack Nerd Font"
+font-size = 13
+font-style = italic
 window-decoration = true
 fullscreen = true
 keybind=ctrl+-=new_split:down

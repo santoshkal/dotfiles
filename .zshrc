@@ -32,7 +32,8 @@ export GPG_TTY=$(tty)
 
 bindkey '^p' history-search-backward
 bindkey '^n' history-search-forward
-
+bindkey '^[[A' zsh-history-substring-search-up
+bindkey '^[[B' zsh-history-substring-search-down
 
 
 ### zsh History
@@ -52,8 +53,6 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
 ### >>> FZF & FD
-eval "$(fzf --zsh)"
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 export BAT_THEME="Visual Studio Dark+"
 export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
@@ -61,6 +60,11 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
 export FZF_CTRL_T_OPTS="--preview '$show_file_or_dir_preview'"
 export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
+# CTRL-Y to copy the command into clipboard using pbcopy
+export FZF_CTRL_R_OPTS="
+  --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
+  --color header:italic
+  --header 'Press CTRL-Y to copy command into clipboard'"
 
 ### >>> FZF Theme Customization
 fg="#CBE0F0"
@@ -86,6 +90,7 @@ _fzf_comprun() {
     *)            fzf --preview "$show_file_or_dir_preview" "$@" ;;
   esac
 }
+
 
 ### >>> Kubernetes Autocomplete
 source <(kubectl completion zsh)
@@ -128,6 +133,7 @@ bindkey -M viins '\es' sesh-sessions
 plugins=(
   git
   zsh-autosuggestions
+  zsh-history-substring-search
   zsh-syntax-highlighting
   zsh-vi-mode
   command-not-found
@@ -138,3 +144,24 @@ source $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highli
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /home/santosh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /home/santosh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init - zsh)"
+fpath=($fpath ~/.zsh/completion)
+export PATH="$HOME/.local/bin:$PATH"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/santosh/google-cloud-sdk/path.zsh.inc' ]; then . '/home/santosh/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/santosh/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/santosh/google-cloud-sdk/completion.zsh.inc'; fi
+
+# opencode
+export PATH=/home/santosh/.opencode/bin:$PATH
+
+eval "$(fzf --zsh)"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
