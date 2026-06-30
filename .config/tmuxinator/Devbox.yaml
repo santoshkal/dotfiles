@@ -1,6 +1,6 @@
 # /home/santosh/.config/tmuxinator/Docgen.yml
 
-name: Docgen
+name: Devbox
 
 # Optional tmux socket
 # socket_name: foo
@@ -49,6 +49,12 @@ windows:
     - ssh devbox-santosh
     - cd projects/docgen
     - sudo -su shared
+  - Docgen-RAG:
+    - ssh devbox-santosh
+    - cd projects/Docgen-RAG
+    - sudo -su shared
+  - Notes:
+    - cd Dropbox/devops
     # Synchronize all panes of this window, can be enabled before or after the pane commands run.
     # 'before' represents legacy functionality and will be deprecated in a future release, in favour of 'after'
     # synchronize: after
