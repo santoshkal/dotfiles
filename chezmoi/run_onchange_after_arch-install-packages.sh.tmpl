@@ -1,0 +1,21 @@
+#!/bin/bash
+set -euo pipefail
+
+if command -v pacman &>/dev/null; then
+  sudo pacman -S --needed --noconfirm \
+    {{ range .packages.arch.official -}}
+    {{ . | quote }} \
+    {{ end -}}
+    {{ range .packages.arch.fonts -}}
+    {{ . | quote }} \
+    {{ end -}}
+  ;
+fi
+
+if command -v yay &>/dev/null; then
+  yay -S --needed --noconfirm \
+    {{ range .packages.arch.aur -}}
+    {{ . | quote }} \
+    {{ end -}}
+  ;
+fi
