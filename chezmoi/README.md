@@ -3,6 +3,12 @@
 This directory contains chezmoi reference config files. When you're ready to
 migrate from stow to chezmoi, follow these steps:
 
+> **This is a staging area, not a live source dir.** chezmoi reads its source
+> state from `~/.local/share/chezmoi`. The files here cannot be tested with
+> `chezmoi diff`/`chezmoi apply` until they're copied there (step 4 below). To
+> dry-run a template without applying anything, see "Verifying templates" at the
+> end of this doc.
+
 ## Migration steps
 
 ```bash
@@ -43,6 +49,9 @@ chezmoi init
 chezmoi diff
 
 # 7. Apply
+# NOTE: this triggers the run_onchange script, which runs `sudo pacman -S` and
+# installs the ENTIRE package list in one go. Expect a sudo prompt and a large
+# install on first apply.
 chezmoi apply
 
 # 8. Remove stow-managed symlinks (chezmoi now owns the files directly)
@@ -54,6 +63,9 @@ chezmoi cd
 git remote add origin <your-repo-url>
 git add -A
 git commit -m "migrate from stow to chezmoi"
+# chezmoi init creates the source repo on git's default branch, which may be
+# `master`. Normalize to `main` before pushing:
+git branch -M main
 git push -u origin main
 
 # 10. Clean up old stow repo (optional, once migration is verified)
@@ -112,8 +124,11 @@ in the list), but this is risky and not recommended for declarative setup.
 
 ## Using on Ubuntu (or other Debian-based)
 
-The current config is Arch-specific (uses `pacman`, `yay`, Arch package names).
-To support Ubuntu, you need two changes.
+The current config targets Arch package names (`pacman`, `yay`). The shipped
+`run_onchange` script itself is already distro-safe — it guards on
+`command -v pacman` / `command -v yay`, so it's a harmless no-op on a non-Arch
+machine. To actually *install* on Ubuntu you still need the two changes below
+(Ubuntu package data + an apt branch).
 
 ### 1. Package data — split by OS
 
@@ -169,11 +184,12 @@ sudo pacman -S --needed --noconfirm \
   {{ range .packages.arch.fonts -}} {{ . | quote }} \{{ end }}
   ;
 
-{{ if command -v yay &>/dev/null; then -}}
-yay -S --needed --noconfirm \
-  {{ range .packages.arch.aur -}} {{ . | quote }} \{{ end }}
-  ;
-{{ end -}}
+# yay presence is a runtime (shell) check, NOT a template condition.
+if command -v yay &>/dev/null; then
+  yay -S --needed --noconfirm \
+    {{ range .packages.arch.aur -}} {{ . | quote }} \{{ end }}
+    ;
+fi
 
 {{ else if eq .chezmoi.osRelease.id "ubuntu" -}}
 
@@ -184,6 +200,11 @@ sudo apt install -y \
 
 {{ end -}}
 ```
+
+> **Note:** `{{ if ... }}` is Go-template syntax evaluated by chezmoi at render
+> time; `if command -v yay` is shell syntax evaluated when the rendered script
+> runs. Don't mix them — `{{ if command -v yay; then }}` is invalid and will
+> fail to render.
 
 chezmoi's `.chezmoi.osRelease.id` is available on Linux systems
 (returns `"arch"`, `"ubuntu"`, `"fedora"`, etc.).
@@ -196,3 +217,23 @@ On a new Ubuntu machine, `chezmoi init --apply` will:
 
 Some tools are not in Ubuntu's repos or have different names — make sure
 to verify each package name with `apt search <name>` before adding it.
+
+---
+
+## Verifying templates (without applying)
+
+Render a template to stdout without touching your system. Point chezmoi at a
+throwaway source dir containing the staging files:
+
+```bash
+mkdir -p /tmp/cz-test/.chezmoidata
+cp .chezmoidata/packages.yaml /tmp/cz-test/.chezmoidata/
+cp .chezmoi.yaml.tmpl /tmp/cz-test/
+
+# render the package script and eyeball the emitted pacman/yay arg lists
+chezmoi --source /tmp/cz-test execute-template --init \
+  < run_onchange_after_arch-install-packages.sh.tmpl > /tmp/cz-test/rendered.sh
+
+# confirm it's syntactically valid bash (does NOT execute it)
+bash -n /tmp/cz-test/rendered.sh && echo OK
+```
