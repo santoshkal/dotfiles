@@ -1,0 +1,4 @@
+{{ .chezmoi.homeDir }}/.bash_logout
+{{ .chezmoi.homeDir }}/.bashrc~
+{{ .chezmoi.homeDir }}/.lesshst
+{{ .chezmoi.homeDir }}/.wget-hsts

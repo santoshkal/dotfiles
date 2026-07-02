@@ -1,0 +1,15 @@
+#!/bin/bash
+set -eu
+
+chezmoi re-add 2>/dev/null || true
+
+cd "$(chezmoi source-path)" || exit 1
+
+if [ -n "$(git status --porcelain)" ]; then
+  git add -A
+  git commit -m "chore: sync dotfiles"
+  git push
+  echo "Changes pushed."
+else
+  echo "No changes to sync."
+fi

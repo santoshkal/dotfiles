@@ -1,0 +1,75 @@
+{{- $name := "Santosh" -}}
+{{- $email := "santosh@kal.com" -}}
+
+{{- $interactive := and stdinIsATTY (not .chezmoi.flags.force) -}}
+
+{{- $arch := eq .chezmoi.os "linux" -}}
+{{- $is_arch := false -}}
+{{- $is_ubuntu := false -}}
+{{- if stat (printf "/etc/os-release") -}}
+{{-   $osrelease := include (printf "/etc/os-release") | fromINI -}}
+{{-   $is_arch = eq $osrelease.ID "arch" -}}
+{{-   $is_ubuntu = eq $osrelease.ID "ubuntu" -}}
+{{- end -}}
+
+{{- $wsl := or (env "WSL_DISTRO_NAME") (env "IS_WSL") | not | not -}}
+{{- $devcontainer := or (env "REMOTE_CONTAINERS") (env "CODESPACES") (env "VSCODE_REMOTE_CONTAINERS_SESSION") (env "GITPOD_HOST") | not | not -}}
+{{- $gnome := lookPath "gnome-shell" | not | not -}}
+{{- $headless := or (env "SSH_CLIENT" | not | not) (not (or (env "DISPLAY") (env "WAYLAND_DISPLAY"))) -}}
+
+{{- $minimum := or $devcontainer (not $is_arch) -}}
+
+{{- if hasKey . "name" -}}{{ $name = .name }}{{- end -}}
+{{- if $interactive -}}
+{{- range $i := until 99 -}}
+{{-   $question := "What is your full name" -}}
+{{-   $answer := "" -}}
+{{-   if $name -}}{{- $answer = promptString $question $name -}}
+{{-   else -}}{{- $answer = promptString $question -}}{{- end -}}
+{{-   if regexMatch "^[A-Z[-' a-zA-Z]+$" $answer -}}
+{{-     $name = $answer -}}{{- break -}}
+{{-   end -}}
+{{-   if eq $i 98 -}}{{- exit 1 -}}{{- end -}}
+{{- end -}}{{- end -}}
+
+{{- if hasKey . "email" -}}{{- $email = .email -}}{{- end -}}
+{{- if $interactive -}}
+{{- range $i := until 99 -}}
+{{-   $question := "What is your email" -}}
+{{-   $answer := "" -}}
+{{-   if $email -}}{{- $answer = promptString $question $email -}}
+{{-   else -}}{{- $answer = promptString $question -}}{{- end -}}
+{{-   $answer = lower $answer -}}
+{{-   if regexMatch "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$" $answer -}}
+{{-     $email = $answer -}}{{- break -}}
+{{-   end -}}
+{{-   if eq $i 98 -}}{{- exit 1 -}}{{- end -}}
+{{- end -}}{{- end -}}
+
+{{- if hasKey . "is_devcontainer" -}}{{- $minimum = .is_devcontainer -}}{{- end -}}
+{{- if $interactive -}}
+{{-   $question := "Should install in minimum mode" -}}
+{{-   $minimum = promptBool $question $minimum -}}
+{{- end -}}
+
+sourceDir: "{{ .chezmoi.workingTree }}"
+
+verbose: true
+
+pager: ""
+
+hooks:
+  read-source-state:
+    pre:
+      command: {{ .chezmoi.workingTree }}/home/.chezmoihooks/ensure-pre-requisites.sh
+
+data:
+  is_arch: {{ $is_arch }}
+  is_ubuntu: {{ $is_ubuntu }}
+  is_wsl: {{ $wsl }}
+  is_devcontainer: {{ $minimum }}
+  is_gnome: {{ $gnome }}
+  is_headless: {{ $headless }}
+  name: "{{ $name }}"
+  email: "{{ $email }}"
+  editor: "nvim"

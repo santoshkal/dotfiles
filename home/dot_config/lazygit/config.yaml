@@ -1,0 +1,4 @@
+commit:
+  signOff: true
+  autoWrapCommitMessage: true
+  autoWrapWidth: 72

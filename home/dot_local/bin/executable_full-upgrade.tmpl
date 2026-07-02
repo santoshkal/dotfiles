@@ -1,0 +1,16 @@
+#!/bin/bash
+set -eux
+
+sudo() {
+  if [ "$(id -u)" -eq 0 ]; then
+    "$@"
+  else
+    command sudo "$@"
+  fi
+}
+
+{{ if .is_arch -}}
+yay -Syu --noconfirm
+{{ else if .is_ubuntu -}}
+sudo apt update && sudo apt upgrade --yes
+{{ end -}}

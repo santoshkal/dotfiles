@@ -1,0 +1,43 @@
+#!/bin/bash
+set -eux
+
+sudo() {
+  if [ "$(id -u)" -eq 0 ]; then
+    "$@"
+  else
+    command sudo "$@"
+  fi
+}
+
+{{ if .is_arch -}}
+# Install essential packages for Arch
+sudo pacman -Sy --noconfirm \
+  git \
+  zsh \
+  curl \
+  wget \
+  base-devel \
+  unzip
+
+{{ else if .is_ubuntu -}}
+# Install essential packages for Ubuntu/Debian
+sudo apt update
+sudo env DEBIAN_FRONTEND=noninteractive apt install --yes \
+  git \
+  zsh \
+  curl \
+  wget \
+  build-essential \
+  unzip
+
+{{ end -}}
+
+# Install yay on Arch if not present
+{{ if .is_arch -}}
+if ! command -v yay >/dev/null 2>&1; then
+  sudo pacman -S --noconfirm --needed git base-devel
+  git clone https://aur.archlinux.org/yay.git /tmp/yay
+  cd /tmp/yay && makepkg -si --noconfirm
+  rm -rf /tmp/yay
+fi
+{{ end -}}

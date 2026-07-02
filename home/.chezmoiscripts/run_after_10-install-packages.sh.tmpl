@@ -1,0 +1,70 @@
+#!/bin/bash
+set -eux
+
+sudo() {
+  if [ "$(id -u)" -eq 0 ]; then
+    "$@"
+  else
+    command sudo "$@"
+  fi
+}
+
+{{ if .is_arch -}}
+# Install packages on Arch
+packages=(
+  neovim
+  tmux
+  ripgrep
+  fd
+  fzf
+  bat
+  eza
+  lazygit
+  kubectl
+  helm
+  eksctl
+  aws-cli-v2
+  go
+  nodejs
+  npm
+  python
+  python-pip
+  pyenv
+  docker
+  docker-compose
+  kitty
+  i3
+  i3blocks
+  yazi
+  ghostty
+)
+
+yay -S --noconfirm --needed "${packages[@]}"
+
+{{ else if .is_ubuntu -}}
+# Install packages on Ubuntu
+packages=(
+  neovim
+  tmux
+  ripgrep
+  fd-find
+  fzf
+  bat
+  eza
+  git
+  curl
+  wget
+  unzip
+  kubectl
+  helm
+  golang-go
+  nodejs
+  npm
+  python3
+  python3-pip
+  docker.io
+  docker-compose
+)
+
+sudo apt install --yes "${packages[@]}"
+{{ end -}}

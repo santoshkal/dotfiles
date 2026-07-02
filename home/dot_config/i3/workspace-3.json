@@ -1,0 +1,57 @@
+{
+    "border": "normal",
+    "floating": "auto_off",
+    "layout": "stacked",
+    "marks": [],
+    "percent": null,
+    "type": "con",
+    "nodes": [
+        {
+            "border": "pixel",
+            "current_border_width": 2,
+            "floating": "auto_off",
+            "geometry": {
+               "height": 1052,
+               "width": 956,
+               "x": 0,
+               "y": 0
+            },
+            "marks": [],
+            "name": "a0557@ACLPTHYD0557:~",
+            "percent": 0.5,
+            "swallows": [
+               {
+               "class": "^kitty$",
+               "instance": "^kitty$",
+               "machine": "^ACLPTHYD0557$",
+               "title": "^a0557\\@ACLPTHYD0557\\:\\~$"
+               }
+            ],
+            "type": "con"
+        },
+        {
+            "border": "pixel",
+            "current_border_width": 2,
+            "floating": "auto_off",
+            "geometry": {
+               "height": 1052,
+               "width": 956,
+               "x": 0,
+               "y": 0
+            },
+            "marks": [],
+            "name": "i3-save-tree --workspace 3 > ~/.config/i3/workspace-3.json",
+            "percent": 0.5,
+            "swallows": [
+               {
+               "class": "^kitty$",
+               "instance": "^kitty$",
+               "machine": "^ACLPTHYD0557$",
+               "title": "^i3\\-save\\-tree\\ \\-\\-workspace\\ 3\\ \\>\\ \\~\\/\\.config\\/i3\\/workspace\\-3\\.json$"
+               }
+            ],
+            "type": "con"
+        }
+    ]
+}
+

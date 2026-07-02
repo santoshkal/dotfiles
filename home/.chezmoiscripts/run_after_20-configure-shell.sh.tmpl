@@ -1,0 +1,46 @@
+#!/bin/bash
+set -eux
+
+# Install Oh My Zsh if not present
+if [ ! -d "${HOME}/.oh-my-zsh" ]; then
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+fi
+
+# Install Powerlevel10k theme
+if [ ! -d "${HOME}/.oh-my-zsh/custom/themes/powerlevel10k" ]; then
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git \
+    "${HOME}/.oh-my-zsh/custom/themes/powerlevel10k"
+fi
+
+# Install zsh plugins
+ZSH_CUSTOM="${HOME}/.oh-my-zsh/custom"
+plugins_dir="${ZSH_CUSTOM}/plugins"
+
+install_plugin() {
+  local name="$1"
+  local url="$2"
+  if [ ! -d "${plugins_dir}/${name}" ]; then
+    git clone --depth=1 "${url}" "${plugins_dir}/${name}"
+  fi
+}
+
+install_plugin "zsh-autosuggestions" "https://github.com/zsh-users/zsh-autosuggestions"
+install_plugin "zsh-syntax-highlighting" "https://github.com/zsh-users/zsh-syntax-highlighting"
+install_plugin "zsh-history-substring-search" "https://github.com/zsh-users/zsh-history-substring-search"
+install_plugin "zsh-vi-mode" "https://github.com/jeffreytse/zsh-vi-mode"
+install_plugin "zsh-bat" "https://github.com/fdellwing/zsh-bat"
+
+# Install fzf-git.sh
+if [ ! -f "${HOME}/fzf-git.sh/fzf-git.sh" ]; then
+  git clone --depth=1 https://github.com/junegunn/fzf-git.sh.git "${HOME}/fzf-git.sh"
+fi
+
+# Install zsh-completions
+if [ ! -d "${ZSH_CUSTOM}/completions" ]; then
+  mkdir -p "${ZSH_CUSTOM}/completions"
+fi
+
+# Set default shell to zsh if not already
+if [ "$SHELL" != "$(command -v zsh)" ]; then
+  chsh -s "$(command -v zsh)"
+fi

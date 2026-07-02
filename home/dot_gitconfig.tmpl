@@ -1,0 +1,21 @@
+[user]
+  name = {{ .name }}
+  email = {{ .email }}
+
+[core]
+  editor = nvim
+  pager = delta
+
+[interactive]
+  diffFilter = delta --color-only
+
+[delta]
+  features = decorations
+  navigate = true
+  side-by-side = true
+
+[merge]
+  conflictstyle = zdiff3
+
+[init]
+  defaultBranch = main

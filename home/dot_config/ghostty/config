@@ -1,0 +1,10 @@
+theme = "catppuccin-mocha"
+gtk-titlebar = false
+font-family = "Hack Nerd Font"
+font-size = 12
+font-style = italic
+window-decoration = true
+fullscreen = true
+keybind=ctrl+-=new_split:down
+keybind=ctrl+|=new_split:right
+keybind=ctrl+shift+enter=toggle_maximize
