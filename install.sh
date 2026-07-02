@@ -35,6 +35,17 @@ if [ -z "${chezmoi}" ]; then
   unset chezmoi_install_script bin_dir
 fi
 
+# Create a git wrapper for environments with older git (< 2.35) that don't support zdiff3
+# This ensures all child processes (oh-my-zsh installer, plugin clones, etc.) use a
+# supported merge.conflictstyle without modifying the host's ~/.gitconfig.
+GIT_WRAPPER_DIR="$(mktemp -d /tmp/git-wrapper-XXXXXX)"
+cat > "${GIT_WRAPPER_DIR}/git" << 'GITEOF'
+#!/bin/sh
+exec /usr/bin/git -c merge.conflictstyle=diff3 "$@"
+GITEOF
+chmod +x "${GIT_WRAPPER_DIR}/git"
+export PATH="${GIT_WRAPPER_DIR}:${PATH}"
+
 script_dir="$(cd -P -- "$(dirname -- "$(command -v -- "$0")")" && pwd -P)"
 
 set -- init --source="${script_dir}" --verbose=false "$@"
