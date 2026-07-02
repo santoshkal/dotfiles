@@ -1,4 +1,4 @@
-- type: archive-url
+- type: archive
   url: "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Hack.zip"
   path: "{{ .chezmoi.homeDir }}/.local/share/fonts"
   exact: true

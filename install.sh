@@ -39,6 +39,11 @@ script_dir="$(cd -P -- "$(dirname -- "$(command -v -- "$0")")" && pwd -P)"
 
 set -- init --source="${script_dir}" --verbose=false "$@"
 
+# Auto-detect non-interactive mode (container/CI)
+if [ ! -t 0 ] || [ -n "${CI:-}" ] || [ -n "${DEVCONTAINER:-}" ]; then
+  set -- "$@" --force
+fi
+
 if [ -n "${DOTFILES_ONE_SHOT:-}" ]; then
   set -- "$@" --one-shot
 else

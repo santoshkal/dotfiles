@@ -43,28 +43,43 @@ yay -S --noconfirm --needed "${packages[@]}"
 
 {{ else if .is_ubuntu -}}
 # Install packages on Ubuntu
-packages=(
-  neovim
-  tmux
-  ripgrep
-  fd-find
-  fzf
-  bat
-  eza
-  git
-  curl
-  wget
-  unzip
-  kubectl
-  helm
-  golang-go
-  nodejs
-  npm
-  python3
-  python3-pip
-  docker.io
+# Note: some packages have different names on Ubuntu
+sudo apt update
+sudo env DEBIAN_FRONTEND=noninteractive apt install --yes \
+  neovim \
+  tmux \
+  ripgrep \
+  fd-find \
+  fzf \
+  bat \
+  git \
+  curl \
+  wget \
+  unzip \
+  kubectl \
+  helm \
+  golang-go \
+  nodejs \
+  npm \
+  python3 \
+  python3-pip \
+  docker.io \
   docker-compose
-)
 
-sudo apt install --yes "${packages[@]}"
+# eza not in Ubuntu default repos - install via cargo if available
+if command -v cargo >/dev/null 2>&1; then
+  cargo install --locked eza 2>/dev/null || true
+else
+  echo "Note: eza not installed (cargo not available). Install manually if needed."
+fi
+
+# Create symlinks for Ubuntu package name differences
+if command -v fdfind >/dev/null 2>&1 && ! command -v fd >/dev/null 2>&1; then
+  sudo ln -sf "$(command -v fdfind)" /usr/local/bin/fd 2>/dev/null || true
+fi
+
+if command -v batcat >/dev/null 2>&1 && ! command -v bat >/dev/null 2>&1; then
+  sudo ln -sf "$(command -v batcat)" /usr/local/bin/bat 2>/dev/null || true
+fi
+
 {{ end -}}

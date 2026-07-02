@@ -1,7 +1,7 @@
 {{- $name := "Santosh" -}}
 {{- $email := "santosh@kal.com" -}}
 
-{{- $interactive := and stdinIsATTY (not .chezmoi.flags.force) -}}
+{{- $interactive := and (or stdinIsATTY (env "CI" | not | not) (env "DEVCONTAINER" | not | not)) (not .chezmoi.flags.force) -}}
 
 {{- $arch := eq .chezmoi.os "linux" -}}
 {{- $is_arch := false -}}

@@ -40,7 +40,11 @@ if [ ! -d "${ZSH_CUSTOM}/completions" ]; then
   mkdir -p "${ZSH_CUSTOM}/completions"
 fi
 
-# Set default shell to zsh if not already
+# Set default shell to zsh if not already (skip in containers/CI)
 if [ "$SHELL" != "$(command -v zsh)" ]; then
-  chsh -s "$(command -v zsh)"
+  if [ -n "${CI:-}" ] || [ -n "${DEVCONTAINER:-}" ] || [ "$(id -u)" -eq 0 ]; then
+    echo "Skipping chsh in container/CI/root environment"
+  else
+    chsh -s "$(command -v zsh)"
+  fi
 fi
