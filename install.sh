@@ -31,8 +31,8 @@ if [ -z "${chezmoi}" ]; then
     error "To install chezmoi, you must have curl or wget."
   fi
   sh -c "${chezmoi_install_script}" -- -b "${bin_dir}"
-  unset chezmoi_install_script bin_dir
   chezmoi="${bin_dir}/chezmoi"
+  unset chezmoi_install_script bin_dir
 fi
 
 script_dir="$(cd -P -- "$(dirname -- "$(command -v -- "$0")")" && pwd -P)"
