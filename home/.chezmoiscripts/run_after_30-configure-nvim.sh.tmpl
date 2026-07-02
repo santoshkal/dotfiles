@@ -1,6 +1,9 @@
 #!/bin/bash
 set -eux
 
+# Override git to use a supported merge.conflictstyle (container git may lack zdiff3)
+git() { command git -c merge.conflictstyle=diff3 "$@"; }
+
 # Install lazy.nvim
 LAZY_PATH="${HOME}/.local/share/nvim/lazy/lazy.nvim"
 if [ ! -d "$LAZY_PATH" ]; then
