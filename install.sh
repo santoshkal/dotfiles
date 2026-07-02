@@ -8,17 +8,18 @@ log_color() {
   printf "\033[${color_code}m%s\033[0m\n" "$*" >&2
 }
 
-log_red() { log_color "0;31" "$@" }
-log_blue() { log_color "0;34" "$@" }
-log_task() { log_blue " %s" "$@" }
-log_error() { log_red " %s" "$@" }
+log_red()   { log_color "0;31" "$@"; }
+log_blue()  { log_color "0;34" "$@"; }
+log_task()  { log_blue " %s" "$@"; }
+log_error() { log_red " %s" "$@"; }
 
 error() {
   log_error "$@"
   exit 1
 }
 
-if ! chezmoi="$(command -v chezmoi)"; then
+chezmoi="$(command -v chezmoi || true)"
+if [ -z "${chezmoi}" ]; then
   bin_dir="${HOME}/.local/bin"
   chezmoi="${bin_dir}/chezmoi"
   log_task "Installing chezmoi to '${chezmoi}'"
@@ -31,19 +32,20 @@ if ! chezmoi="$(command -v chezmoi)"; then
   fi
   sh -c "${chezmoi_install_script}" -- -b "${bin_dir}"
   unset chezmoi_install_script bin_dir
+  chezmoi="${bin_dir}/chezmoi"
 fi
 
 script_dir="$(cd -P -- "$(dirname -- "$(command -v -- "$0")")" && pwd -P)"
 
 set -- init --source="${script_dir}" --verbose=false "$@"
 
-if [ -n "${DOTFILES_ONE_SHOT}" ]; then
+if [ -n "${DOTFILES_ONE_SHOT:-}" ]; then
   set -- "$@" --one-shot
 else
   set -- "$@" --apply
 fi
 
-if [ -n "${DOTFILES_DEBUG}" ]; then
+if [ -n "${DOTFILES_DEBUG:-}" ]; then
   set -- "$@" --debug
 fi
 
