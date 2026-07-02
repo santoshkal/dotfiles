@@ -39,7 +39,20 @@ packages=(
   ghostty
 )
 
-yay -S --noconfirm --needed "${packages[@]}"
+if command -v yay >/dev/null 2>&1; then
+  # yay may refuse to run as root; use the build user if available
+  if [ "$(id -u)" -eq 0 ] && id "_yay" >/dev/null 2>&1; then
+    command sudo -u _yay yay -S --noconfirm --needed "${packages[@]}"
+  else
+    yay -S --noconfirm --needed "${packages[@]}"
+  fi
+fi
+
+# Clean up build user created by 10-install-essentials
+if [ "$(id -u)" -eq 0 ] && id "_yay" >/dev/null 2>&1; then
+  userdel -r _yay 2>/dev/null || true
+  rm -f /etc/sudoers.d/_yay 2>/dev/null || true
+fi
 
 {{ else if .is_ubuntu -}}
 # Install packages on Ubuntu
