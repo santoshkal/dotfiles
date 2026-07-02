@@ -40,8 +40,9 @@ script_dir="$(cd -P -- "$(dirname -- "$(command -v -- "$0")")" && pwd -P)"
 set -- init --source="${script_dir}" --verbose=false "$@"
 
 # Auto-detect non-interactive mode (container/CI)
-if [ ! -t 0 ] || [ -n "${CI:-}" ] || [ -n "${DEVCONTAINER:-}" ]; then
-  set -- "$@" --force
+# Check: not a TTY, or CI/DEVCONTAINER env, or running in container (/.dockerenv), or running as root in container
+if [ ! -t 0 ] || [ -n "${CI:-}" ] || [ -n "${DEVCONTAINER:-}" ] || [ -f /.dockerenv ] || { [ "$(id -u)" -eq 0 ] && [ -f /proc/1/cgroup ] && grep -q "docker\|containerd" /proc/1/cgroup 2>/dev/null; }; then
+  set -- "$@" --force --promptDefaults
 fi
 
 if [ -n "${DOTFILES_ONE_SHOT:-}" ]; then
