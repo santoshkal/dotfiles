@@ -1,5 +1,5 @@
-{{- $name := "Santosh" -}}
-{{- $email := "santosh@kal.com" -}}
+{{ $name := promptStringOnce . "name" "Your name for Git: " }}
+{{ $email := promptStringOnce . "email" "Your email address for Git: " }}
 
 {{- $interactive := and (not .chezmoi.flags.force) (not .chezmoi.flags.promptDefaults) (or stdinIsATTY (env "CI") (env "DEVCONTAINER") (env "DOCKER_CONTAINER")) -}}
 
