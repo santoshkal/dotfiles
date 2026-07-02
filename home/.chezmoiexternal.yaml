@@ -1,6 +1,6 @@
-- type: archive
+"{{ .chezmoi.homeDir }}/.local/share/fonts/Hack":
+  type: archive
   url: "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Hack.zip"
-  path: "{{ .chezmoi.homeDir }}/.local/share/fonts"
   exact: true
   stripComponents: 0
   refreshPeriod: 168h
