@@ -1,6 +1,7 @@
 {{- $name := promptStringOnce . "name" "your name please:" -}}
 {{- $email := promptStringOnce . "email" "What is your EMail Address" -}}
 
+{{- $interactive := and (not .chezmoi.flags.force) (not .chezmoi.flags.promptDefaults) (or stdinIsATTY (env "CI") (env "DEVCONTAINER") (env "DOCKER_CONTAINER")) -}}
 
 {{- $arch := eq .chezmoi.os "linux" -}}
 {{- $is_arch := false -}}
