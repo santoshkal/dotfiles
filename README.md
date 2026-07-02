@@ -2,11 +2,26 @@
 
 Managed with [chezmoi](https://chezmoi.io).
 
-## Bootstrap a new machine
+## Quick start (new machine)
+
+This single command is all you need on a fresh Ubuntu or Arch system:
 
 ```sh
 sh -c "$(wget -qO- https://raw.githubusercontent.com/santoshkal/dotfiles/chezmoi-new/scripts/install_dotfiles.sh)"
 ```
+
+It installs git, clones the repo, installs chezmoi, and applies all dotfiles — fully automated, OS-detecting (Arch/Ubuntu).
+
+## Usage
+
+| Action | Command |
+|---|---|
+| Pull latest dotfiles from GitHub | `chezmoi update` |
+| Preview changes before applying | `chezmoi diff` |
+| Add a new dotfile to management | `chezmoi add ~/.somefile` |
+| Edit a managed file directly | `chezmoi edit ~/.somefile` |
+| Manually re-apply all dotfiles | `chezmoi apply` |
+| Commit and push changes | `cd $(chezmoi source-path) && git add -A && git commit -m "..." && git push` |
 
 ## Structure
 
