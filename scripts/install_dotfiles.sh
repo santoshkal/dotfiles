@@ -19,24 +19,6 @@ sudo() {
   fi
 }
 
-git_clean() {
-  path=$(realpath "$1"); remote="$2"; branch="$3"
-  log_task "Cleaning '${path}' with '${remote}' at branch '${branch}'"
-  git="git -C ${path}"
-  if ${git} remote | grep -q "^origin$"; then
-    ${git} remote set-url origin "${remote}"
-  else
-    ${git} remote add origin "${remote}"
-  fi
-  # Disable zdiff3 conflict style if not supported
-  ${git} config merge.conflictstyle diff3 2>/dev/null || true
-  ${git} checkout -B "${branch}"
-  ${git} fetch origin "${branch}"
-  ${git} reset --hard FETCH_HEAD
-  ${git} clean -fdx
-  unset path remote branch git
-}
-
 DOTFILES_REPO_HOST=${DOTFILES_REPO_HOST:-"https://github.com"}
 DOTFILES_USER=${DOTFILES_USER:-"santoshkal"}
 DOTFILES_REPO="${DOTFILES_REPO_HOST}/${DOTFILES_USER}/dotfiles"
@@ -54,11 +36,12 @@ if ! command -v git >/dev/null 2>&1; then
 fi
 
 if [ -d "${DOTFILES_DIR}" ]; then
-  git_clean "${DOTFILES_DIR}" "${DOTFILES_REPO}" "${DOTFILES_BRANCH}"
-else
-  log_task "Cloning '${DOTFILES_REPO}' at branch '${DOTFILES_BRANCH}' to '${DOTFILES_DIR}'"
-  git clone --branch "${DOTFILES_BRANCH}" "${DOTFILES_REPO}" "${DOTFILES_DIR}"
+  log_task "Removing stale '${DOTFILES_DIR}' and cloning fresh"
+  rm -rf "${DOTFILES_DIR}"
 fi
+
+log_task "Cloning '${DOTFILES_REPO}' at branch '${DOTFILES_BRANCH}' to '${DOTFILES_DIR}'"
+git clone --branch "${DOTFILES_BRANCH}" "${DOTFILES_REPO}" "${DOTFILES_DIR}"
 
 if [ -f "${DOTFILES_DIR}/install.sh" ]; then
   INSTALL_SCRIPT="${DOTFILES_DIR}/install.sh"
