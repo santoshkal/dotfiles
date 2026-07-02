@@ -37,7 +37,21 @@ sudo env DEBIAN_FRONTEND=noninteractive apt install --yes \
 if ! command -v yay >/dev/null 2>&1; then
   sudo pacman -S --noconfirm --needed git base-devel
   git clone https://aur.archlinux.org/yay.git /tmp/yay
-  cd /tmp/yay && makepkg -si --noconfirm
+
+  if [ "$(id -u)" -eq 0 ]; then
+    # makepkg cannot run as root; build as a temporary user
+    BUILD_USER="_yay"
+    useradd -m "${BUILD_USER}"
+    chown -R "${BUILD_USER}:${BUILD_USER}" /tmp/yay
+    sudo -u "${BUILD_USER}" bash -c "cd /tmp/yay && makepkg -s --noconfirm"
+    # Install the built package as root
+    pacman -U --noconfirm /tmp/yay/yay-*.pkg.tar.zst
+    userdel -r "${BUILD_USER}" 2>/dev/null || true
+  else
+    cd /tmp/yay && makepkg -si --noconfirm
+  fi
+
   rm -rf /tmp/yay
+  unset BUILD_USER
 fi
 {{ end -}}
