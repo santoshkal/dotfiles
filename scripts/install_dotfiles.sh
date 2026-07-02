@@ -28,6 +28,8 @@ git_clean() {
   else
     ${git} remote add origin "${remote}"
   fi
+  # Disable zdiff3 conflict style if not supported
+  ${git} config merge.conflictstyle diff3 2>/dev/null || true
   ${git} checkout -B "${branch}"
   ${git} fetch origin "${branch}"
   ${git} reset --hard FETCH_HEAD
