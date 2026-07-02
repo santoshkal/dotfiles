@@ -1,4 +1,4 @@
-"{{ .chezmoi.homeDir }}/.local/share/fonts/Hack":
+.local/share/fonts/Hack:
   type: archive
   url: "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Hack.zip"
   exact: true
