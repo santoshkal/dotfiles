@@ -1,22 +1,24 @@
--- Configure capabilities for all LSP servers
-vim.lsp.config("*", {
-	capabilities = {
-		textDocument = {
-			foldingRange = {
-				dynamicRegistration = true,
-				lineFoldingOnly = true,
-			},
-			semanticTokens = {
-				multilineTokenSupport = true,
-			},
-			completion = {
-				completionItem = {
-					snippetSupport = true,
+-- Configure capabilities for all LSP servers (Neovim 0.11+)
+if vim.lsp.config then
+	vim.lsp.config("*", {
+		capabilities = {
+			textDocument = {
+				foldingRange = {
+					dynamicRegistration = true,
+					lineFoldingOnly = true,
+				},
+				semanticTokens = {
+					multilineTokenSupport = true,
+				},
+				completion = {
+					completionItem = {
+						snippetSupport = true,
+					},
 				},
 			},
 		},
-	},
-})
+	})
+end
 
 -- Load LSP server configurations from ./lsp directory
 local lsp_config_dir = vim.fn.stdpath("config") .. "/lsp"
@@ -32,19 +34,23 @@ local lsp_servers = {
 	"dockerls",
 }
 
--- Apply configurations from individual LSP config files
-for _, server in ipairs(lsp_servers) do
-	local config_file = lsp_config_dir .. "/" .. server .. ".lua"
-	if vim.fn.filereadable(config_file) == 1 then
-		local ok, config = pcall(dofile, config_file)
-		if ok and config then
-			vim.lsp.config[server] = config
+-- Apply configurations from individual LSP config files (Neovim 0.11+)
+if vim.lsp.config then
+	for _, server in ipairs(lsp_servers) do
+		local config_file = lsp_config_dir .. "/" .. server .. ".lua"
+		if vim.fn.filereadable(config_file) == 1 then
+			local ok, config = pcall(dofile, config_file)
+			if ok and config then
+				vim.lsp.config[server] = config
+			end
 		end
 	end
 end
 
--- Enable LSP servers
-vim.lsp.enable(lsp_servers)
+-- Enable LSP servers (Neovim 0.11+)
+if vim.lsp.enable then
+	vim.lsp.enable(lsp_servers)
+end
 
 vim.diagnostic.config({
 	virtual_lines = true,
@@ -87,7 +93,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		map("gD", vim.lsp.buf.declaration, "Goto Declaration")
 		map("<leader>ca", vim.lsp.buf.code_action, "Code Action")
 		map("<leader>nr", vim.lsp.buf.rename, "Rename all references")
-		map("<leader>cl", vim.lsp.codelens.run, "Run Codelens")
+		map("<leader>cl", vim.lsp.codelens and vim.lsp.codelens.run or function() end, "Run Codelens")
 		map("gd", vim.lsp.buf.definition, "Goto Definition")
 		map("<Leader>dp", function()
 			vim.diagnostic.jump({ count = -1, float = true })
