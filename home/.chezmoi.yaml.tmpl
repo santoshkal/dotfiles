@@ -6,10 +6,9 @@
 {{- $arch := eq .chezmoi.os "linux" -}}
 {{- $is_arch := false -}}
 {{- $is_ubuntu := false -}}
-{{- if stat (printf "/etc/os-release") -}}
-{{-   $osrelease := include (printf "/etc/os-release") | fromINI -}}
-{{-   $is_arch = eq $osrelease.ID "arch" -}}
-{{-   $is_ubuntu = eq $osrelease.ID "ubuntu" -}}
+{{- if hasKey .chezmoi.osRelease "id" -}}
+{{-   $is_arch = eq .chezmoi.osRelease.id "arch" -}}
+{{-   $is_ubuntu = eq .chezmoi.osRelease.id "ubuntu" -}}
 {{- end -}}
 
 {{- $wsl := or (env "WSL_DISTRO_NAME") (env "IS_WSL") | not | not -}}
