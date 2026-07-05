@@ -10,6 +10,7 @@ return {
   opts_extend = { "ensure_installed" },
   opts = {
     ensure_installed = {
+      -- LSP servers
       "pyright",
       "gopls",
       "clangd",
@@ -19,6 +20,14 @@ return {
       "yaml-language-server",
       "fixjson",
       "dockerfile-language-server",
+      -- Formatters
+      "prettier",
+      "stylua",
+      "isort",
+      "black",
+      -- Linters
+      "ruff",
+      "yamllint",
     },
   },
 

@@ -1,0 +1,18 @@
+#!/bin/bash
+set -eux
+
+# Override git to use a supported merge.conflictstyle (container git may lack zdiff3)
+git() { command git -c merge.conflictstyle=diff3 "$@"; }
+
+if ! command -v nvim >/dev/null 2>&1; then
+  echo "nvim not found, skipping Mason package installation"
+  exit 0
+fi
+
+# Ensure lazy.nvim plugins are installed (includes mason.nvim)
+nvim --headless "+Lazy! sync" +qa 2>/dev/null || true
+
+# Install Mason packages (LSP servers, formatters, linters from ensure_installed)
+nvim --headless "+lua require('mason')" "+MasonToolsInstall" "+qa" 2>/dev/null || true
+
+echo "Mason packages installed"
