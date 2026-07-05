@@ -12,7 +12,27 @@ fi
 # Ensure lazy.nvim plugins are installed (includes mason.nvim)
 nvim --headless "+Lazy! sync" +qa 2>/dev/null || true
 
-# Install Mason packages (LSP servers, formatters, linters from ensure_installed)
-nvim --headless "+lua require('mason')" "+MasonToolsInstall" "+qa" 2>/dev/null || true
+# List of Mason packages to install (LSP servers, formatters, linters)
+pkgs=(
+  pyright
+  gopls
+  clangd
+  lua-language-server
+  rust-analyzer
+  marksman
+  yaml-language-server
+  fixjson
+  dockerfile-language-server
+  prettier
+  stylua
+  isort
+  black
+  ruff
+  yamllint
+)
+
+for pkg in "${pkgs[@]}"; do
+  nvim --headless -c "MasonInstall $pkg" -c "qall" 2>/dev/null || true
+done
 
 echo "Mason packages installed"
