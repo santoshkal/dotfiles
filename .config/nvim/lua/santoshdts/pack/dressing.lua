@@ -1,0 +1,1 @@
+-- dressing.nvim uses defaults, no explicit setup needed

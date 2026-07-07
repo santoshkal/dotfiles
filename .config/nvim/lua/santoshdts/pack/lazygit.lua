@@ -1,0 +1,2 @@
+-- lazygit.nvim commands (LazyGit, etc.) are defined in its plugin/ file
+-- loaded by vim.pack with load=true

@@ -1,2 +1,2 @@
 require("santoshdts.core")
-require("santoshdts.lazy")
+require("santoshdts.pack")
