@@ -37,6 +37,10 @@
       "rev": "774150bc05f774af1df614f55d156b3318c6decd",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
+    "fzf-oil.nvim": {
+      "rev": "bc20b4d0d3531c9af93247158f89872bf1cea46b",
+      "src": "https://github.com/ingur/fzf-oil.nvim"
+    },
     "gitsigns.nvim": {
       "rev": "eb60cc7b94c46005237fd34170d76f3a089a90aa",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
@@ -117,6 +121,10 @@
     "obsidian.nvim": {
       "rev": "1052c0c8359c550d5379296f896a778284dc5a78",
       "src": "https://github.com/obsidian-nvim/obsidian.nvim"
+    },
+    "oil.nvim": {
+      "rev": "b73018b75affd13fa38e2fc94ef753b465f770d7",
+      "src": "https://github.com/stevearc/oil.nvim"
     },
     "plenary.nvim": {
       "rev": "74b06c6c75e4eeb3108ec01852001636d85a932b",

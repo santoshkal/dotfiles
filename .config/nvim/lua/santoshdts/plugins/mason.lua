@@ -10,6 +10,7 @@ local ensure_installed = {
   'yaml-language-server',
   'fixjson',
   'dockerfile-language-server',
+
 }
 
 require('mason').setup({ ensure_installed = ensure_installed })

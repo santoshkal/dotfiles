@@ -17,6 +17,7 @@ require('nvim-treesitter.install').install({
   'python',
   'rego',
   'sql',
+  'nix',
   'yaml',
 })
 

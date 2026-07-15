@@ -59,7 +59,9 @@ vim.pack.add({
 	gh("WhoIsSethDaniel/mason-tool-installer.nvim"),
 }, { load = true })
 
-local function try(name) pcall(require, name) end
+local function try(name)
+	pcall(require, name)
+end
 
 try("santoshdts.plugins.blink")
 try("santoshdts.plugins.bufferline")
