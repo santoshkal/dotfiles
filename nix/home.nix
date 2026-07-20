@@ -15,6 +15,33 @@
 	};
     };
   };
+
+  # GTK themes and cursors
+  gtk = {
+    enable = true;
+
+  theme = {
+    name = "Juno-ocean";
+  };
+
+  iconTheme = {
+    name = "Cold Metal";
+  };
+
+  cursorTheme = {
+    name = "Bibata-Modern-Ice";
+    size = 16;
+  };
+};
+
+  xdg.configFile."xsettingsd/xsettingsd.conf".text = ''
+    Net/ThemeName "Juno"
+    Net/IconThemeName "Cold Metal"
+    Gtk/CursorThemeName "Bibata-Modern-Ice"
+    Gtk/CursorThemeSize 16
+  '';
+  
+
   # ZSH configuration through home-manager
   programs.zsh = {
     enable = true;
@@ -40,7 +67,10 @@ plugins = [
     name = "zsh-autosuggestions";
     src = pkgs.zsh-autosuggestions;
   }
-
+  {
+    name = "zsh-history-substring-search";
+    src = pkgs.zsh-history-substring-search;
+  }
   {
     name = "fzf-tab";
     src = pkgs.zsh-fzf-tab;
@@ -181,13 +211,17 @@ plugins = [
   source = ../.config/waybar;
   };
 
+  home.file.".local/share/themes" = {
+    source = ../.themes;
+    recursive = true;
+  };
+
+  home.file.".local/share/icons" = {
+    source = ../.icons;
+    recursive = true;
+  };
+
   home.packages = with pkgs; [
-    zsh
-    zsh-powerlevel10k
-    zsh-autosuggestions
-    zsh-history-substring-search
-    zsh-syntax-highlighting
-    zsh-vi-mode
     bat
     fd
     fzf
@@ -202,9 +236,11 @@ plugins = [
     chezmoi
     hyprpaper
     hypridle
-    hyprland
     rofi
+    xsettingsd
     waybar
+    thunderbird
+    nemo
 
   # Nix Search TV a shortcut 'ns' for searching nixOS packages
     (pkgs.writeShellApplication {
