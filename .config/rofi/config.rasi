@@ -1,0 +1,19 @@
+configuration {
+    modi: [ drun, run, window, filebrowser, ssh ];
+    filebrowser {
+        directories-first: true;
+        sorting-method:    "name";
+    }
+    font: "Hack Nerd Font Propo Italic 11";
+    show-icons: false;
+    display-ssh:    "󰣀 ssh:";
+    display-run:    "󱓞 run:";
+    display-drun:   "󰣖 Apps:";
+    display-window: "󱂬 window:";
+    display-combi:  "󰕘 combi:";
+    display-filebrowser: "󰉋 Filebrowser:";
+}
+
+@theme "~/.config/rofi/tokyonight.rasi"
+// @theme "~/.config/rofi/catppuccin-lavrent-mocha.rasi"
+
