@@ -1,3 +1,5 @@
+{{ if .is_arch -}}
+
 #!/bin/bash
 set -eux
 
@@ -9,8 +11,6 @@ sudo() {
   fi
 }
 
-{{ if .is_arch -}}
-# Install packages on Arch
 packages=(
   neovim
   tmux
@@ -40,7 +40,6 @@ packages=(
 )
 
 if command -v yay >/dev/null 2>&1; then
-  # yay may refuse to run as root; use the build user if available
   if [ "$(id -u)" -eq 0 ] && id "_yay" >/dev/null 2>&1; then
     command sudo -u _yay yay -S --noconfirm --needed "${packages[@]}"
   else
@@ -48,15 +47,24 @@ if command -v yay >/dev/null 2>&1; then
   fi
 fi
 
-# Clean up build user created by 10-install-essentials
+# Clean up build user created by run_before_10-install-essentials
 if [ "$(id -u)" -eq 0 ] && id "_yay" >/dev/null 2>&1; then
   userdel -r _yay 2>/dev/null || true
   rm -f /etc/sudoers.d/_yay 2>/dev/null || true
 fi
 
 {{ else if .is_ubuntu -}}
-# Install packages on Ubuntu
-# Note: some packages have different names on Ubuntu
+#!/bin/bash
+set -eux
+
+sudo() {
+  if [ "$(id -u)" -eq 0 ]; then
+    "$@"
+  else
+    command sudo "$@"
+  fi
+}
+
 sudo apt update
 sudo env DEBIAN_FRONTEND=noninteractive apt install --yes \
   neovim \
@@ -77,14 +85,12 @@ sudo env DEBIAN_FRONTEND=noninteractive apt install --yes \
   docker.io \
   docker-compose
 
-# eza not in Ubuntu default repos - install via cargo if available
 if command -v cargo >/dev/null 2>&1; then
   cargo install --locked eza 2>/dev/null || true
 else
   echo "Note: eza not installed (cargo not available). Install manually if needed."
 fi
 
-# Create symlinks for Ubuntu package name differences
 if command -v fdfind >/dev/null 2>&1 && ! command -v fd >/dev/null 2>&1; then
   sudo ln -sf "$(command -v fdfind)" /usr/local/bin/fd 2>/dev/null || true
 fi

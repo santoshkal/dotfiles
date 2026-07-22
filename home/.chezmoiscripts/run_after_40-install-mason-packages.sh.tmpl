@@ -14,6 +14,7 @@ nvim --headless "+Lazy! sync" +qa 2>/dev/null || true
 
 # List of Mason packages to install (LSP servers, formatters, linters)
 pkgs=(
+  nil
   pyright
   gopls
   clangd

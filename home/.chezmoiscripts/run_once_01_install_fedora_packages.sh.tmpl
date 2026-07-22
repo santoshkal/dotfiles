@@ -1,0 +1,114 @@
+{{ if .is_fedora -}}
+#!/bin/bash
+set -eux
+
+sudo() {
+  if [ "$(id -u)" -eq 0 ]; then
+    "$@"
+  else
+    command sudo "$@"
+  fi
+}
+
+# System upgrade
+sudo dnf upgrade -y
+
+# Enable COPRs and external repos
+sudo dnf copr enable -y atim/starship
+sudo dnf copr enable -y sdegler/hyprland
+sudo dnf config-manager --add-repo https://mise.jdx.dev/rpm/mise.repo
+
+if [ ! -f /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:rivenirvana:lazydocker.repo ]; then
+  sudo dnf copr enable -y rivenirvana/lazydocker
+fi
+
+sudo dnf update -y
+
+# Core packages
+packages=(
+  curl
+  wget
+  flatpak
+  git
+  util-linux-user
+  openssh-askpass
+  zsh
+  ripgrep
+  patch
+  papirus-icon-theme \
+  nwg-look \
+  lxappearance \
+  hyprland
+  hyprpaper
+  hypridle
+  waybar
+  rofi
+  dunst
+  ncdu
+  unzip
+  fontconfig
+  tmux
+  rsync
+  pwgen
+  htop
+  ghostty
+  jq
+  dnf-plugins-core
+  ffmpeg-free
+  fzf
+  starship
+  distrobox
+  neovim
+  nodejs
+  golang
+  gnome-extensions-app
+  mise
+  bsdtar
+  compat-lua-devel-5.1.5
+  git-delta
+  fd-find
+  bat
+  lazydocker
+  zoxide
+  pass
+)
+
+sudo dnf install -y "${packages[@]}"
+
+# Install Google Chrome
+if [[ ! -f /etc/yum.repos.d/google-chrome.repo ]]; then
+  sudo rpm --import https://dl.google.com/linux/linux_signing_key.pub
+  cat << 'REPO' | sudo tee /etc/yum.repos.d/google-chrome.repo > /dev/null
+[google-chrome]
+name=Google Chrome
+baseurl=https://dl.google.com/linux/chrome/rpm/stable/x86_64
+enabled=1
+gpgcheck=1
+gpgkey=https://dl.google.com/linux/linux_signing_key.pub
+REPO
+  sudo dnf install -y google-chrome-stable
+fi
+
+# Install Docker
+sudo dnf config-manager -y --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin docker-compose
+sudo systemctl enable docker
+sudo usermod -aG docker "$USER"
+
+# Flatpak
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak install -y flathub com.discordapp.Discord
+flatpak install -y flathub com.slack.Slack
+flatpak install -y flathub com.spotify.Client
+flatpak install -y flathub org.chromium.Chromium
+flatpak install -y flathub org.gimp.GIMP
+flatpak install -y flathub md.obsidian.Obsidian
+
+# dnf tuning
+sudo sed -i -r "s/^installonly_limit=.*$/installonly_limit=8/" /etc/dnf/dnf.conf
+
+# Remove unused packages
+sudo dnf remove -y plocate mlocate 2>/dev/null || true
+sudo rm -rf /var/lib/plocate/
+
+{{ end -}}

@@ -1,0 +1,129 @@
+#!/bin/sh
+
+{{ if eq .chezmoi.os "linux" }}
+{{   if eq .chezmoi.osRelease.id "is_fedora" }}
+# Fedora-specific code
+
+set -e # -e: exit on error
+
+# Upgrade fedora package
+sudo dnf upgrade -y
+
+#Enable COPRs
+sudo dnf copr enable atim/starship -y
+sudo dnf config-manager --add-repo https://mise.jdx.dev/rpm/mise.repo -y
+sudo dnf update -y
+
+dnf copr enable sdegler/hyprland
+
+if [ ! -f /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:rivenirvana:lazydocker.repo ]; then
+  sudo dnf copr enable -yq rivenirvana/lazydocker
+fi
+
+sudo yum install pass -y
+
+echo "---------Installing packages from dnf--------"
+sudo dnf install -y \
+    curl \
+    wget \
+    chezmoi \
+    flatpak \
+    git \
+    util-linux-user \
+    openssh-askpass \
+    zsh \
+    ripgrep \
+    patch \
+    hyprland \
+    hyprpaper \
+    hypridle \
+    waybar \
+    rofi \
+    dunst \
+    ncdu \
+    unzip \
+    fontconfig \
+    tmux \
+    rsync \
+    pwgen \
+    htop \
+    ghostty \
+    jq \
+    dnf-plugins-core \
+    ffmpeg-free \
+    fzf \
+    starship \
+    distrobox \
+    neovim \
+    nodejs \ # nodejs needed for https://github.com/derekstride/tree-sitter-sql
+    golang \
+    gnome-extensions-app \
+    mise \
+    bsdtar \
+    compat-lua-devel-5.1.5 \ # https://github.com/vhyrro/luarocks.nvim?tab=readme-ov-file#requirements
+    git-delta \
+    fd-find \
+    bat \
+    lazydocker \
+    zoxide
+
+# Install Google-Chrome
+if [[ ! -f /etc/yum.repos.d/google-chrome.repo ]]; then
+    echo "  Adding Google Chrome repo..."
+    sudo rpm --import https://dl.google.com/linux/linux_signing_key.pub
+    cat << 'REPO' | sudo tee /etc/yum.repos.d/google-chrome.repo > /dev/null
+[google-chrome]
+name=Google Chrome
+baseurl=https://dl.google.com/linux/chrome/rpm/stable/x86_64
+enabled=1
+gpgcheck=1
+gpgkey=https://dl.google.com/linux/linux_signing_key.pub
+REPO
+fi
+
+sudo dnf remove -y plocate mlocate # Because I never use locate command
+sudo rm -rf /var/lib/plocate/
+
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
+flatpak install -y flathub com.discordapp.Discord
+flatpak install -y flathub com.slack.Slack
+flatpak install -y flathub com.spotify.Client
+flatpak install -y flathub org.chromium.Chromium
+flatpak install -y flathub org.gimp.GIMP
+flatpak install -y md.obsidian.Obsidian
+
+# Install Docker (see https://docs.docker.com/engine/install/fedora/)
+# https://developer.fedoraproject.org/tools/docker/docker-installation.html
+sudo dnf config-manager -y --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin iptables fuse-overlayfs docker-compose
+
+# https://docs.docker.com/engine/install/linux-postinstall/
+sudo groupadd docker
+sudo gpasswd -a ${USER} docker  # Note: I am not sure that this line is useful
+sudo usermod -aG docker $USER
+sudo systemctl enable docker
+newgrp docker
+sudo systemctl restart docker
+
+# neovim dependencies: ripgrep
+# This needs Opencode review and enhancement, aligning with my plugins.
+chsh -s $(which zsh)
+if ! [ -d ~/.oh-my-zsh ]; then
+    CHSH=no sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+fi
+
+if ! [ -d ~/.oh-my-zsh/custom}/plugins/pnpm ]; then
+    mkdir -p ~/.oh-my-zsh/custom}/plugins/pnpm
+    git clone --depth=1 https://github.com/ntnyq/omz-plugin-pnpm.git ~/.oh-my-zsh/custom/plugins/pnpm
+fi
+
+# How to manage NeoVim plugins???
+# My dotfiles will manage nvim plugins?
+
+# https://old.reddit.com/r/Fedora/comments/1aod454/to_fix_a_kernel_issue_how_can_i_safely_downgrade/kpyz6xi/
+sudo sed -i -r "s/^installonly_limit=.*$/installonly_limit=8/" /etc/dnf/dnf.conf
+
+
+{{   end }}
+{{ end }}

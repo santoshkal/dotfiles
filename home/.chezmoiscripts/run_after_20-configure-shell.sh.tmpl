@@ -1,53 +1,22 @@
 #!/bin/bash
 set -eux
 
-# Override git to use a supported merge.conflictstyle (container git may lack zdiff3)
-git() { command git -c merge.conflictstyle=diff3 "$@"; }
-
-# Install Oh My Zsh if not present (manual clone to avoid the install.sh script's own git calls)
-if [ ! -d "${HOME}/.oh-my-zsh" ]; then
-  git clone --depth=1 https://github.com/ohmyzsh/ohmyzsh.git "${HOME}/.oh-my-zsh"
-fi
-
-# Install Powerlevel10k theme
-if [ ! -d "${HOME}/.oh-my-zsh/custom/themes/powerlevel10k" ]; then
-  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git \
-    "${HOME}/.oh-my-zsh/custom/themes/powerlevel10k"
-fi
-
-# Install zsh plugins
-ZSH_CUSTOM="${HOME}/.oh-my-zsh/custom"
-plugins_dir="${ZSH_CUSTOM}/plugins"
-
-install_plugin() {
-  local name="$1"
-  local url="$2"
-  if [ ! -d "${plugins_dir}/${name}" ]; then
-    git clone --depth=1 "${url}" "${plugins_dir}/${name}"
-  fi
+# Set default shell to zsh if not already (skip in containers/CI)
+# Skip if zsh is not installed
+zsh_path=$(command -v zsh) || {
+  echo "zsh is not installed"
+  exit 1
 }
 
-install_plugin "zsh-autosuggestions" "https://github.com/zsh-users/zsh-autosuggestions"
-install_plugin "zsh-syntax-highlighting" "https://github.com/zsh-users/zsh-syntax-highlighting"
-install_plugin "zsh-history-substring-search" "https://github.com/zsh-users/zsh-history-substring-search"
-install_plugin "zsh-vi-mode" "https://github.com/jeffreytse/zsh-vi-mode"
-install_plugin "zsh-bat" "https://github.com/fdellwing/zsh-bat"
+# Get the configured login shell
+current_shell=$(getent passwd "$(id -un)" | cut -d: -f7)
 
-# Install fzf-git.sh
-if [ ! -f "${HOME}/fzf-git.sh/fzf-git.sh" ]; then
-  git clone --depth=1 https://github.com/junegunn/fzf-git.sh.git "${HOME}/fzf-git.sh"
-fi
-
-# Install zsh-completions
-if [ ! -d "${ZSH_CUSTOM}/completions" ]; then
-  mkdir -p "${ZSH_CUSTOM}/completions"
-fi
-
-# Set default shell to zsh if not already (skip in containers/CI)
-if [ "$SHELL" != "$(command -v zsh)" ]; then
+# Change only if necessary
+if [ "$current_shell" != "$zsh_path" ]; then
   if [ -n "${CI:-}" ] || [ -n "${DEVCONTAINER:-}" ] || [ "$(id -u)" -eq 0 ]; then
     echo "Skipping chsh in container/CI/root environment"
   else
-    chsh -s "$(command -v zsh)"
+    echo "Changing login shell to zsh..."
+    chsh -s "$zsh_path"
   fi
 fi
