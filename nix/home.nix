@@ -241,7 +241,7 @@ plugins = [
     waybar
     thunderbird
     nemo
-
+    
   # Nix Search TV a shortcut 'ns' for searching nixOS packages
     (pkgs.writeShellApplication {
     name = "ns";

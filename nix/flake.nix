@@ -9,7 +9,7 @@
 		};
 	};
 
-	outputs = { self, nixpkgs, home-manager, ... }: {
+	outputs = { self, nixpkgs, home-manager,  ... }: {
 		nixosConfigurations.santosh-nix = nixpkgs.lib.nixosSystem {
 			system = "x86_64-linux";
 			modules = [
