@@ -1,0 +1,6 @@
+grub
+2.12
+only
+nodev
+/boot
+{"extraGrubInstallArgs":[],"grubEfi":"/nix/store/rz3lngzqggv801jpm3d2f8lmg8aaxg9q-grub-2.12","grub":""}

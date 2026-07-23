@@ -1,4 +1,6 @@
 
+.icons
+.themes
 .config/fabric/.env
 **/**/.env
 plugins.bak/
