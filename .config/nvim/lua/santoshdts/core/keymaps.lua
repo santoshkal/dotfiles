@@ -85,19 +85,6 @@ keymap.set("n", "<C-u>", "<C-u>zz")
 -- keymap.set("n", "<C-s>", "<cmd>w<cr><cmd>wa<cr>", { desc = "Save all" })
 
 -- ──────────────────────
--- Yank Highlight
--- ──────────────────────
-
--- Highlight text on yank (copy)
-vim.api.nvim_create_autocmd("TextYankPost", {
-	desc = "Highlight when yanking (copying) text",
-	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
-	callback = function()
-		vim.highlight.on_yank()
-	end,
-})
-
--- ──────────────────────
 -- Notifications
 -- ──────────────────────
 
@@ -107,25 +94,38 @@ vim.keymap.set("n", "<Esc>", function()
 end, { desc = "dismiss notify popup and clear hlsearch" })
 
 -- ──────────────────────
--- Quickfix & Location List
+-- Built-in Plugins
 -- ──────────────────────
 
--- Ensure Enter works in quickfix and location list windows
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "qf" },
-	callback = function(event)
-		-- Jump to the item under cursor and close the quickfix/location list
-		vim.keymap.set("n", "<CR>", function()
-			local is_loclist = vim.fn.getloclist(0, { filewinid = 1 }).filewinid ~= 0
-			local line = vim.fn.line(".")
+-- Toggle builtin undotree
+vim.keymap.set("n", "<leader>u", function()
+	vim.cmd.packadd("nvim.undotree")
+	require("undotree").open()
+end, { desc = "Toggle builtin Undotree" })
 
-			if is_loclist then
-				vim.cmd(string.format("ll %d", line))
-				vim.cmd("lclose")
-			else
-				vim.cmd(string.format(".cc"))
-				vim.cmd("cclose")
-			end
-		end, { buffer = event.buf, desc = "Jump to item and close list" })
-	end,
-})
+-- ──────────────────────
+-- Terminal
+-- ──────────────────────
+
+-- Easily hit escape in terminal mode
+vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Exit terminal mode" })
+
+-- Open a terminal at the bottom of the screen with a fixed height
+vim.keymap.set("n", ",st", function()
+	vim.cmd("new")
+	vim.cmd("wincmd J")
+	vim.api.nvim_win_set_height(0, 6)
+	vim.wo.winfixheight = true
+	vim.cmd("term")
+end, { desc = "Open terminal at bottom" })
+
+-- ──────────────────────
+-- Window Navigation
+-- ──────────────────────
+
+vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
+vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
+vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
+vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
+
+
