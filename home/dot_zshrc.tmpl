@@ -66,7 +66,7 @@ cyan="#2CF9ED"
 export FZF_DEFAULT_OPTS="--color=fg:${fg},bg:${bg},hl:${purple},fg+:${fg},bg+:${bg_highlight},hl+:${purple},info:${blue},prompt:${cyan},pointer:${cyan},marker:${cyan},spinner:${cyan},header:${cyan}"
 
 ### FZF Git
-source ~/fzf-git.sh/fzf-git.sh
+source ~/fzf-git/fzf-git.sh
 _fzf_compgen_path()  { fd --hidden --exclude .git . "$1"; }
 _fzf_compgen_dir()   { fd --type=d --hidden --exclude .git . "$1"; }
 

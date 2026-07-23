@@ -1,7 +1,6 @@
 #!/bin/bash
 set -eux
 
-# Override git to use a supported merge.conflictstyle (container git may lack zdiff3)
 git() { command git -c merge.conflictstyle=diff3 "$@"; }
 
 if ! command -v nvim >/dev/null 2>&1; then
@@ -9,12 +8,9 @@ if ! command -v nvim >/dev/null 2>&1; then
   exit 0
 fi
 
-# Ensure lazy.nvim plugins are installed (includes mason.nvim)
 nvim --headless "+Lazy! sync" +qa 2>/dev/null || true
 
-# List of Mason packages to install (LSP servers, formatters, linters)
 pkgs=(
-  nil
   pyright
   gopls
   clangd
