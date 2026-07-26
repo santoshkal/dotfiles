@@ -2,13 +2,18 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   # Use the systemd-boot EFI boot loader.
   #boot.loader.systemd-boot.enable = true;
@@ -17,7 +22,7 @@
   boot.loader.grub.enable = true;
   boot.loader.grub.efiSupport = true;
   boot.loader.grub.device = "nodev";
- 
+
   # Bootloader OS detection for multiuser OS Setup
   boot.loader.grub.useOSProber = true;
   networking.hostName = "santosh-nix"; # Define your hostname.
@@ -34,7 +39,7 @@
     };
   };
 
-# Enable XDG Desktop portal for Hyprland
+  # Enable XDG Desktop portal for Hyprland
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [
@@ -61,7 +66,6 @@
     alsa.support32Bit = true;
   };
 
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.santosh = {
     isNormalUser = true;
@@ -80,7 +84,7 @@
   environment.systemPackages = with pkgs; [
     gcc
     gnumake
-    pkg-config    
+    pkg-config
 
     vim
     git
@@ -101,7 +105,7 @@
 
     unzip
     zip
-];
+  ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -116,10 +120,12 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "26.05"; # Did you read the comment?
 
 }
-

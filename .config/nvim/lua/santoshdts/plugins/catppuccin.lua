@@ -1,7 +1,7 @@
 return {
   "catppuccin/nvim",
   name = "catppuccin",
-  enabled = true,
+  enabled = false,
   lazy = false,
   priority = 1000,
   config = function()
@@ -19,12 +19,12 @@ return {
         }
       end,
       -- no_italic = true,
-      flavour = "macchiato", -- latte, frappe, macchiato, mocha
+      flavour = "mocha", -- latte, frappe, macchiato, mocha
       styles = {
         comments = { "italic" },
       },
       dim_inactive = {
-        enabled = false,   -- dims the background color of inactive window
+        enabled = false, -- dims the background color of inactive window
         shade = "dark",
         percentage = 0.10, -- percentage of the shade to apply to the inactive window
       },
@@ -77,7 +77,6 @@ return {
         which_key = true,
       },
     })
-    vim.cmd.colorscheme("catppuccin-macchiato")
-    -- vim.cmd.colorscheme("catppuccin-mocha")
+    vim.cmd.colorscheme("catppuccin-mocha")
   end,
 }
